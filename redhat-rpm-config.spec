@@ -180,7 +180,7 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 * Fri May 29 2015 Florian Festi <ffesti@redhat.com> 32-1
 - Support out of source builds for %%_configure_gnuconfig_hack (#1191788)
 - Fix typo in %%kernel_module_package (#1159361)
-    
+
 * Tue May 19 2015 Florian Festi <ffesti@redhat.com> 31-1
 - Add %%py_auto_byte_compile macro controlling Python bytecompilation
 (#976651)
@@ -212,7 +212,7 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 * Sat May 24 2014 Brent Baude <baude@us.ibm.com> - 23-2
 - Changed ppc64 to power64 macro for mono_archs
 
-* Tue May 13 2014 Peter Robinson <pbrobinson@fedoraproject.org> 
+* Tue May 13 2014 Peter Robinson <pbrobinson@fedoraproject.org>
 - aarch64 has Ada so add it to GNAT_arches
 
 * Mon May 12 2014 Josh Boyer <jwboyer@fedoraproject.org> - 22-1
