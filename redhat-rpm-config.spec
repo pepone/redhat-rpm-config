@@ -62,6 +62,7 @@ Source601: kmod.prov
 Source602: libsymlink.attr
 
 BuildArch: noarch
+BuildRequires: perl-generators
 Requires: coreutils
 
 Requires: fpc-srpm-macros
