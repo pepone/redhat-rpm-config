@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 43
+Version: 44
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -65,7 +65,7 @@ BuildArch: noarch
 BuildRequires: perl-generators
 Requires: coreutils
 
-Requires: fedora-srpm-macros
+Requires: fedora-rpm-macros
 Requires: fpc-srpm-macros
 Requires: ghc-srpm-macros
 Requires: gnat-srpm-macros
@@ -143,6 +143,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Aug 12 2016 Jason L Tibbitts III <tibbs@math.uh.edu> - 44-1
+- And somehow I managed to make a typo in that dependency.
+
 * Fri Aug 12 2016 Jason L Tibbitts III <tibbs@math.uh.edu> - 43-1
 - Add dependency on fedora-rpm-macros.
 
