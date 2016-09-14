@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 44
+Version: 45
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -73,6 +73,7 @@ Requires: go-srpm-macros
 Requires: ocaml-srpm-macros
 Requires: perl-srpm-macros
 Requires: python-srpm-macros
+Requires: qt5-srpm-macros
 
 Requires: rpm >= 4.11.0
 Requires: dwz >= 0.4
@@ -143,6 +144,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Sep 14 2016 Jason L Tibbitts III <tibbs@math.uh.edu> - 45-1
+- Add dependency on qt5-srpm-macros.
+
 * Fri Aug 12 2016 Jason L Tibbitts III <tibbs@math.uh.edu> - 44-1
 - And somehow I managed to make a typo in that dependency.
 
