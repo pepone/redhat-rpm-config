@@ -26,7 +26,11 @@
 #
 %_configure_gnuconfig_hack	1
 %_configure_libtool_hardening_hack	1
-# _configure_disable_silent_rules 0
+# If defined, _configure_disable_silent_rules will cause --disable-silent-rules
+# to be added to the list of options passed to the configure script.
+# Eventually we'll want to turn this on by default, but this gives packagers a
+# way to turn it back off.
+# %_configure_disable_silent_rules 1
 %configure \
   CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS ; \
   CXXFLAGS="${CXXFLAGS:-%optflags}" ; export CXXFLAGS ; \
