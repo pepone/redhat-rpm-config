@@ -26,7 +26,7 @@
 #
 %_configure_gnuconfig_hack	1
 %_configure_libtool_hardening_hack	1
-%_configure_disable_silent_rules 0
+# _configure_disable_silent_rules 0
 %configure \
   CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS ; \
   CXXFLAGS="${CXXFLAGS:-%optflags}" ; export CXXFLAGS ; \
