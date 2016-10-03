@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 45
+Version: 46
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -144,6 +144,10 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Oct 03 2016 Jason L Tibbitts III <tibbs@math.uh.edu> - 46-1
+- Allow %%configure to optionally pass --disable-silent-rules.  Define
+  %%_configure_disable_silent_rules (defaulting to 0) to control this.
+
 * Wed Sep 14 2016 Jason L Tibbitts III <tibbs@math.uh.edu> - 45-1
 - Add dependency on qt5-srpm-macros.
 

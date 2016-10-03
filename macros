@@ -26,6 +26,7 @@
 #
 %_configure_gnuconfig_hack	1
 %_configure_libtool_hardening_hack	1
+%_configure_disable_silent_rules 0
 %configure \
   CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS ; \
   CXXFLAGS="${CXXFLAGS:-%optflags}" ; export CXXFLAGS ; \
@@ -42,6 +43,7 @@
   %{_configure} --build=%{_build} --host=%{_host} \\\
 	--program-prefix=%{?_program_prefix} \\\
 	--disable-dependency-tracking \\\
+	%{?_configure_disable_silent_rules:--disable-silent-rules} \\\
 	--prefix=%{_prefix} \\\
 	--exec-prefix=%{_exec_prefix} \\\
 	--bindir=%{_bindir} \\\
