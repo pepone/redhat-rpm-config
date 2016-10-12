@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 46
+Version: 47
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -144,6 +144,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Oct 12 2016 Peter Robinson <pbrobinson@fedoraproject.org> 47-1
+- Enable aarch64 for mono arches
+
 * Mon Oct 03 2016 Jason L Tibbitts III <tibbs@math.uh.edu> - 46-1
 - Allow %%configure to optionally pass --disable-silent-rules.  Define
   %%_configure_disable_silent_rules (defaulting to 0) to control this.
