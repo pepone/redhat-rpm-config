@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 47
+Version: 48
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -52,7 +52,7 @@ Source401: rpmsort
 Source402: symset-table
 Source403: kmodtool
 
-# 16082013 snapshots from http://git.savannah.gnu.org/gitweb/?p=config.git
+# 2016-10-02 snapshots from http://git.savannah.gnu.org/gitweb/?p=config.git
 Source500: config.guess
 Source501: config.sub
 
@@ -144,6 +144,10 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Oct 13 2016 Richard W.M. Jones <rjones@redhat.com> 48-1
+- Add support for riscv64.
+  This also updates config.sub/config.guess to the latest upstream versions.
+
 * Wed Oct 12 2016 Peter Robinson <pbrobinson@fedoraproject.org> 47-1
 - Enable aarch64 for mono arches
 
