@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 48
+Version: 49
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -144,6 +144,10 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Oct 17 2016 Jason L Tibbitts III <tibbs@math.uh.edu> - 49-1
+- Remove hardcoded limit of 16 CPUs for makefile parallelism.
+- See https://bugzilla.redhat.com/show_bug.cgi?id=1384938
+
 * Thu Oct 13 2016 Richard W.M. Jones <rjones@redhat.com> 48-1
 - Add support for riscv64.
   This also updates config.sub/config.guess to the latest upstream versions.

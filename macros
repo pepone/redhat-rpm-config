@@ -63,7 +63,12 @@
 	--infodir=%{_infodir}
 
 # Maximum number of CPU's to use when building, 0 for unlimited.
-%_smp_ncpus_max 16
+#
+# This was for some time capped at 16.  Please see
+# https://bugzilla.redhat.com/show_bug.cgi?id=669638 and
+# https://bugzilla.redhat.com/show_bug.cgi?id=1384938 for the situation
+# surrounding this.
+#%_smp_ncpus_max 0
 %_smp_mflags %([ -z "$RPM_BUILD_NCPUS" ] \\\
 	&& RPM_BUILD_NCPUS="`/usr/bin/getconf _NPROCESSORS_ONLN`"; \\\
         ncpus_max=%{?_smp_ncpus_max}; \\\
