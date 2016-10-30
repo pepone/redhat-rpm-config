@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 49
+Version: 50
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -29,6 +29,7 @@ Source51: redhat-hardened-ld
 Source100: macros.fedora-misc-srpm
 Source102: macros.mono-srpm
 Source103: macros.nodejs-srpm
+Source104: macros.ldc-srpm
 
 # Other misc macros
 Source150: macros.dwz
@@ -144,6 +145,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Oct 31 2016 Kalev Lember <klember@redhat.com> - 50-1
+- Add ldc_arches macro
+
 * Mon Oct 17 2016 Jason L Tibbitts III <tibbs@math.uh.edu> - 49-1
 - Remove hardcoded limit of 16 CPUs for makefile parallelism.
 - See https://bugzilla.redhat.com/show_bug.cgi?id=1384938
