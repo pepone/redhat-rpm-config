@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 52
+Version: 53
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -35,10 +35,6 @@ Source105: macros.valgrind-srpm
 # Other misc macros
 Source150: macros.dwz
 Source151: macros.kmp
-
-# Build policy scripts
-Source201: brp-implant-ident-static
-Source202: brp-java-repack-jars
 
 # Dependency generator scripts (deprecated)
 Source300: find-provides
@@ -106,7 +102,6 @@ install -p -m 644 -t %{buildroot}%{rrcdir} macros rpmrc
 install -p -m 444 -t %{buildroot}%{rrcdir} redhat-hardened-*
 install -p -m 755 -t %{buildroot}%{rrcdir} config.*
 install -p -m 755 -t %{buildroot}%{rrcdir} dist.sh rpmsort symset-table kmodtool
-install -p -m 755 -t %{buildroot}%{rrcdir} brp-*
 
 install -p -m 755 -t %{buildroot}%{rrcdir} find-*
 mkdir -p %{buildroot}%{rrcdir}/find-provides.d
@@ -123,7 +118,6 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %dir %{rrcdir}
 %{rrcdir}/macros
 %{rrcdir}/rpmrc
-%{rrcdir}/brp-*
 %{rrcdir}/dist.sh
 %{rrcdir}/redhat-hardened-*
 %{rrcdir}/config.*
@@ -146,6 +140,10 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Nov 07 2016 Panu Matilainen <pmatilai@redhat.com> - 53-1
+- Drop brp-java-repack-jars by request (#1235770)
+- Drop brp-implant-ident-static, unused for 13 years and counting
+
 * Mon Nov 07 2016 Lubomir Rintel <lkundrak@v3.sk> - 52-1
 - Add valgrind_arches macro for BuildRequires of valgrind
 

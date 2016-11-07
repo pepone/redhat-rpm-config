@@ -104,10 +104,7 @@
     /usr/lib/rpm/brp-strip-static-archive %{__strip} \
     %{?py_auto_byte_compile:/usr/lib/rpm/brp-python-bytecompile %{__python} %{?_python_bytecompile_errors_terminate_build}} \
     /usr/lib/rpm/brp-python-hardlink \
-    %{!?__jar_repack:/usr/lib/rpm/redhat/brp-java-repack-jars} \
 %{nil}
-
-#    /usr/lib/rpm/redhat/brp-implant-ident-static
 
 %__spec_install_post\
     %{?__debug_package:%{__debug_install_post}}\
