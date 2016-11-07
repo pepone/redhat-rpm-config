@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 51
+Version: 52
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -30,6 +30,7 @@ Source100: macros.fedora-misc-srpm
 Source102: macros.mono-srpm
 Source103: macros.nodejs-srpm
 Source104: macros.ldc-srpm
+Source105: macros.valgrind-srpm
 
 # Other misc macros
 Source150: macros.dwz
@@ -145,6 +146,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Nov 07 2016 Lubomir Rintel <lkundrak@v3.sk> - 52-1
+- Add valgrind_arches macro for BuildRequires of valgrind
+
 * Fri Nov 04 2016 Stephen Gallagher <sgallagh@redhat.com> - 51-1
 - Add s390x build target for Node.js packages
 
