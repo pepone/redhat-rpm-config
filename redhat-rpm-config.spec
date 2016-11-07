@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 50
+Version: 51
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -145,6 +145,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Nov 04 2016 Stephen Gallagher <sgallagh@redhat.com> - 51-1
+- Add s390x build target for Node.js packages
+
 * Mon Oct 31 2016 Kalev Lember <klember@redhat.com> - 50-1
 - Add ldc_arches macro
 
