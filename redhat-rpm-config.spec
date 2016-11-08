@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 54
+Version: 55
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -140,6 +140,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Nov 08 2016 Michal Toman <mtoman@fedoraproject.org> - 55-1
+- Add default compiler flags for various MIPS architectures (#1366735)
+
 * Tue Nov 08 2016 Panu Matilainen <pmatilai@redhat.com> - 54-1
 - -pie is incompatible with static linkage (#1343892, #1287743)
 

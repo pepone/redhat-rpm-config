@@ -41,8 +41,14 @@ optflags: hppa1.1 %{__global_cflags} -mpa-risc-1-0
 optflags: hppa1.2 %{__global_cflags} -mpa-risc-1-0
 optflags: hppa2.0 %{__global_cflags} -mpa-risc-1-0
 
-optflags: mips %{__global_cflags}
-optflags: mipsel %{__global_cflags}
+optflags: mips %{__global_cflags} -march=mips32r2 -mfpxx
+optflags: mipsel %{__global_cflags} -march=mips32r2 -mfpxx
+optflags: mips64 %{__global_cflags} -march=mips64r2 -mabi=64
+optflags: mips64el %{__global_cflags} -march=mips64r2 -mabi=64
+optflags: mipsr6 %{__global_cflags} -march=mips32r6
+optflags: mipsr6el %{__global_cflags} -march=mips32r6
+optflags: mips64r6 %{__global_cflags} -march=mips64r6
+optflags: mips64r6el %{__global_cflags} -march=mips64r6
 
 optflags: armv3l %{__global_cflags} -fsigned-char -march=armv3
 optflags: armv4b %{__global_cflags} -fsigned-char -march=armv4
