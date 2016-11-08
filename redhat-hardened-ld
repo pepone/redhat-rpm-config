@@ -1,5 +1,5 @@
 *self_spec:
-+ %{!shared:%{!r:-pie}}
++ %{!static:%{!shared:%{!r:-pie}}}
 
 *link:
 + -z now
