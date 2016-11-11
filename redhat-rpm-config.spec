@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 55
+Version: 56
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -140,6 +140,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Nov 11 2016 Panu Matilainen <pmatilai@redhat.com> - 56-1
+- Fix directory name mismatch in kernel_source macro (#648996)
+
 * Tue Nov 08 2016 Michal Toman <mtoman@fedoraproject.org> - 55-1
 - Add default compiler flags for various MIPS architectures (#1366735)
 
