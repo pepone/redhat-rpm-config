@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 56
+Version: 57
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -140,6 +140,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Nov 15 2016 Dan Horák <dan[at]danny.cz> - 57-1
+- set z10 as minimum architecture level for s390(x)
+
 * Fri Nov 11 2016 Panu Matilainen <pmatilai@redhat.com> - 56-1
 - Fix directory name mismatch in kernel_source macro (#648996)
 
