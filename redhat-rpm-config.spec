@@ -140,6 +140,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Nov 29 2016 Panu Matilainen <pmatilai@redhat.com> - 58-1
+- Drop atom optimization on i686 (#1393492)
+
 * Tue Nov 15 2016 Dan Horák <dan[at]danny.cz> - 57-1
 - set z10 as minimum architecture level for s390(x)
 
