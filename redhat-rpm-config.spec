@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 57
+Version: 58
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
