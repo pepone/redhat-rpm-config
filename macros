@@ -147,7 +147,7 @@
 
 %__global_compiler_flags	-O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches %{_hardened_cflags}
 
-%__global_cflags	%{optflags}
+%__global_cflags	%{optflags} -Werror=implicit-function-declaration -Werror=implicit-int
 %__global_cxxflags	%{optflags}
 %__global_fflags	%{optflags} -I%_fmoddir
 %__global_fcflags	%{optflags} -I%_fmoddir

@@ -140,6 +140,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Nov 30 2016 Panu Matilainen <pmatilai@redhat.com> - 60-1
+- Error on implicit function declaration and -return type for C (#1393492)
+
 * Wed Nov 30 2016 Panu Matilainen <pmatilai@redhat.com> - 59-1
 - Move global compiler flags to __global_compiler_flags macro
 - Introduce separate __global_fooflags for C, C++ and Fortran
