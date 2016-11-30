@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 58
+Version: 59
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -140,6 +140,10 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Nov 30 2016 Panu Matilainen <pmatilai@redhat.com> - 59-1
+- Move global compiler flags to __global_compiler_flags macro
+- Introduce separate __global_fooflags for C, C++ and Fortran
+
 * Tue Nov 29 2016 Panu Matilainen <pmatilai@redhat.com> - 58-1
 - Drop atom optimization on i686 (#1393492)
 

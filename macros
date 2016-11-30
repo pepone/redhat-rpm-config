@@ -32,10 +32,10 @@
 # way to turn it back off.
 # %_configure_disable_silent_rules 1
 %configure \
-  CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS ; \
-  CXXFLAGS="${CXXFLAGS:-%optflags}" ; export CXXFLAGS ; \
-  FFLAGS="${FFLAGS:-%optflags -I%_fmoddir}" ; export FFLAGS ; \
-  FCFLAGS="${FCFLAGS:-%optflags -I%_fmoddir}" ; export FCFLAGS ; \
+  CFLAGS="${CFLAGS:-%__global_cflags}" ; export CFLAGS ; \
+  CXXFLAGS="${CXXFLAGS:-%__global_cxxflags}" ; export CXXFLAGS ; \
+  FFLAGS="${FFLAGS:-%__global_fflags}" ; export FFLAGS ; \
+  FCFLAGS="${FCFLAGS:-%__global_fcflags}" ; export FCFLAGS ; \
   LDFLAGS="${LDFLAGS:-%__global_ldflags}"; export LDFLAGS; \
   [ "%_configure_gnuconfig_hack" = 1 ] && for i in $(find $(dirname %{_configure}) -name config.guess -o -name config.sub) ; do \
       [ -f /usr/lib/rpm/redhat/$(basename $i) ] && %{__rm} -f $i && %{__cp} -fv /usr/lib/rpm/redhat/$(basename $i) $i ; \
@@ -146,6 +146,11 @@
 %_hardened_ldflags	%{?_hardened_build:%{_hardening_ldflags}}
 
 %__global_compiler_flags	-O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches %{_hardened_cflags}
+
+%__global_cflags	%{optflags}
+%__global_cxxflags	%{optflags}
+%__global_fflags	%{optflags} -I%_fmoddir
+%__global_fcflags	%{optflags} -I%_fmoddir
 %__global_ldflags	-Wl,-z,relro %{_hardened_ldflags}
 
 #==============================================================================
