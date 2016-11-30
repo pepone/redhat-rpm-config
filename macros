@@ -145,7 +145,7 @@
 %_hardened_cflags	%{?_hardened_build:%{_hardening_cflags}}
 %_hardened_ldflags	%{?_hardened_build:%{_hardening_ldflags}}
 
-%__global_cflags	-O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches %{_hardened_cflags}
+%__global_compiler_flags	-O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches %{_hardened_cflags}
 %__global_ldflags	-Wl,-z,relro %{_hardened_ldflags}
 
 #==============================================================================

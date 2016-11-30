@@ -1,82 +1,82 @@
 include: /usr/lib/rpm/rpmrc
 
-optflags: i386 %{__global_cflags} -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables
-optflags: i486 %{__global_cflags} -m32 -march=i486 -fasynchronous-unwind-tables
-optflags: i586 %{__global_cflags} -m32 -march=i586 -mtune=generic -fasynchronous-unwind-tables
-optflags: i686 %{__global_cflags} -m32 -march=i686 -fasynchronous-unwind-tables
-optflags: athlon %{__global_cflags} -m32 -march=athlon -fasynchronous-unwind-tables
-optflags: ia64 %{__global_cflags}
-optflags: x86_64 %{__global_cflags} -m64 -mtune=generic
+optflags: i386 %{__global_compiler_flags} -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables
+optflags: i486 %{__global_compiler_flags} -m32 -march=i486 -fasynchronous-unwind-tables
+optflags: i586 %{__global_compiler_flags} -m32 -march=i586 -mtune=generic -fasynchronous-unwind-tables
+optflags: i686 %{__global_compiler_flags} -m32 -march=i686 -fasynchronous-unwind-tables
+optflags: athlon %{__global_compiler_flags} -m32 -march=athlon -fasynchronous-unwind-tables
+optflags: ia64 %{__global_compiler_flags}
+optflags: x86_64 %{__global_compiler_flags} -m64 -mtune=generic
 
-optflags: alpha %{__global_cflags} -mieee
-optflags: alphaev5 %{__global_cflags} -mieee -mcpu=ev5
-optflags: alphaev56 %{__global_cflags} -mieee -mcpu=ev56
-optflags: alphapca56 %{__global_cflags} -mieee -mcpu=pca56
-optflags: alphaev6 %{__global_cflags} -mieee -mcpu=ev6
-optflags: alphaev67 %{__global_cflags} -mieee -mcpu=ev67
+optflags: alpha %{__global_compiler_flags} -mieee
+optflags: alphaev5 %{__global_compiler_flags} -mieee -mcpu=ev5
+optflags: alphaev56 %{__global_compiler_flags} -mieee -mcpu=ev56
+optflags: alphapca56 %{__global_compiler_flags} -mieee -mcpu=pca56
+optflags: alphaev6 %{__global_compiler_flags} -mieee -mcpu=ev6
+optflags: alphaev67 %{__global_compiler_flags} -mieee -mcpu=ev67
 
-optflags: sparc %{__global_cflags} -m32 -mcpu=v7 -mtune=ultrasparc
-optflags: sparcv8 %{__global_cflags} -m32 -mcpu=v8
-optflags: sparcv9 %{__global_cflags} -m32 -mcpu=ultrasparc
-optflags: sparcv9v %{__global_cflags} -m32 -mcpu=niagara
-optflags: sparc64 %{__global_cflags} -m64 -mcpu=ultrasparc
-optflags: sparc64v %{__global_cflags} -m64 -mcpu=niagara
+optflags: sparc %{__global_compiler_flags} -m32 -mcpu=v7 -mtune=ultrasparc
+optflags: sparcv8 %{__global_compiler_flags} -m32 -mcpu=v8
+optflags: sparcv9 %{__global_compiler_flags} -m32 -mcpu=ultrasparc
+optflags: sparcv9v %{__global_compiler_flags} -m32 -mcpu=niagara
+optflags: sparc64 %{__global_compiler_flags} -m64 -mcpu=ultrasparc
+optflags: sparc64v %{__global_compiler_flags} -m64 -mcpu=niagara
 
-optflags: m68k %{__global_cflags}
+optflags: m68k %{__global_compiler_flags}
 
-optflags: ppc %{__global_cflags} -m32
-optflags: ppciseries %{__global_cflags} -m32
-optflags: ppcpseries %{__global_cflags} -m32
-optflags: ppc64 %{__global_cflags} -m64
-optflags: ppc64p7 %{__global_cflags} -m64 -O3 -mcpu=power7 -mtune=power7
-optflags: ppc64le %{__global_cflags} -m64 -mcpu=power8 -mtune=power8
-optflags: ppc64iseries %{__global_cflags} -m64
-optflags: ppc64pseries %{__global_cflags} -m64
-optflags: ppc8260 %{__global_cflags} -m32
-optflags: ppc8560 %{__global_cflags} -m32
+optflags: ppc %{__global_compiler_flags} -m32
+optflags: ppciseries %{__global_compiler_flags} -m32
+optflags: ppcpseries %{__global_compiler_flags} -m32
+optflags: ppc64 %{__global_compiler_flags} -m64
+optflags: ppc64p7 %{__global_compiler_flags} -m64 -O3 -mcpu=power7 -mtune=power7
+optflags: ppc64le %{__global_compiler_flags} -m64 -mcpu=power8 -mtune=power8
+optflags: ppc64iseries %{__global_compiler_flags} -m64
+optflags: ppc64pseries %{__global_compiler_flags} -m64
+optflags: ppc8260 %{__global_compiler_flags} -m32
+optflags: ppc8560 %{__global_compiler_flags} -m32
 
-optflags: parisc %{__global_cflags} -mpa-risc-1-0
-optflags: hppa1.0 %{__global_cflags} -mpa-risc-1-0
-optflags: hppa1.1 %{__global_cflags} -mpa-risc-1-0
-optflags: hppa1.2 %{__global_cflags} -mpa-risc-1-0
-optflags: hppa2.0 %{__global_cflags} -mpa-risc-1-0
+optflags: parisc %{__global_compiler_flags} -mpa-risc-1-0
+optflags: hppa1.0 %{__global_compiler_flags} -mpa-risc-1-0
+optflags: hppa1.1 %{__global_compiler_flags} -mpa-risc-1-0
+optflags: hppa1.2 %{__global_compiler_flags} -mpa-risc-1-0
+optflags: hppa2.0 %{__global_compiler_flags} -mpa-risc-1-0
 
-optflags: mips %{__global_cflags} -march=mips32r2 -mfpxx
-optflags: mipsel %{__global_cflags} -march=mips32r2 -mfpxx
-optflags: mips64 %{__global_cflags} -march=mips64r2 -mabi=64
-optflags: mips64el %{__global_cflags} -march=mips64r2 -mabi=64
-optflags: mipsr6 %{__global_cflags} -march=mips32r6
-optflags: mipsr6el %{__global_cflags} -march=mips32r6
-optflags: mips64r6 %{__global_cflags} -march=mips64r6
-optflags: mips64r6el %{__global_cflags} -march=mips64r6
+optflags: mips %{__global_compiler_flags} -march=mips32r2 -mfpxx
+optflags: mipsel %{__global_compiler_flags} -march=mips32r2 -mfpxx
+optflags: mips64 %{__global_compiler_flags} -march=mips64r2 -mabi=64
+optflags: mips64el %{__global_compiler_flags} -march=mips64r2 -mabi=64
+optflags: mipsr6 %{__global_compiler_flags} -march=mips32r6
+optflags: mipsr6el %{__global_compiler_flags} -march=mips32r6
+optflags: mips64r6 %{__global_compiler_flags} -march=mips64r6
+optflags: mips64r6el %{__global_compiler_flags} -march=mips64r6
 
-optflags: armv3l %{__global_cflags} -fsigned-char -march=armv3
-optflags: armv4b %{__global_cflags} -fsigned-char -march=armv4
-optflags: armv4l %{__global_cflags} -fsigned-char -march=armv4
-optflags: armv4tl %{__global_cflags} -march=armv4t
-optflags: armv5tel %{__global_cflags} -march=armv5te -mfloat-abi=soft
-optflags: armv5tejl %{__global_cflags} -march=armv5te -mfloat-abi=soft
-optflags: armv6l %{__global_cflags} -march=armv6 -mfloat-abi=soft
-optflags: armv6hl %{__global_cflags} -march=armv6 -mfpu=vfp -mfloat-abi=hard
-optflags: armv6hnl %{__global_cflags} -march=armv6 -mfpu=neon -mfloat-abi=hard
-optflags: armv7l %{__global_cflags} -march=armv7-a -mfloat-abi=soft
-optflags: armv7hl %{__global_cflags} -march=armv7-a -mfpu=vfpv3-d16  -mfloat-abi=hard
-optflags: armv7hnl %{__global_cflags} -march=armv7-a -mfpu=neon  -mfloat-abi=hard
+optflags: armv3l %{__global_compiler_flags} -fsigned-char -march=armv3
+optflags: armv4b %{__global_compiler_flags} -fsigned-char -march=armv4
+optflags: armv4l %{__global_compiler_flags} -fsigned-char -march=armv4
+optflags: armv4tl %{__global_compiler_flags} -march=armv4t
+optflags: armv5tel %{__global_compiler_flags} -march=armv5te -mfloat-abi=soft
+optflags: armv5tejl %{__global_compiler_flags} -march=armv5te -mfloat-abi=soft
+optflags: armv6l %{__global_compiler_flags} -march=armv6 -mfloat-abi=soft
+optflags: armv6hl %{__global_compiler_flags} -march=armv6 -mfpu=vfp -mfloat-abi=hard
+optflags: armv6hnl %{__global_compiler_flags} -march=armv6 -mfpu=neon -mfloat-abi=hard
+optflags: armv7l %{__global_compiler_flags} -march=armv7-a -mfloat-abi=soft
+optflags: armv7hl %{__global_compiler_flags} -march=armv7-a -mfpu=vfpv3-d16  -mfloat-abi=hard
+optflags: armv7hnl %{__global_compiler_flags} -march=armv7-a -mfpu=neon  -mfloat-abi=hard
 
-optflags: atarist %{__global_cflags}
-optflags: atariste %{__global_cflags}
-optflags: ataritt %{__global_cflags}
-optflags: falcon %{__global_cflags}
-optflags: atariclone %{__global_cflags}
-optflags: milan %{__global_cflags}
-optflags: hades %{__global_cflags}
+optflags: atarist %{__global_compiler_flags}
+optflags: atariste %{__global_compiler_flags}
+optflags: ataritt %{__global_compiler_flags}
+optflags: falcon %{__global_compiler_flags}
+optflags: atariclone %{__global_compiler_flags}
+optflags: milan %{__global_compiler_flags}
+optflags: hades %{__global_compiler_flags}
 
-optflags: s390 %{__global_cflags} -m31 -march=z10 -mtune=z10
-optflags: s390x %{__global_cflags} -m64 -march=z10 -mtune=z10
+optflags: s390 %{__global_compiler_flags} -m31 -march=z10 -mtune=z10
+optflags: s390x %{__global_compiler_flags} -m64 -march=z10 -mtune=z10
 
-optflags: aarch64 %{__global_cflags}
+optflags: aarch64 %{__global_compiler_flags}
 
-optflags: riscv64 %{__global_cflags}
+optflags: riscv64 %{__global_compiler_flags}
 
 # set build arch to fedora buildarches on hardware capable of running it
 # saves having to do rpmbuild --target=
