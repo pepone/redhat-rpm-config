@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 60
+Version: 61
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -140,6 +140,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Dec 06 2016 Adam Williamson <awilliam@redhat.com> - 61-1
+- revert changes from 60, they break far too much stuff (#1401231)
+
 * Wed Nov 30 2016 Panu Matilainen <pmatilai@redhat.com> - 60-1
 - Error on implicit function declaration and -return type for C (#1393492)
 
