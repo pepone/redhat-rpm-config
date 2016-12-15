@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 61
+Version: 62
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -35,6 +35,7 @@ Source105: macros.valgrind-srpm
 # Other misc macros
 Source150: macros.dwz
 Source151: macros.kmp
+Source152: macros.vpath
 
 # Dependency generator scripts (deprecated)
 Source300: find-provides
@@ -127,6 +128,7 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/kmod.prov
 %{_rpmconfigdir}/macros.d/macros.*-srpm
 %{_rpmconfigdir}/macros.d/macros.dwz
+%{_rpmconfigdir}/macros.d/macros.vpath
 
 %files -n kernel-rpm-macros
 %dir %{rrcdir}/find-provides.d
@@ -140,6 +142,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Dec 15 2016 Jason L Tibbitts III <tibbs@math.uh.edu> - 62-1
+- Add macros.vpath (https://fedorahosted.org/fpc/attachment/ticket/655)
+
 * Tue Dec 06 2016 Adam Williamson <awilliam@redhat.com> - 61-1
 - revert changes from 60, they break far too much stuff (#1401231)
 
