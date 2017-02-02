@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 62
+Version: 63
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -142,6 +142,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Feb 02 2017 Dan Horák <dan[at]danny.cz> - 63-1
+- set zEC12 as minimum architecture level for s390(x) (#1404991)
+
 * Thu Dec 15 2016 Jason L Tibbitts III <tibbs@math.uh.edu> - 62-1
 - Add macros.vpath (https://fedorahosted.org/fpc/attachment/ticket/655)
 

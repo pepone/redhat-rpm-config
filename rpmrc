@@ -71,8 +71,8 @@ optflags: atariclone %{__global_compiler_flags}
 optflags: milan %{__global_compiler_flags}
 optflags: hades %{__global_compiler_flags}
 
-optflags: s390 %{__global_compiler_flags} -m31 -march=z10 -mtune=z10
-optflags: s390x %{__global_compiler_flags} -m64 -march=z10 -mtune=z10
+optflags: s390 %{__global_compiler_flags} -m31 -march=zEC12 -mtune=z13
+optflags: s390x %{__global_compiler_flags} -m64 -march=zEC12 -mtune=z13
 
 optflags: aarch64 %{__global_compiler_flags}
 
