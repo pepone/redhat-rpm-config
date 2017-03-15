@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 63
+Version: 64
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -70,6 +70,7 @@ Requires: ghc-srpm-macros
 Requires: gnat-srpm-macros
 Requires: go-srpm-macros
 Requires: ocaml-srpm-macros
+Requires: openblas-srpm-macros
 Requires: perl-srpm-macros
 Requires: python-srpm-macros
 Requires: qt5-srpm-macros
@@ -142,6 +143,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Mar 15 2017 Orion Poplawski <orion@cora.nwra.com> - 64-1
+- Add Requires: openblas-srpm-macros for %%openblas_arches
+
 * Thu Feb 02 2017 Dan Horák <dan[at]danny.cz> - 63-1
 - set zEC12 as minimum architecture level for s390(x) (#1404991)
 
