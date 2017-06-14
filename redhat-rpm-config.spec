@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 64
+Version: 65
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -73,6 +73,7 @@ Requires: ocaml-srpm-macros
 Requires: openblas-srpm-macros
 Requires: perl-srpm-macros
 Requires: python-srpm-macros
+Requires: rust-srpm-macros
 Requires: qt5-srpm-macros
 
 Requires: rpm >= 4.11.0
@@ -143,6 +144,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Jul 13 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 65-1
+- Add Requires: rust-srpm-macros for %%rust_arches
+
 * Wed Mar 15 2017 Orion Poplawski <orion@cora.nwra.com> - 64-1
 - Add Requires: openblas-srpm-macros for %%openblas_arches
 
