@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 65
+Version: 66
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -144,6 +144,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Jul 18 2017 Florian Festi <ffesti@redhat.com> - 66-1
+- Honor %%kmodtool_generate_buildreqs (#1472201)
+
 * Thu Jul 13 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 65-1
 - Add Requires: rust-srpm-macros for %%rust_arches
 

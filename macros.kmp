@@ -54,9 +54,10 @@ kernel_module_package_release	1
 	then \
 		preamble="%{-p*}" \
 	fi \
-	if [ -z "%{kmodtool_generate_buildreqs}" ] \
+	nobuildreqs="yes" \
+	if [ "x%{kmodtool_generate_buildreqs}" != "x1" ] \
 	then \
-		nobuildreqs="yes" \
+		nobuildreqs="no" \
 	fi \
 	kmp_override_filelist="$filelist" kmp_override_preamble="$preamble" kmp_nobuildreqs="$nobuildreqs" %{kmodtool} rpmtemplate_kmp %{-n*}%{!-n:%name} %{kverrel} $flavors_to_build 2>/dev/null \
 )}
