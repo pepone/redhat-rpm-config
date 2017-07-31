@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 66
+Version: 67
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -144,7 +144,7 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
-* Mon Jul 31 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org>
+* Mon Jul 31 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 67-1
 - Define _include_gdx_index (RHBZ #1476722)
 - Move _debuginfo_subpackages and _debugsource_packages from rpm (RHBZ #1476735)
 
