@@ -21,6 +21,8 @@
 %_enable_debug_packages 1
 %_include_minidebuginfo 1
 %_include_gdb_index     1
+%_debugsource_packages  1
+%_debuginfo_subpackages 1
 
 #==============================================================================
 # ---- configure and makeinstall.

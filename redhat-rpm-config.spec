@@ -146,6 +146,7 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %changelog
 * Mon Jul 31 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org>
 - Define _include_gdx_index (RHBZ #1476722)
+- Move _debuginfo_subpackages and _debugsource_packages from rpm (RHBZ #1476735)
 
 * Tue Jul 18 2017 Florian Festi <ffesti@redhat.com> - 66-1
 - Honor %%kmodtool_generate_buildreqs (#1472201)
