@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 68
+Version: 69
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -20,6 +20,9 @@ Source1: rpmrc
 # gcc specs files for hardened builds
 Source50: redhat-hardened-cc1
 Source51: redhat-hardened-ld
+
+# gcc specs files for annobin builds
+Source52: redhat-annobin-cc1
 
 # The macros defined by these files are for things that need to be defined
 # at srpm creation time when it is not feasible to require the base packages
@@ -78,6 +81,8 @@ Requires: qt5-srpm-macros
 Requires: rpm >= 4.11.0
 Requires: dwz >= 0.4
 Requires: zip
+Requires: annobin
+
 Provides: system-rpm-config = %{version}-%{release}
 
 %global rrcdir /usr/lib/rpm/redhat
@@ -102,6 +107,7 @@ cp -p %{sources} .
 mkdir -p %{buildroot}%{rrcdir}
 install -p -m 644 -t %{buildroot}%{rrcdir} macros rpmrc
 install -p -m 444 -t %{buildroot}%{rrcdir} redhat-hardened-*
+install -p -m 444 -t %{buildroot}%{rrcdir} redhat-annobin-*
 install -p -m 755 -t %{buildroot}%{rrcdir} config.*
 install -p -m 755 -t %{buildroot}%{rrcdir} dist.sh rpmsort symset-table kmodtool
 
@@ -122,6 +128,7 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{rrcdir}/rpmrc
 %{rrcdir}/dist.sh
 %{rrcdir}/redhat-hardened-*
+%{rrcdir}/redhat-annobin-*
 %{rrcdir}/config.*
 %{rrcdir}/find-provides
 %{rrcdir}/find-requires
@@ -143,6 +150,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Nov 22 2017 Nick Clifton <nickc@redhat.com> - 69-1
+- Enable binary annotations in compiler flags
+
 * Thu Oct 26 2017 Troy Dawson <tdawson@redhat.com> - 68-1
 - Remove Requires: fedora-rpm-macros
 

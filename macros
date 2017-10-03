@@ -148,7 +148,14 @@
 %_hardened_cflags	%{?_hardened_build:%{_hardening_cflags}}
 %_hardened_ldflags	%{?_hardened_build:%{_hardening_ldflags}}
 
-%__global_compiler_flags	-O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches %{_hardened_cflags}
+%_annobin_cflags	-specs=/usr/lib/rpm/redhat/redhat-annobin-cc1
+
+# Add extra information to binary objects created by gcc for Fedora 28:
+# https://pagure.io/fesco/issue/1780 (accepted on 2017-10-30)
+%_annotated_build	1
+%_annotated_cflags	%{?_annotated_build:%{_annobin_cflags}}
+
+%__global_compiler_flags	-O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches %{_hardened_cflags} %{_annotated_cflags}
 
 %__global_cflags	%{optflags}
 %__global_cxxflags	%{optflags}
