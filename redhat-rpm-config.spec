@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 67
+Version: 68
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -64,7 +64,6 @@ BuildArch: noarch
 BuildRequires: perl-generators
 Requires: coreutils
 
-Requires: fedora-rpm-macros
 Requires: fpc-srpm-macros
 Requires: ghc-srpm-macros
 Requires: gnat-srpm-macros
@@ -144,6 +143,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Oct 26 2017 Troy Dawson <tdawson@redhat.com> - 68-1
+- Remove Requires: fedora-rpm-macros
+
 * Mon Jul 31 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 67-1
 - Define _include_gdb_index (RHBZ #1476722)
 - Move _debuginfo_subpackages and _debugsource_packages from rpm (RHBZ #1476735)
