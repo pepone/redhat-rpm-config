@@ -6,8 +6,8 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 70
-Release: 2%{?dist}
+Version: 71
+Release: 1%{?dist}
 # No version specified.
 License: GPL+
 Group: Development/System
@@ -82,7 +82,7 @@ Requires: qt5-srpm-macros
 Requires: rpm >= 4.11.0
 Requires: dwz >= 0.4
 Requires: zip
-Requires: annobin
+Requires: (annobin if gcc)
 
 Provides: system-rpm-config = %{version}-%{release}
 
@@ -151,6 +151,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Jan 02 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 71-1
+- Require annobin only if gcc is installed
+
 * Thu Dec 21 2017 Björn Esser <besser82@fedoraproject.org> - 70-2
 - Add Requires: cmake-rpm-macros for CMake auto-{provides,requires} (#1498894)
 
