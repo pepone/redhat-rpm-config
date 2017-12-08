@@ -6,12 +6,12 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 69
+Version: 70
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
 Group: Development/System
-URL: http://pkgs.fedoraproject.org/cgit/redhat-rpm-config.git
+URL: https://src.fedoraproject.org/rpms/redhat-rpm-config
 
 # Core rpm settings
 Source0: macros
@@ -150,6 +150,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Dec 08 2017 Panu Matilainen <pmatilai@redhat.com> - 70-1
+- Update URL to current location at src.fedoraproject.org
+
 * Wed Nov 22 2017 Nick Clifton <nickc@redhat.com> - 69-1
 - Enable binary annotations in compiler flags
 
