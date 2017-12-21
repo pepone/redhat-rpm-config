@@ -7,7 +7,7 @@
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
 Version: 70
-Release: 1%{?dist}
+Release: 2%{?dist}
 # No version specified.
 License: GPL+
 Group: Development/System
@@ -67,6 +67,7 @@ BuildArch: noarch
 BuildRequires: perl-generators
 Requires: coreutils
 
+Requires: cmake-rpm-macros
 Requires: fpc-srpm-macros
 Requires: ghc-srpm-macros
 Requires: gnat-srpm-macros
@@ -150,6 +151,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Dec 21 2017 Björn Esser <besser82@fedoraproject.org> - 70-2
+- Add Requires: cmake-rpm-macros for CMake auto-{provides,requires} (#1498894)
+
 * Fri Dec 08 2017 Panu Matilainen <pmatilai@redhat.com> - 70-1
 - Update URL to current location at src.fedoraproject.org
 
