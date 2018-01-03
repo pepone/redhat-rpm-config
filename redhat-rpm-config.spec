@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 71
+Version: 72
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -72,6 +72,7 @@ Requires: fpc-srpm-macros
 Requires: ghc-srpm-macros
 Requires: gnat-srpm-macros
 Requires: go-srpm-macros
+Requires: nim-srpm-macros
 Requires: ocaml-srpm-macros
 Requires: openblas-srpm-macros
 Requires: perl-srpm-macros
@@ -151,6 +152,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Jan 03 2018 Sergey Avseyev <sergey.avseyev@gmail.com> - 72-1
+- Add Requires: nim-srpm-macros for %%nim_arches
+
 * Tue Jan 02 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 71-1
 - Require annobin only if gcc is installed
 
