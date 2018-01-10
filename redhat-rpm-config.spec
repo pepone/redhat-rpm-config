@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 89
+Version: 90
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -41,6 +41,12 @@ Source151: macros.kmp
 Source152: macros.vpath
 Source153: macros.forge
 Source154: macros.ldconfig
+
+# Build policy scripts
+# this comes from https://github.com/rpm-software-management/rpm/pull/344
+# added a python -> python2 conversion for fedora with warning
+# and an echo when the mangling happens
+Source201: brp-mangle-shebangs
 
 # Dependency generator scripts (deprecated)
 Source300: find-provides
@@ -122,6 +128,7 @@ install -p -m 444 -t %{buildroot}%{rrcdir} redhat-hardened-*
 install -p -m 444 -t %{buildroot}%{rrcdir} redhat-annobin-*
 install -p -m 755 -t %{buildroot}%{rrcdir} config.*
 install -p -m 755 -t %{buildroot}%{rrcdir} dist.sh rpmsort symset-table kmodtool
+install -p -m 755 -t %{buildroot}%{rrcdir} brp-*
 
 install -p -m 755 -t %{buildroot}%{rrcdir} find-*
 mkdir -p %{buildroot}%{rrcdir}/find-provides.d
@@ -140,6 +147,7 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %dir %{rrcdir}
 %{rrcdir}/macros
 %{rrcdir}/rpmrc
+%{rrcdir}/brp-*
 %{rrcdir}/dist.sh
 %{rrcdir}/redhat-hardened-*
 %{rrcdir}/redhat-annobin-*
@@ -168,6 +176,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Jan 29 2018 Miro Hrončok <mhroncok@redhat.com> - 90-1
+- Add brp-mangle-shebangs
+
 * Mon Jan 29 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 89-1
 - Add macros.ldconfig
 
