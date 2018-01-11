@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 72
+Version: 73
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -39,6 +39,7 @@ Source105: macros.valgrind-srpm
 Source150: macros.dwz
 Source151: macros.kmp
 Source152: macros.vpath
+Source153: macros.forge
 
 # Dependency generator scripts (deprecated)
 Source300: find-provides
@@ -138,6 +139,7 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/kmod.prov
 %{_rpmconfigdir}/macros.d/macros.*-srpm
 %{_rpmconfigdir}/macros.d/macros.dwz
+%{_rpmconfigdir}/macros.d/macros.forge
 %{_rpmconfigdir}/macros.d/macros.vpath
 
 %files -n kernel-rpm-macros
@@ -152,6 +154,11 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Jan 11 2018 Jason L Tibbitts III <tibbs@math.uh.edu> - 73-1
+- Add macros.forge for simplifying packaging of forge-hosted packages.  See
+  https://fedoraproject.org/wiki/Forge-hosted_projects_packaging_automation and
+  https://bugzilla.redhat.com/show_bug.cgi?id=1523779
+
 * Wed Jan 03 2018 Sergey Avseyev <sergey.avseyev@gmail.com> - 72-1
 - Add Requires: nim-srpm-macros for %%nim_arches
 
