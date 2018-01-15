@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 73
+Version: 74
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -68,7 +68,6 @@ BuildArch: noarch
 BuildRequires: perl-generators
 Requires: coreutils
 
-Requires: cmake-rpm-macros
 Requires: fpc-srpm-macros
 Requires: ghc-srpm-macros
 Requires: gnat-srpm-macros
@@ -154,6 +153,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Jan 15 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 74-1
+- Remove Requires: cmake-rpm-macros
+
 * Thu Jan 11 2018 Jason L Tibbitts III <tibbs@math.uh.edu> - 73-1
 - Add macros.forge for simplifying packaging of forge-hosted packages.  See
   https://fedoraproject.org/wiki/Forge-hosted_projects_packaging_automation and
