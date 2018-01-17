@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 75
+Version: 76
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -153,6 +153,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Jan 17 2018 Florian Weimer <fweimer@redhat.com> - 76-1
+- Add -fstack-clash-protection for supported architectures (#1515865)
+
 * Wed Jan 17 2018 Florian Weimer <fweimer@redhat.com> - 75-1
 - Add _GLIBCXX_ASSERTIONS to CFLAGS/CXXFLAGS (#1515858)
 
