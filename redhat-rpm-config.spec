@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 76
+Version: 77
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -153,6 +153,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Jan 17 2018 Panu Matilainen <pmatilai@redhat.com> - 77-1
+- Macroize build root policies for consistent disable/override ability
+
 * Wed Jan 17 2018 Florian Weimer <fweimer@redhat.com> - 76-1
 - Add -fstack-clash-protection for supported architectures (#1515865)
 
