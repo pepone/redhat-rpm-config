@@ -153,6 +153,7 @@
 
 # Harden packages by default for Fedora 23:
 # https://fedorahosted.org/fesco/ticket/1384 (accepted on 2014-02-11)
+# Use "%undefine _hardened_build" to disable.
 %_hardened_build	1
 %_hardened_cflags	%{?_hardened_build:%{_hardening_cflags}}
 %_hardened_ldflags	%{?_hardened_build:%{_hardening_ldflags}}
@@ -161,6 +162,7 @@
 
 # Add extra information to binary objects created by gcc for Fedora 28:
 # https://pagure.io/fesco/issue/1780 (accepted on 2017-10-30)
+# Use "%undefine _annotated_build" to disable.
 %_annotated_build	1
 %_annotated_cflags	%{?_annotated_build:%{_annobin_cflags}}
 

@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 78
+Version: 79
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -153,6 +153,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Jan 19 2018 Panu Matilainen <pmatilai@redhat.com> - 79-1
+- Document how to disable hardened and annotated build (#1211296)
+
 * Wed Jan 17 2018 Panu Matilainen <pmatilai@redhat.com> - 78-1
 - Fix the inevitable embarrassing typo in 77, doh
 
