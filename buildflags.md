@@ -160,7 +160,7 @@ not), but their selection depends on the architecture:
     or thread stacks spill into other regions of memory.)  This flag is
     fully ABI-compatible and has adds very little run-time overhead, but
     is only available on certain architectures (currently aarch64, i386,
-    ppc64, ppc64le, s390x, x86-64).
+    ppc64, ppc64le, s390x, x86_64).
 *   `-m64` and `-m32`: Some GCC builds support both 32-bit and 64-bit in
     the same compilation.  For such architectures, the RPM build process
     explicitly selects the architecture variant by passing this compiler
@@ -172,7 +172,7 @@ not), but their selection depends on the architecture:
     useful because unwind information is available without having to
     install (and load) debugging ienformation.
     Asynchronous unwind tables are enabled for aarch64, i686, s390x,
-    and x86-64.  They are not needed on armhfp, ppc64 and ppc64le due
+    and x86_64.  They are not needed on armhfp, ppc64 and ppc64le due
     to architectural differences in stack management.  On these
     architectures, `-fexceptions` (see above) still enables regular
     unwind tables (or they are enabled by default even without this
@@ -192,7 +192,7 @@ tuning in the `gcc` package.  These settings are:
 *   **s390x**: `-march=zEC12 -mtune=z13` specifies a minimum supported CPU
     level of zEC12, while optimizing for a subsequent CPU generation
     (z13).
-*   **x86-64**: `-mtune=generic` selects tuning which is expected to
+*   **x86_64**: `-mtune=generic` selects tuning which is expected to
      beneficial for a broad range of current CPUs.
 *   **ppc64** and **aarch64** do not have any architecture-specific tuning.
 
