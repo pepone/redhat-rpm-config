@@ -60,7 +60,7 @@ optflags: armv6l %{__global_compiler_flags} -march=armv6 -mfloat-abi=soft
 optflags: armv6hl %{__global_compiler_flags} -march=armv6 -mfpu=vfp -mfloat-abi=hard
 optflags: armv6hnl %{__global_compiler_flags} -march=armv6 -mfpu=neon -mfloat-abi=hard
 optflags: armv7l %{__global_compiler_flags} -march=armv7-a -mfloat-abi=soft
-optflags: armv7hl %{__global_compiler_flags} -march=armv7-a -mfpu=vfpv3-d16  -mfloat-abi=hard
+optflags: armv7hl %{__global_compiler_flags} -march=armv7-a -mfpu=vfpv3-d16 -mtune=cortex-a8 -mabi=aapcs-linux -mfloat-abi=hard
 optflags: armv7hnl %{__global_compiler_flags} -march=armv7-a -mfpu=neon  -mfloat-abi=hard
 
 optflags: atarist %{__global_compiler_flags}

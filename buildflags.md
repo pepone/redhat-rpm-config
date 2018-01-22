@@ -183,7 +183,10 @@ tuning in the `gcc` package.  These settings are:
 
 *   **armhfp**: `-march=armv7-a -mfpu=vfpv3-d16  -mfloat-abi=hard`
     selects an Arm subarchitecture based on the ARMv7-A architecture
-    with 16 64-bit floating point registers.
+    with 16 64-bit floating point registers.  `-mtune=cortex-8a` selects
+    tuning for the Cortex-A8 implementation (while preserving compatibility
+    with other ARMv7-A implementations).  `-mabi=aapcs-linux` switches to
+    the AAPCS ABI for GNU/Linux.
 *   **i686**: `-march=i686` is used to select a minmum support CPU level
     of i686 (corresponding to the Pentium Pro).
 *   **ppc64le**: `-mcpu=power8 -mtune=power8` selects a minimum supported
