@@ -168,11 +168,15 @@ not), but their selection depends on the architecture:
 *   `-fasynchronous-unwind-tables`: Generate full unwind information
     covering all program points.  This is required for support of
     asynchronous cancellation and proper unwinding from signal
-    handlers.  It also makes performance and debugging tools more useful
-    because unwind information is available without having to install
-    (and load) debugging information.
-    This flag is enabled explictly for i686 (and derived architectures),
-    and implicity for x86-64.
+    handlers.  It also makes performance and debugging tools more
+    useful because unwind information is available without having to
+    install (and load) debugging ienformation.
+    Asynchronous unwind tables are enabled for aarch64, i686, s390x,
+    and x86-64.  They are not needed on armhfp, ppc64 and ppc64le due
+    to architectural differences in stack management.  On these
+    architectures, `-fexceptions` (see above) still enables regular
+    unwind tables (or they are enabled by default even without this
+    option).
 
 In addition, `redhat-rpm-config` re-selects the built-in default
 tuning in the `gcc` package.  These settings are:

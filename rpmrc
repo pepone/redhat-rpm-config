@@ -6,7 +6,7 @@ optflags: i586 %{__global_compiler_flags} -m32 -march=i586 -mtune=generic -fasyn
 optflags: i686 %{__global_compiler_flags} -m32 -march=i686 -fasynchronous-unwind-tables -fstack-clash-protection
 optflags: athlon %{__global_compiler_flags} -m32 -march=athlon -fasynchronous-unwind-tables -fstack-clash-protection
 optflags: ia64 %{__global_compiler_flags}
-optflags: x86_64 %{__global_compiler_flags} -m64 -mtune=generic -fstack-clash-protection
+optflags: x86_64 %{__global_compiler_flags} -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection
 
 optflags: alpha %{__global_compiler_flags} -mieee
 optflags: alphaev5 %{__global_compiler_flags} -mieee -mcpu=ev5
@@ -71,8 +71,8 @@ optflags: atariclone %{__global_compiler_flags}
 optflags: milan %{__global_compiler_flags}
 optflags: hades %{__global_compiler_flags}
 
-optflags: s390 %{__global_compiler_flags} -m31 -march=zEC12 -mtune=z13
-optflags: s390x %{__global_compiler_flags} -m64 -march=zEC12 -mtune=z13 -fstack-clash-protection
+optflags: s390 %{__global_compiler_flags} -m31 -march=zEC12 -mtune=z13 -fasynchronous-unwind-tables
+optflags: s390x %{__global_compiler_flags} -m64 -march=zEC12 -mtune=z13 -fasynchronous-unwind-tables -fstack-clash-protection
 
 optflags: aarch64 %{__global_compiler_flags} -fstack-clash-protection
 
