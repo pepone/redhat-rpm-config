@@ -159,8 +159,8 @@ not), but their selection depends on the architecture:
     vulnerabilities can result where the stack overlaps with the heap,
     or thread stacks spill into other regions of memory.)  This flag is
     fully ABI-compatible and has adds very little run-time overhead, but
-    is only on certain architectures (currently aarch64, i386, ppc64,
-    ppc64le, s390x, x86-64).
+    is only available on certain architectures (currently aarch64, i386,
+    ppc64, ppc64le, s390x, x86-64).
 *   `-m64` and `-m32`: Some GCC builds support both 32-bit and 64-bit in
     the same compilation.  For such architectures, the RPM build process
     explicitly selects the architecture variant by passing this compiler
