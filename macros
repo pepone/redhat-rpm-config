@@ -166,13 +166,19 @@
 %_annotated_build	1
 %_annotated_cflags	%{?_annotated_build:%{_annobin_cflags}}
 
+# Fail linking if there are undefined symbols.  Required for proper
+# ELF symbol versioning support.
+# Use %undefine _strict_symbol_defs_build" to disable.
+%_strict_symbol_defs_build	1
+%_ld_symbols_flags		%{?_strict_symbol_defs_build:-Wl,-z,defs}
+
 %__global_compiler_flags	-O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches %{_hardened_cflags} %{_annotated_cflags}
 
 %__global_cflags	%{optflags}
 %__global_cxxflags	%{optflags}
 %__global_fflags	%{optflags} -I%_fmoddir
 %__global_fcflags	%{optflags} -I%_fmoddir
-%__global_ldflags	-Wl,-z,relro %{_hardened_ldflags}
+%__global_ldflags	-Wl,-z,relro %{_ld_symbols_flags} %{_hardened_ldflags}
 
 #==============================================================================
 # ---- Generic auto req/prov filtering macros

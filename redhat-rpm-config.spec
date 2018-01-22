@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 83
+Version: 84
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -157,6 +157,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Jan 22 2018 Florian Weimer <fweimer@redhat.com> - 84-1
+- Link with -z defs by default (#1535422)
+
 * Mon Jan 22 2018 Florian Weimer <fweimer@redhat.com> - 83-1
 - Make armhfp flags consistent with GCC defaults
 

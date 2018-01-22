@@ -59,6 +59,20 @@ position-dependent (no full ASLR) and use lazy binding.
 This turns off watermarking, making it impossible to do full hardening
 coverage analysis for any binaries produced.
 
+### Disable strict symbol checks in the link editor (ld)
+
+By default, the link editor will refuse to link shared objects which
+contain undefined symbols.  In some cases (such as when a DSO is
+loaded as a plugin and is expected to bind to symbols in the main
+executable), undefined symbols are expected.  In this case, you can
+add
+
+    %undefine _strict_symbol_defs_build
+
+to the RPM spec file to disable these strict checks.  Alternatively,
+you can pass `-z undefs` to ld (written as `-Wl,-z,undefs` on the gcc
+command line).  The latter needs binutils 2.29.1-12.fc28 or later.
+
 # Individual compiler flags
 
 Compiler flags end up in the environment variables `CFLAGS`,
@@ -213,6 +227,11 @@ to the compiler driver `gcc`, and not directly to the link editor
   dynamic linker is instructed to revoke write permissions after
   dynamic linking.  Full protection of relocation data requires the
   `-z now` flag (see below).
+* `-z defs`: Refuse to link shared objects (DSOs) with undefined symbols.
+  Such symbols lack symbol versioning information and can be bound to
+  the wrong (compatibility) symbol version at run time, and not the
+  actual (default) symbol version which would have been used if the
+  symbol definition had been available and static link time.
 
 For hardened builds, the
 `-specs=/usr/lib/rpm/redhat/redhat-hardened-ld` flag is added to the
