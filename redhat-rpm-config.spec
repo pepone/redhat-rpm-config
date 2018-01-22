@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 79
+Version: 80
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -63,6 +63,9 @@ Source501: config.sub
 Source600: kmod.attr
 Source601: kmod.prov
 Source602: libsymlink.attr
+
+# Documentation
+Source900: buildflags.md
 
 BuildArch: noarch
 BuildRequires: perl-generators
@@ -140,6 +143,7 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.dwz
 %{_rpmconfigdir}/macros.d/macros.forge
 %{_rpmconfigdir}/macros.d/macros.vpath
+%doc buildflags.md
 
 %files -n kernel-rpm-macros
 %dir %{rrcdir}/find-provides.d
@@ -153,6 +157,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Jan 22 2018 Florian Weimer <fweimer@redhat.com> - 80-1
+- Document build flags
+
 * Fri Jan 19 2018 Panu Matilainen <pmatilai@redhat.com> - 79-1
 - Document how to disable hardened and annotated build (#1211296)
 
