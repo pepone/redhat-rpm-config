@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 80
+Version: 81
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -157,6 +157,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Jan 22 2018 Florian Weimer <fweimer@redhat.com> - 81-1
+- Remove --param=ssp-buffer-size=4
+
 * Mon Jan 22 2018 Florian Weimer <fweimer@redhat.com> - 80-1
 - Document build flags
 
