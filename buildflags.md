@@ -44,7 +44,10 @@ It is possible to set RPM macros to change some aspects of the
 compiler flags.  Changing these flags should be used as a last
 recourse if other workarunds are not available.
 
-### Disable hardened builds
+### Hardened builds
+
+By default, the build flags enable fully hardened builds.  To change
+this, include this in the RPM spec file:
 
     %undefine _hardened_build
 
@@ -52,20 +55,38 @@ This turns off certain hardening features, as described in detail
 below.  The main difference is that executables will be
 position-dependent (no full ASLR) and use lazy binding.
 
-### Disable annotated builds/watermarking
+### Annotated builds/watermarking
+
+By default, the build flags cause a special output section to be
+included in ELF files which describes certain aspects of the build.
+To change this, include this in the RPM spec file:
 
     %undefine _annotated_build
 
 This turns off watermarking, making it impossible to do full hardening
 coverage analysis for any binaries produced.
 
-### Disable strict symbol checks in the link editor (ld)
+### Strict symbol checks in the link editor (ld)
 
 By default, the link editor will refuse to link shared objects which
-contain undefined symbols.  In some cases (such as when a DSO is
-loaded as a plugin and is expected to bind to symbols in the main
-executable), undefined symbols are expected.  In this case, you can
-add
+contain undefined symbols.  Such symbols lack symbol versioning
+information and can be bound to the wrong (compatibility) symbol
+version at run time, and not the actual (default) symbol version which
+would have been used if the symbol definition had been available at
+static link time.  Furthermore, at run time, the dynamic linker will
+not have complete dependency information (in the form of DT_NEEDED
+entries), which can lead to errors (crashes) if IFUNC resolvers are
+executed before the shared object containing them is fully relocated.
+
+With the default flags, link failures will occur if the linker command
+line does not list all shared objects which are needed.  In this case,
+you need to add the missing DSOs (with linker arguments such as
+`-lm`).  As a result, the link editor will also generated the
+necessary DT_NEEDED entries.
+
+In some cases (such as when a DSO is loaded as a plugin and is
+expected to bind to symbols in the main executable), undefined symbols
+are expected.  In this case, you can add
 
     %undefine _strict_symbol_defs_build
 
@@ -227,11 +248,8 @@ to the compiler driver `gcc`, and not directly to the link editor
   dynamic linker is instructed to revoke write permissions after
   dynamic linking.  Full protection of relocation data requires the
   `-z now` flag (see below).
-* `-z defs`: Refuse to link shared objects (DSOs) with undefined symbols.
-  Such symbols lack symbol versioning information and can be bound to
-  the wrong (compatibility) symbol version at run time, and not the
-  actual (default) symbol version which would have been used if the
-  symbol definition had been available and static link time.
+* `-z defs`: Refuse to link shared objects (DSOs) with undefined symbols
+  (see above).
 
 For hardened builds, the
 `-specs=/usr/lib/rpm/redhat/redhat-hardened-ld` flag is added to the
