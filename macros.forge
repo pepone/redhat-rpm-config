@@ -35,10 +35,11 @@
 #             spec variable if it manages to parse it.
 #   -s  Silently ignore problems in forgeurl, use it if it can be parsed,
 #       ignore it otherwise.
+#   -p  Restore problem handling, override -s.
 #   -v  Be verbose and print every spec variable the macro sets.
 #   -i  Print some info about the state of spec variables the macro may use or
 #       set at the end of the processing.
-%forgemeta(u:svi) %{lua:
+%forgemeta(u:spvi) %{lua:
 local forgeurl    = rpm.expand("%{?-u*}")
 if (forgeurl == "") then
   forgeurl        = rpm.expand("%{?forgeurl}")
@@ -48,6 +49,9 @@ local verbose     = false
 local informative = false
 if (rpm.expand("%{?-s}") ~= "") then
   silent          = true
+end
+if (rpm.expand("%{?-p}") ~= "") then
+  silent          = false
 end
 if (rpm.expand("%{?-v}") ~= "") then
   verbose         = true
