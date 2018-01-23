@@ -170,6 +170,31 @@ if (forgeurl ~= "") then
       end
     end
   end
+  if (forge == "bitbucket.org") then
+    forgeurl = string.match(forgeurl, "https://[^/]+/[^/]+/[^/#?]+")
+    if (forgeurl == nil) then
+      if not silent then
+        rpm.expand("%{error:BitBucket URLs must match https://bitbucket.org/owner/repo !\\n}")
+      end
+    else
+      explicitset("forgeurl",   forgeurl)
+      if (commit == "") then
+        rpm.expand("%{error:All BitBucket URLs require commit value knowledge: you need to define %{commit}!\\n}")
+      end
+      local shortcommit = string.sub(commit, 1, 12)
+      safeset("archiveext", "tar.bz2")
+      safeset("scm", "git")
+      local owner = string.match(forgeurl, "^[^:]+://[^/]+/([^/]+)")
+      local repo  = string.match(forgeurl, "^[^:]+://[^/]+/[^/]+/([^/]+)")
+      safeset("archivename",    owner .. "-" .. repo .. "-" .. shortcommit)
+      safeset("forgesetupargs", "-n %{archivename}")
+      if (tag ~= "") then
+        safeset("archiveurl",  "%{forgeurl}/get/%{tag}.%{archiveext}")
+      else
+        safeset("archiveurl",  "%{forgeurl}/get/%{commit}.%{archiveext}")
+      end
+    end
+  end
   -- Final tests to check forgeurl was successfuly parsed
   if not silent then
     if (forge == "pagure.io") then
