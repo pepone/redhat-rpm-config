@@ -59,12 +59,20 @@ position-dependent (no full ASLR) and use lazy binding.
 
 By default, the build flags cause a special output section to be
 included in ELF files which describes certain aspects of the build.
-To change this, include this in the RPM spec file:
+To change this for all compiler invocations, include this in the RPM
+spec file:
 
     %undefine _annotated_build
 
-This turns off watermarking, making it impossible to do full hardening
-coverage analysis for any binaries produced.
+Be warned that this turns off watermarking, making it impossible to do
+full hardening coverage analysis for any binaries produced.
+
+It is possible to disable annotations for individual compiler
+invocations, using the `-fplugin-arg-annobin-disable` flag.  However,
+the annobin plugin must still be loaded for this flag to be
+recognized, so it has to come after the hardening flags on the command
+line (it has to be added at the end of `CFLAGS`, or specified after
+the `CFLAGS` variable contents).
 
 ### Strict symbol checks in the link editor (ld)
 
