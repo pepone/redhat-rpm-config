@@ -75,7 +75,7 @@ if (forgeurl ~= "") then
   local forge          = string.match(forgeurl, "^[^:]+://([^/]+)/")
   if (string.match(forge, "^gitlab[%.-]") or string.match(forge, "[%.-]gitlab[%.]")) then
     forgeurl = string.match(forgeurl, "https://[^/]+/[^/]+/[^/#?]+")
-    if (forgeurl == "") then
+    if (forgeurl == nil) then
       if not silent then
         rpm.expand("%{error:Gitlab URLs must match https://(…[-.])gitlab[-.]…/owner/repo !\\n}")
       end
@@ -111,7 +111,7 @@ if (forgeurl ~= "") then
   end
   if (string.match(forge, "^github[%.-]") or string.match(forge, "[%.-]github[%.]")) then
     forgeurl = string.match(forgeurl, "https://[^/]+/[^/]+/[^/#?]+")
-    if (forgeurl == "") then
+    if (forgeurl == nil) then
       if not silent then
         rpm.expand("%{error:GitHub URLs must match https://(…[-.])github[-.]…/owner/repo !\\n}")
       end
@@ -140,7 +140,7 @@ if (forgeurl ~= "") then
   end
   if (forge == "code.googlesource.com") then
     forgeurl = string.match(forgeurl, "https://code.googlesource.com/[^#?]*[^/#?]+")
-    if (forgeurl == "") then
+    if (forgeurl == nil) then
       if not silent then
         rpm.expand("%{error:Googlesource URLs must match https://code.googlesource.com/…/repo !\\n}")
       end
