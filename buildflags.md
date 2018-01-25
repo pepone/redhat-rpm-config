@@ -231,7 +231,10 @@ tuning in the `gcc` package.  These settings are:
     with other ARMv7-A implementations).  `-mabi=aapcs-linux` switches to
     the AAPCS ABI for GNU/Linux.
 *   **i686**: `-march=i686` is used to select a minmum support CPU level
-    of i686 (corresponding to the Pentium Pro).
+    of i686 (corresponding to the Pentium Pro).  `-mtune=generic` activates
+    tuning for a current blend of CPUs (under the assumption that most
+    users of i686 packages obtain them through an x86_64 installation
+    on current hardware).
 *   **ppc64le**: `-mcpu=power8 -mtune=power8` selects a minimum supported
     CPU level of POWER8 (the first CPU with ppc64le support) and tunes
     for POWER8.
