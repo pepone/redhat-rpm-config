@@ -100,6 +100,7 @@
 
 # Build root policy macros. Standard naming:
 # convert all '-' in basename to '_', add two leading underscores.
+%__brp_ldconfig /usr/lib/rpm/redhat/brp-ldconfig
 %__brp_compress /usr/lib/rpm/brp-compress
 %__brp_strip /usr/lib/rpm/brp-strip %{__strip}
 %__brp_strip_comment_note /usr/lib/rpm/brp-strip-comment-note %{__strip} %{__objdump}
@@ -108,6 +109,7 @@
 %__brp_python_hardlink /usr/lib/rpm/brp-python-hardlink
 
 %__os_install_post    \
+    %{?__brp_ldconfig} \
     %{?__brp_compress} \
     %{!?__debug_package:\
     %{?__brp_strip} \

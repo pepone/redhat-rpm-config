@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 87
+Version: 88
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -63,6 +63,9 @@ Source501: config.sub
 Source600: kmod.attr
 Source601: kmod.prov
 Source602: libsymlink.attr
+
+# BRPs
+Source700: brp-ldconfig
 
 # Documentation
 Source900: buildflags.md
@@ -123,6 +126,8 @@ install -p -m 755 -t %{buildroot}%{rrcdir} find-*
 mkdir -p %{buildroot}%{rrcdir}/find-provides.d
 install -p -m 644 -t %{buildroot}%{rrcdir}/find-provides.d firmware.prov modalias.prov
 
+install -p -m 755 -t %{buildroot}%{rrcdir} brp-*
+
 mkdir -p %{buildroot}%{_rpmconfigdir}/macros.d
 install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/macros.d macros.*
 
@@ -140,6 +145,7 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{rrcdir}/config.*
 %{rrcdir}/find-provides
 %{rrcdir}/find-requires
+%{rrcdir}/brp-ldconfig
 %{_fileattrsdir}/*.attr
 %{_rpmconfigdir}/kmod.prov
 %{_rpmconfigdir}/macros.d/macros.*-srpm
@@ -160,6 +166,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Jan 29 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 88-1
+- Create DSO symlinks automatically
+
 * Mon Jan 29 2018 Florian Weimer <fweimer@redhat.com> - 87-1
 - Build flags: Disable -z defs again (#1535422)
 
