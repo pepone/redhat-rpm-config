@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 88
+Version: 89
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -40,6 +40,7 @@ Source150: macros.dwz
 Source151: macros.kmp
 Source152: macros.vpath
 Source153: macros.forge
+Source154: macros.ldconfig
 
 # Dependency generator scripts (deprecated)
 Source300: find-provides
@@ -151,6 +152,7 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.*-srpm
 %{_rpmconfigdir}/macros.d/macros.dwz
 %{_rpmconfigdir}/macros.d/macros.forge
+%{_rpmconfigdir}/macros.d/macros.ldconfig
 %{_rpmconfigdir}/macros.d/macros.vpath
 %doc buildflags.md
 
@@ -166,6 +168,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Jan 29 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 89-1
+- Add macros.ldconfig
+
 * Mon Jan 29 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 88-1
 - Create DSO symlinks automatically
 
