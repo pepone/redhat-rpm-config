@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 85
+Version: 86
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -88,6 +88,9 @@ Requires: dwz >= 0.4
 Requires: zip
 Requires: (annobin if gcc)
 
+# -fstack-clash-protection and CET requires GCC 8.
+Conflicts: gcc < 8.0
+
 Provides: system-rpm-config = %{version}-%{release}
 
 %global rrcdir /usr/lib/rpm/redhat
@@ -157,6 +160,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Jan 29 2018 Florian Weimer <fweimer@redhat.com> - 86-1
+- Build flags: Enable CET on i686, x86_64 (#1538725)
+
 * Thu Jan 25 2018 Florian Weimer <fweimer@redhat.com> - 85-1
 - Build flags: Switch to generic tuning on i686 (#1538693)
 
