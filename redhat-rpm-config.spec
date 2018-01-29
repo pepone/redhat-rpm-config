@@ -166,7 +166,7 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
-* Thu Jan 29 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 88-1
+* Mon Jan 29 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 88-1
 - Create DSO symlinks automatically
 
 * Mon Jan 29 2018 Florian Weimer <fweimer@redhat.com> - 87-1
