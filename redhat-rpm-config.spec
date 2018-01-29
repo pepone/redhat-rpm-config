@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 86
+Version: 87
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -160,6 +160,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Jan 29 2018 Florian Weimer <fweimer@redhat.com> - 87-1
+- Build flags: Disable -z defs again (#1535422)
+
 * Mon Jan 29 2018 Florian Weimer <fweimer@redhat.com> - 86-1
 - Build flags: Enable CET on i686, x86_64 (#1538725)
 

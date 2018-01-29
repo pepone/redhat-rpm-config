@@ -76,7 +76,7 @@ the `CFLAGS` variable contents).
 
 ### Strict symbol checks in the link editor (ld)
 
-By default, the link editor will refuse to link shared objects which
+Optionally, the link editor will refuse to link shared objects which
 contain undefined symbols.  Such symbols lack symbol versioning
 information and can be bound to the wrong (compatibility) symbol
 version at run time, and not the actual (default) symbol version which
@@ -86,10 +86,14 @@ not have complete dependency information (in the form of DT_NEEDED
 entries), which can lead to errors (crashes) if IFUNC resolvers are
 executed before the shared object containing them is fully relocated.
 
-With the default flags, link failures will occur if the linker command
-line does not list all shared objects which are needed.  In this case,
-you need to add the missing DSOs (with linker arguments such as
-`-lm`).  As a result, the link editor will also generated the
+To switch on these checks, define this macro in the RPM spec file:
+
+    %define _strict_symbol_defs_build 1
+
+If this RPM spec option is active, link failures will occur if the
+linker command line does not list all shared objects which are needed.
+In this case, you need to add the missing DSOs (with linker arguments
+such as `-lm`).  As a result, the link editor will also generated the
 necessary DT_NEEDED entries.
 
 In some cases (such as when a DSO is loaded as a plugin and is
@@ -262,7 +266,7 @@ to the compiler driver `gcc`, and not directly to the link editor
   dynamic linking.  Full protection of relocation data requires the
   `-z now` flag (see below).
 * `-z defs`: Refuse to link shared objects (DSOs) with undefined symbols
-  (see above).
+  (optional, see above).
 
 For hardened builds, the
 `-specs=/usr/lib/rpm/redhat/redhat-hardened-ld` flag is added to the
