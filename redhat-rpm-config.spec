@@ -98,6 +98,13 @@ Requires: dwz >= 0.4
 Requires: zip
 Requires: (annobin if gcc)
 
+# for brp-mangle-shebangs
+Requires: %{_bindir}/find
+Requires: %{_bindir}/grep
+Requires: %{_bindir}/xargs
+Requires: %{_bindir}/file
+Requires: %{_bindir}/sed
+
 # -fstack-clash-protection and CET requires GCC 8.
 Conflicts: gcc < 8.0
 
