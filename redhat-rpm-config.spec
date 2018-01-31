@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 91
+Version: 92
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -183,6 +183,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Jan 31 2018 Peter Robinson <pbrobinson@fedoraproject.org> 92-1
+- Use generic tuning for ARMv7
+
 * Tue Jan 30 2018 Jason L Tibbitts III <tibbs@math.uh.edu> - 91-1
 - The grep package only provides /bin/grep, not /usr/bin/grep.
 
