@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 90
+Version: 91
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -99,8 +99,8 @@ Requires: zip
 Requires: (annobin if gcc)
 
 # for brp-mangle-shebangs
+Requires: /bin/grep
 Requires: %{_bindir}/find
-Requires: %{_bindir}/grep
 Requires: %{_bindir}/xargs
 Requires: %{_bindir}/file
 Requires: %{_bindir}/sed
@@ -183,6 +183,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Jan 30 2018 Jason L Tibbitts III <tibbs@math.uh.edu> - 91-1
+- The grep package only provides /bin/grep, not /usr/bin/grep.
+
 * Mon Jan 29 2018 Miro Hrončok <mhroncok@redhat.com> - 90-1
 - Add brp-mangle-shebangs
 
