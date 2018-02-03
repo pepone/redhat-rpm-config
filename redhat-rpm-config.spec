@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 92
+Version: 93
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -99,11 +99,11 @@ Requires: zip
 Requires: (annobin if gcc)
 
 # for brp-mangle-shebangs
-Requires: /bin/grep
 Requires: %{_bindir}/find
-Requires: %{_bindir}/xargs
 Requires: %{_bindir}/file
+Requires: %{_bindir}/grep
 Requires: %{_bindir}/sed
+Requires: %{_bindir}/xargs
 
 # -fstack-clash-protection and CET requires GCC 8.
 Conflicts: gcc < 8.0
@@ -183,6 +183,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Sat Feb 03 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 93-1
+- Use newly available /usr/bin/grep
+
 * Wed Jan 31 2018 Peter Robinson <pbrobinson@fedoraproject.org> 92-1
 - Use generic tuning for ARMv7
 
