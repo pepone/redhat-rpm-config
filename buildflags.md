@@ -5,8 +5,9 @@ and how to use them.
 
 # Using RPM build flags
 
-At present, the only supported way is to use the `%configure` macro to
-obtain the full complement of flags, like this:
+For packages which use autoconf to set up the build environment, use
+the `%configure` macro to obtain the full complement of flags, like
+this:
 
     %configure
 
@@ -15,9 +16,36 @@ This will invoke the `./configure` with arguments (such as
 
 As a side effect, this will set the environment variables `CFLAGS`,
 `CXXFLAGS`, `FFLAGS`, `FCFLAGS`, and `LDFLAGS`, so they can be used by
-makefiles and other build tools.
+makefiles and other build tools.  (However, existing values for this
+variables are not overwritten.)
 
-For some other build tools besides `autoconf`, separate mechanisms exist:
+If your package does not use autoconf, you can still set the same
+environment variables using
+
+    %set_build_flags
+
+early in the `%build` section.  (Again, existing environment variables
+are not overwritten.)
+
+Individual build flags are also available through RPM macros:
+
+* `%{build_cflags}` for the C compiler flags (also known as the
+  `CFLAGS` variable).  Also historically available as `%{optflags}`.
+  Furthermore, at the start of the `%build` section, the environment
+  variable `RPM_OPT_FLAGS` is set to this value.
+* `%{build_cxxflags} for the C++ compiler flags (usually assigned to
+  the `CXXFLAGS` shell variable).
+* `%{build_fflags} for `FFLAGS` (the Fortran compiler flags, also
+  known as the `FCFLAGS` variable).
+* `{%build_ldflags}` for the link editor (ld) flags, usually known as
+  `LDFLAGS`.  Note that the contents quotes linker arguments using
+  `-Wl`, so this variable is intended for use with the `gcc` compiler
+  driver.  At the start of the `%build` section, the environment
+  variable `RPM_LD_FLAGS` is set to this value.
+
+These RPM macros do not alter shell environment variables.
+
+For some other build tools separate mechanisms exist:
 
 * CMake builds use the the `%cmake` macro from the `cmake-rpm-macros`
   package.
