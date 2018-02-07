@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 94
+Version: 95
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -183,6 +183,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Feb 07 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 95-1
+- Fix mangling env shebangs with absolute paths
+
 * Sun Feb  4 2018 Florian Weimer <fweimer@redhat.com> - 94-1
 - Add RPM macros for compiler/linker flags
 
