@@ -122,13 +122,23 @@ if (forgeurl ~= "") then
     else
       explicitset("forgeurl",   forgeurl)
       safeset("archiveext",     "tar.gz")
-      safeset("forgesetupargs", "-n %{archivename}")
+      local forgesetupargs = "-n %{archivename}"
       if (commit ~= "") or (tag ~= "") then
         safeset("scm", "git")
       end
       local owner = string.match(forgeurl, "^[^:]+://[^/]+/([^/]+)")
       local repo  = string.match(forgeurl, "^[^:]+://[^/]+/[^/]+/([^/]+)")
       if (tag ~= "") then
+        -- if upstream used a version suffix such as -rc1 or -beta it will not
+        -- be a valid version string for rpm but github will accept it fine and
+        -- use the same naming as for other versions: v prefix in the tag and
+        -- archivename, no v prefix in the topdir naming inside the archive
+        local version = rpm.expand("%{?version}")
+        if version ~= "" and
+           (string.match(tag, "^v" .. version .. "[^%d]") or
+            string.match(tag, "^v" .. version .. "$"))    then
+          forgesetupargs = "-n " .. repo .. "-" .. string.gsub(tag, "^v", "")
+        end
         safeset("archivename",   repo .. "-%{tag}")
         safeset("archiveurl",    "%{forgeurl}/archive/%{tag}.%{archiveext}")
       else
@@ -140,6 +150,7 @@ if (forgeurl ~= "") then
           safeset("archiveurl",   "%{forgeurl}/archive/v%{version}.%{archiveext}")
         end
       end
+      safeset("forgesetupargs", forgesetupargs)
     end
   end
   if (forge == "code.googlesource.com") then
