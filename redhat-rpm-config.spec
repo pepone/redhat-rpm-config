@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 97
+Version: 98
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -183,6 +183,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Sat Feb 17 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 98-1
+- Explicitly close scriptlets with %%end (ldconfig)
+
 * Wed Feb 14 2018 Miro Hrončok <mhroncok@redhat.com> - 97-1
 - Allow to opt-out from shebang mangling for specific paths/shebangs
 
