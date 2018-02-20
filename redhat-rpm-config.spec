@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 99
+Version: 100
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -183,6 +183,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Feb 22 2018 Miro Hrončok <mhroncok@redhat.com> - 100-1
+- Don't mangle shebangs with whitespace only changes (#1546993)
+
 * Thu Feb 22 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 99-1
 - Move %%end to %%ldconfig_scriptlets
 
