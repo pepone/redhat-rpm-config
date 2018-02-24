@@ -72,6 +72,17 @@ It is possible to set RPM macros to change some aspects of the
 compiler flags.  Changing these flags should be used as a last
 recourse if other workarunds are not available.
 
+### Lazy binding
+
+If your package depends on the semantics of lazy binding (e.g., it has
+plugins which load additional plugins to complete their dependencies,
+before which some referenced functions are undefined), you should put
+`-Wl,-z,lazy` at the end of the `LDFLAGS` setting when linking objects
+which have such requirements.  Under these circumstances, it is
+unnecessary to disable hardened builds (and thus lose full ASLR for
+executables), or link everything without `-Wl,z,now` (non-lazy
+binding).
+
 ### Hardened builds
 
 By default, the build flags enable fully hardened builds.  To change
