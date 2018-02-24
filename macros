@@ -189,7 +189,7 @@
 
 %_hardening_cflags	-specs=/usr/lib/rpm/redhat/redhat-hardened-cc1
 # we don't escape symbols '~', '"', etc. so be careful when changing this
-%_hardening_ldflags	-specs=/usr/lib/rpm/redhat/redhat-hardened-ld
+%_hardening_ldflags	-Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld
 
 # Harden packages by default for Fedora 23:
 # https://fedorahosted.org/fesco/ticket/1384 (accepted on 2014-02-11)
