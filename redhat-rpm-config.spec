@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 100
+Version: 101
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -183,6 +183,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Sat Feb 24 2018 Florian Weimer <fweimer@redhat.com> - 101-1
+- First step of moving -z now to the gcc command line (#1548397)
+
 * Thu Feb 22 2018 Miro Hrončok <mhroncok@redhat.com> - 100-1
 - Don't mangle shebangs with whitespace only changes (#1546993)
 
