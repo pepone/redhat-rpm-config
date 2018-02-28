@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 103
+Version: 104
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -183,6 +183,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Feb 28 2018 Florian Weimer <fweimer@redhat.com> - 104-1
+- Use -funwind-tables on POWER (#1536431, #1548847)
+
 * Sun Feb 25 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 103-1
 - Make %%ldconfig_post/%%ldconfig_postun parameterized
 

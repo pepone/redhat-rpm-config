@@ -265,6 +265,9 @@ not), but their selection depends on the architecture:
     architectures, `-fexceptions` (see above) still enables regular
     unwind tables (or they are enabled by default even without this
     option).
+*   `-funwind-tables`: A subset of the unwind information restricted
+    to actual call sites.  Used on ppc64, ppc64le.  Also implied by
+    `-fexceptions`.
 
 In addition, `redhat-rpm-config` re-selects the built-in default
 tuning in the `gcc` package.  These settings are:
