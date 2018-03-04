@@ -77,142 +77,152 @@ end
 -- Set spec variable values for each known software publishing service
 if (forgeurl ~= "") then
   local forge          = string.match(forgeurl, "^[^:]+://([^/]+)/")
-  if (string.match(forge, "^gitlab[%.-]") or string.match(forge, "[%.-]gitlab[%.]")) then
-    forgeurl = string.match(forgeurl, "https://[^/]+/[^/]+/[^/#?]+")
-    if (forgeurl == nil) then
-      if not silent then
-        rpm.expand("%{error:Gitlab URLs must match https://(…[-.])gitlab[-.]…/owner/repo !\\n}")
-      end
-    else
-      explicitset("forgeurl",   forgeurl)
-      if (commit == "") then
-        rpm.expand("%{error:All Gitlab URLs require commit value knowledge: you need to define %{commit}!\\nPlease vote on https://gitlab.com/gitlab-org/gitlab-ce/issues/38830\\n}")
-      end
-      safeset("archiveext",     "tar.bz2")
-      safeset("forgesetupargs", "-n %{archivename}")
-      if (commit ~= "") or (tag ~= "") then
-        safeset("scm", "git")
-      end
-      local owner   = string.match(forgeurl, "^[^:]+://[^/]+/([^/]+)")
-      local repo    = string.match(forgeurl, "^[^:]+://[^/]+/[^/]+/([^/]+)")
-      local version = rpm.expand("%{?version}")
-      if (version ~= "") and (version ~= "0") and (tag == "") then
-        -- GitLab does not have strong versionning semantics
-        -- Some projects use "version" as release tag, others "v" + "version"
-        -- Tag value needs to be explicitly declared before calling the macro
-        -- in the second case
-        tag = version
-        safeset("tag", tag)
-      end
-      if (tag ~= "") then
-        safeset("archivename", repo .. "-%{tag}-%{commit}")
-        safeset("archiveurl",  "%{forgeurl}/repository/%{tag}/archive.%{archiveext}")
-      else
-        safeset("archivename", repo .. "-%{commit}")
-        safeset("archiveurl",  "%{forgeurl}/repository/%{commit}/archive.%{archiveext}")
-      end
+  if (forge == nil) then
+    if not silent then
+      rpm.expand("%{error:URLs must include a protocol such as https:// and a path starting with / !\\n}")
     end
-  end
-  if (string.match(forge, "^github[%.-]") or string.match(forge, "[%.-]github[%.]")) then
-    forgeurl = string.match(forgeurl, "https://[^/]+/[^/]+/[^/#?]+")
-    if (forgeurl == nil) then
-      if not silent then
-        rpm.expand("%{error:GitHub URLs must match https://(…[-.])github[-.]…/owner/repo !\\n}")
-      end
-    else
-      explicitset("forgeurl",   forgeurl)
-      safeset("archiveext",     "tar.gz")
-      local forgesetupargs = "-n %{archivename}"
-      if (commit ~= "") or (tag ~= "") then
-        safeset("scm", "git")
-      end
-      local owner = string.match(forgeurl, "^[^:]+://[^/]+/([^/]+)")
-      local repo  = string.match(forgeurl, "^[^:]+://[^/]+/[^/]+/([^/]+)")
-      if (tag ~= "") then
-        -- if upstream used a version suffix such as -rc1 or -beta it will not
-        -- be a valid version string for rpm but github will accept it fine and
-        -- use the same naming as for other versions: v prefix in the tag and
-        -- archivename, no v prefix in the topdir naming inside the archive
+  else
+    if (string.match(forge, "^gitlab[%.-]") or string.match(forge, "[%.-]gitlab[%.]")) then
+      forgeurl = string.match(forgeurl, "https://[^/]+/[^/]+/[^/#?]+")
+      if (forgeurl == nil) then
+        if not silent then
+          rpm.expand("%{error:Gitlab URLs must match https://(…[-.])gitlab[-.]…/owner/repo !\\n}")
+        end
+      else
+        explicitset("forgeurl",   forgeurl)
+        if (commit == "") then
+          rpm.expand("%{error:All Gitlab URLs require commit value knowledge: you need to define %{commit}!\\nPlease vote on https://gitlab.com/gitlab-org/gitlab-ce/issues/38830\\n}")
+        end
+        safeset("archiveext",     "tar.bz2")
+        safeset("forgesetupargs", "-n %{archivename}")
+        if (commit ~= "") or (tag ~= "") then
+          safeset("scm", "git")
+        end
+        local owner   = string.match(forgeurl, "^[^:]+://[^/]+/([^/]+)")
+        local repo    = string.match(forgeurl, "^[^:]+://[^/]+/[^/]+/([^/]+)")
         local version = rpm.expand("%{?version}")
-        if version ~= "" and
-           (string.match(tag, "^v" .. version .. "[^%d]") or
-            string.match(tag, "^v" .. version .. "$"))    then
-          forgesetupargs = "-n " .. repo .. "-" .. string.gsub(tag, "^v", "")
+        if (version ~= "") and (version ~= "0") and (tag == "") then
+          -- GitLab does not have strong versionning semantics
+          -- Some projects use "version" as release tag, others "v" + "version"
+          -- Tag value needs to be explicitly declared before calling the macro
+          -- in the second case
+          tag = version
+          safeset("tag", tag)
         end
-        safeset("archivename",   repo .. "-%{tag}")
-        safeset("archiveurl",    "%{forgeurl}/archive/%{tag}.%{archiveext}")
-      else
-        if (commit ~= "") then
-          safeset("archivename", repo .. "-%{commit}")
-          safeset("archiveurl",  "%{forgeurl}/archive/%{commit}/" .. repo .. "-%{commit}.%{archiveext}")
+        if (tag ~= "") then
+          safeset("archivename", repo .. "-%{tag}-%{commit}")
+          safeset("archiveurl",  "%{forgeurl}/repository/%{tag}/archive.%{archiveext}")
         else
-          safeset("archivename", repo .. "-%{version}")
-          safeset("archiveurl",   "%{forgeurl}/archive/v%{version}.%{archiveext}")
+          safeset("archivename", repo .. "-%{commit}")
+          safeset("archiveurl",  "%{forgeurl}/repository/%{commit}/archive.%{archiveext}")
         end
       end
-      safeset("forgesetupargs", forgesetupargs)
     end
-  end
-  if (forge == "code.googlesource.com") then
-    forgeurl = string.match(forgeurl, "https://code.googlesource.com/[^#?]*[^/#?]+")
-    if (forgeurl == nil) then
-      if not silent then
-        rpm.expand("%{error:Googlesource URLs must match https://code.googlesource.com/…/repo !\\n}")
+    if (string.match(forge, "^github[%.-]") or string.match(forge, "[%.-]github[%.]")) then
+      forgeurl = string.match(forgeurl, "https://[^/]+/[^/]+/[^/#?]+")
+      if (forgeurl == nil) then
+        if not silent then
+          rpm.expand("%{error:GitHub URLs must match https://(…[-.])github[-.]…/owner/repo !\\n}")
+        end
+      else
+        explicitset("forgeurl",   forgeurl)
+        safeset("archiveext",     "tar.gz")
+        local forgesetupargs = "-n %{archivename}"
+        if (commit ~= "") or (tag ~= "") then
+          safeset("scm", "git")
+        end
+        local owner = string.match(forgeurl, "^[^:]+://[^/]+/([^/]+)")
+        local repo  = string.match(forgeurl, "^[^:]+://[^/]+/[^/]+/([^/]+)")
+        if (tag ~= "") then
+          -- if upstream used a version suffix such as -rc1 or -beta it will not
+          -- be a valid version string for rpm but github will accept it fine and
+          -- use the same naming as for other versions: v prefix in the tag and
+          -- archivename, no v prefix in the topdir naming inside the archive
+          local version = rpm.expand("%{?version}")
+          if version ~= "" and
+             (string.match(tag, "^v" .. version .. "[^%d]") or
+              string.match(tag, "^v" .. version .. "$"))    then
+            forgesetupargs = "-n " .. repo .. "-" .. string.gsub(tag, "^v", "")
+          end
+          safeset("archivename",   repo .. "-%{tag}")
+          safeset("archiveurl",    "%{forgeurl}/archive/%{tag}.%{archiveext}")
+        else
+          if (commit ~= "") then
+            safeset("archivename", repo .. "-%{commit}")
+            safeset("archiveurl",  "%{forgeurl}/archive/%{commit}/" .. repo .. "-%{commit}.%{archiveext}")
+          else
+            safeset("archivename", repo .. "-%{version}")
+            safeset("archiveurl",   "%{forgeurl}/archive/v%{version}.%{archiveext}")
+          end
+        end
+        safeset("forgesetupargs", forgesetupargs)
       end
-    else
-      explicitset("forgeurl",   forgeurl)
-      safeset("archiveext",     "tar.gz")
-      safeset("forgesetupargs", "-c")
-      if (commit ~= "") or (tag ~= "") then
+    end
+    if (forge == "code.googlesource.com") then
+      forgeurl = string.match(forgeurl, "https://code.googlesource.com/[^#?]*[^/#?]+")
+      if (forgeurl == nil) then
+        if not silent then
+          rpm.expand("%{error:Googlesource URLs must match https://code.googlesource.com/…/repo !\\n}")
+        end
+      else
+        explicitset("forgeurl",   forgeurl)
+        safeset("archiveext",     "tar.gz")
+        safeset("forgesetupargs", "-c")
+        if (commit ~= "") or (tag ~= "") then
+          safeset("scm", "git")
+        end
+        local repo = string.match(forgeurl, "^[^:]+://.+/([^/?#]+)")
+        if (tag ~= "") then
+          safeset("archivename",   repo .. "-%{tag}")
+          safeset("archiveurl",    "%{forgeurl}/+archive/%{tag}.%{archiveext}")
+        else
+          if (commit ~= "") then
+            safeset("archivename", repo .. "-%{commit}")
+            safeset("archiveurl",  "%{forgeurl}/+archive/%{commit}.%{archiveext}")
+          else
+            safeset("archivename", repo .. "-v%{version}")
+            safeset("archiveurl",  "%{forgeurl}/+archive/v%{version}.%{archiveext}")
+          end
+        end
+      end
+    end
+    if (forge == "bitbucket.org") then
+      forgeurl = string.match(forgeurl, "https://[^/]+/[^/]+/[^/#?]+")
+      if (forgeurl == nil) then
+        if not silent then
+          rpm.expand("%{error:BitBucket URLs must match https://bitbucket.org/owner/repo !\\n}")
+        end
+      else
+        explicitset("forgeurl",   forgeurl)
+        if (commit == "") then
+          rpm.expand("%{error:All BitBucket URLs require commit value knowledge: you need to define %{commit}!\\n}")
+        end
+        local shortcommit = string.sub(commit, 1, 12)
+        safeset("archiveext", "tar.bz2")
+        -- Default to git even though BitBucket allows choosing between several SCMs
+        -- Set scm to hg for example before calling the macro if your project does not use git
         safeset("scm", "git")
-      end
-      local repo = string.match(forgeurl, "^[^:]+://.+/([^/?#]+)")
-      if (tag ~= "") then
-        safeset("archivename",   repo .. "-%{tag}")
-        safeset("archiveurl",    "%{forgeurl}/+archive/%{tag}.%{archiveext}")
-      else
-        if (commit ~= "") then
-          safeset("archivename", repo .. "-%{commit}")
-          safeset("archiveurl",  "%{forgeurl}/+archive/%{commit}.%{archiveext}")
+        local owner = string.match(forgeurl, "^[^:]+://[^/]+/([^/]+)")
+        local repo  = string.match(forgeurl, "^[^:]+://[^/]+/[^/]+/([^/]+)")
+        safeset("archivename",    owner .. "-" .. repo .. "-" .. shortcommit)
+        safeset("forgesetupargs", "-n %{archivename}")
+        if (tag ~= "") then
+          safeset("archiveurl",  "%{forgeurl}/get/%{tag}.%{archiveext}")
         else
-          safeset("archivename", repo .. "-v%{version}")
-          safeset("archiveurl",  "%{forgeurl}/+archive/v%{version}.%{archiveext}")
+          safeset("archiveurl",  "%{forgeurl}/get/%{commit}.%{archiveext}")
         end
       end
     end
-  end
-  if (forge == "bitbucket.org") then
-    forgeurl = string.match(forgeurl, "https://[^/]+/[^/]+/[^/#?]+")
-    if (forgeurl == nil) then
-      if not silent then
-        rpm.expand("%{error:BitBucket URLs must match https://bitbucket.org/owner/repo !\\n}")
-      end
-    else
-      explicitset("forgeurl",   forgeurl)
-      if (commit == "") then
-        rpm.expand("%{error:All BitBucket URLs require commit value knowledge: you need to define %{commit}!\\n}")
-      end
-      local shortcommit = string.sub(commit, 1, 12)
-      safeset("archiveext", "tar.bz2")
-      safeset("scm", "git")
-      local owner = string.match(forgeurl, "^[^:]+://[^/]+/([^/]+)")
-      local repo  = string.match(forgeurl, "^[^:]+://[^/]+/[^/]+/([^/]+)")
-      safeset("archivename",    owner .. "-" .. repo .. "-" .. shortcommit)
-      safeset("forgesetupargs", "-n %{archivename}")
-      if (tag ~= "") then
-        safeset("archiveurl",  "%{forgeurl}/get/%{tag}.%{archiveext}")
-      else
-        safeset("archiveurl",  "%{forgeurl}/get/%{commit}.%{archiveext}")
-      end
-    end
-  end
-  -- Final tests to check forgeurl was successfuly parsed
-  if not silent then
     if (forge == "pagure.io") then
-      rpm.expand("%{warn:https://pagure.io/pagure/issue/861 needs to be resolved before the “pagure.io”\\nsoftware publishing service can be supported.\\n}")
+      if not silent then
+        rpm.expand("%{error:https://pagure.io/pagure/issue/861 needs to be resolved before the “pagure.io”\\nsoftware publishing service can be supported.\\n}")
+      end
     end
-    if (rpm.expand("%{?archivename}") == "") or (rpm.expand("%{?archiveurl}") == "") then
-      rpm.expand("%{error:Automation for the “" .. forge .. "”\\nsoftware publishing service is not implemented yet.\\nPlease extend the %%forgemeta macro!\\n}")
+    -- Final tests to check forgeurl was successfuly parsed
+    if not silent then
+      if (rpm.expand("%{?archivename}") == "") or (rpm.expand("%{?archiveurl}") == "") then
+        rpm.expand("%{error:Automation for the “" .. forge .. "”\\nsoftware publishing service is not implemented yet.\\nPlease extend the %%forgemeta macro!\\n}")
+      end
     end
   end
 end
