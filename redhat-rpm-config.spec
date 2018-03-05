@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 105
+Version: 106
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -183,6 +183,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Mar 05 2018 Jason L Tibbitts III <tibbs@math.uh.edu> - 106-1
+- Update forge macros.
+
 * Wed Feb 28 2018 Florian Weimer <fweimer@redhat.com> - 105-1
 - Make -fasynchronous-unwind-tables explicit on aarch64 (#1536431)
 
