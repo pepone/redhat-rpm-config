@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 107
+Version: 108
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -81,6 +81,7 @@ BuildArch: noarch
 BuildRequires: perl-generators
 Requires: coreutils
 
+Requires: efi-srpm-macros
 Requires: fpc-srpm-macros
 Requires: ghc-srpm-macros
 Requires: gnat-srpm-macros
@@ -183,6 +184,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue May 01 2018 Peter Jones <pjones@redhat.com> - 108-1
+- Add Requires: efi-srpm-macros for %%{efi}
+
 * Fri Apr 20 2018 Jason L Tibbitts III <tibbs@math.uh.edu> - 107-1
 - Add %%_metainfodir macro.
 - %%forgeautosetup tweak to fix patch application.
