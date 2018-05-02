@@ -24,12 +24,12 @@ optflags: sparc64v %{__global_compiler_flags} -m64 -mcpu=niagara
 
 optflags: m68k %{__global_compiler_flags}
 
-optflags: ppc %{__global_compiler_flags} -m32 -funwind-tables
+optflags: ppc %{__global_compiler_flags} -m32 -fasynchronous-unwind-tables
 optflags: ppciseries %{__global_compiler_flags} -m32
 optflags: ppcpseries %{__global_compiler_flags} -m32
-optflags: ppc64 %{__global_compiler_flags} -m64 -funwind-tables -fstack-clash-protection
-optflags: ppc64p7 %{__global_compiler_flags} -m64 -O3 -mcpu=power7 -mtune=power7 -funwind-tables -fstack-clash-protection
-optflags: ppc64le %{__global_compiler_flags} -m64 -mcpu=power8 -mtune=power8 -funwind-tables -fstack-clash-protection
+optflags: ppc64 %{__global_compiler_flags} -m64 -fasynchronous-unwind-tables -fstack-clash-protection
+optflags: ppc64p7 %{__global_compiler_flags} -m64 -O3 -mcpu=power7 -mtune=power7 -fasynchronous-unwind-tables -fstack-clash-protection
+optflags: ppc64le %{__global_compiler_flags} -m64 -mcpu=power8 -mtune=power8 -fasynchronous-unwind-tables -fstack-clash-protection
 optflags: ppc64iseries %{__global_compiler_flags} -m64
 optflags: ppc64pseries %{__global_compiler_flags} -m64
 optflags: ppc8260 %{__global_compiler_flags} -m32

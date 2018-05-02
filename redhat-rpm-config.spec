@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 109
+Version: 110
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -184,6 +184,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed May  2 2018 Florian Weimer <fweimer@redhat.com> - 110-1
+- Reflect -fasynchronous-unwind-tables GCC default on POWER (#1550914)
+
 * Wed May  2 2018 Florian Weimer <fweimer@redhat.com> - 109-1
 - Use plain -fcf-protection compiler flag, without -mcet (#1570823)
 
