@@ -143,7 +143,11 @@
 %__brp_strip_static_archive /usr/lib/rpm/brp-strip-static-archive %{__strip}
 %__brp_python_bytecompile /usr/lib/rpm/brp-python-bytecompile %{__python} %{?_python_bytecompile_errors_terminate_build}
 %__brp_python_hardlink /usr/lib/rpm/brp-python-hardlink
-%__brp_mangle_shebangs /usr/lib/rpm/redhat/brp-mangle-shebangs "%{?__brp_mangle_shebangs_exclude_from}" "%{?__brp_mangle_shebangs_exclude}"
+# __brp_mangle_shebangs_exclude - shebangs to exclude
+# __brp_mangle_shebangs_exclude_file - file from which to get shebangs to exclude
+# __brp_mangle_shebangs_exclude_from - files to ignore
+# __brp_mangle_shebangs_exclude_from_file - file from which to get files to ignore
+%__brp_mangle_shebangs /usr/lib/rpm/redhat/brp-mangle-shebangs %{?__brp_mangle_shebangs_exclude:--shebangs "%{?__brp_mangle_shebangs_exclude}"} %{?__brp_mangle_shebangs_exclude_file:--shebangs-from "%{__brp_mangle_shebangs_exclude_file}"} %{?__brp_mangle_shebangs_exclude_from:--files "%{?__brp_mangle_shebangs_exclude_from}"} %{?__brp_mangle_shebangs_exclude_from_file:--files-from "%{__brp_mangle_shebangs_exclude_from_file}"}
 
 %__os_install_post    \
     %{?__brp_ldconfig} \

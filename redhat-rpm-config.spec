@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 110
+Version: 111
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -184,6 +184,12 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed May 02 2018 Peter Jones <pjones@redhat.com> - 111-1
+- brp-mangle-shebangs: add %%{__brp_mangle_shebangs_exclude_file} and
+  %%{__brp_mangle_shebangs_exclude_from_file} to allow you to specify files
+  containing the shebangs to be ignore and files to be ignored regexps,
+  respectively, so that they can be generated during the package build.
+
 * Wed May  2 2018 Florian Weimer <fweimer@redhat.com> - 110-1
 - Reflect -fasynchronous-unwind-tables GCC default on POWER (#1550914)
 
