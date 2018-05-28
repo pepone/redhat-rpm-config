@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 111
+Version: 112
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -184,6 +184,10 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon May 28 2018 Miro Hrončok <mhroncok@redhat.com> - 112-1
+- Add a possibility to opt-out form automagic Python bytecompilation
+  https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation
+
 * Wed May 02 2018 Peter Jones <pjones@redhat.com> - 111-1
 - brp-mangle-shebangs: add %%{__brp_mangle_shebangs_exclude_file} and
   %%{__brp_mangle_shebangs_exclude_from_file} to allow you to specify files
