@@ -256,7 +256,7 @@ if (distprefix == "") then
   distprefix = string.sub(rpm.expand("%{?commit}"), 1, 7)
 end
 if (distprefix ~= "") then
-  local dist = ".%{?date}%{!?date:%([ -r %{_sourcedir}/%{archivename}.%{archiveext} ] && date +%Y%m%d -u -r %{_sourcedir}/%{archivename}.%{archiveext})}.%{scm}" .. string.gsub(distprefix, "-",".") .. rpm.expand("%{?dist}")
+  local dist = ".%{?date}%{!?date:%([ -r %{_sourcedir}/%{archivename}.%{archiveext} ] && date +%Y%m%d -u -r %{_sourcedir}/%{archivename}.%{archiveext})}%{scm}" .. string.gsub(distprefix, "-",".") .. rpm.expand("%{?dist}")
   explicitset("dist", dist)
 end
 -- Final spec variable summary if the macro was called with -i
