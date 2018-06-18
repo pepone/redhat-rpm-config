@@ -276,10 +276,16 @@ tuning in the `gcc` package.  These settings are:
     with other ARMv7-A implementations).  `-mabi=aapcs-linux` switches to
     the AAPCS ABI for GNU/Linux.
 *   **i686**: `-march=i686` is used to select a minmum support CPU level
-    of i686 (corresponding to the Pentium Pro).  `-mtune=generic` activates
-    tuning for a current blend of CPUs (under the assumption that most
-    users of i686 packages obtain them through an x86_64 installation
-    on current hardware).
+    of i686 (corresponding to the Pentium Pro).  SSE2 support is
+    enabled with `-msse2` (so only CPUs with SSE2 support can run the
+    compiled code; SSE2 was introduced first with the Pentium 4).
+    `-mtune=generic` activates tuning for a current blend of CPUs
+    (under the assumption that most users of i686 packages obtain them
+    through an x86_64 installation on current hardware).
+    `-mfpmath=sse` instructs GCC to use the SSE2 unit for floating
+    point math to avoid excess precision issues.  `-mstackrealign`
+    avoids relying on the stack alignment guaranteed by the current
+    version of the i386 ABI.
 *   **ppc64le**: `-mcpu=power8 -mtune=power8` selects a minimum supported
     CPU level of POWER8 (the first CPU with ppc64le support) and tunes
     for POWER8.

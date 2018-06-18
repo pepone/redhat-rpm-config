@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 112
+Version: 113
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -184,6 +184,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Jun 18 2018 Florian Weimer <fweimer@redhat.com> - 113-1
+- Build flags: Require SSE2 on i686 (#1592212)
+
 * Mon May 28 2018 Miro Hrončok <mhroncok@redhat.com> - 112-1
 - Add a possibility to opt-out form automagic Python bytecompilation
   https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation
