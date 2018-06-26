@@ -10,7 +10,6 @@ Version: 113
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
-Group: Development/System
 URL: https://src.fedoraproject.org/rpms/redhat-rpm-config
 
 # Core rpm settings
@@ -117,7 +116,7 @@ Provides: system-rpm-config = %{version}-%{release}
 Red Hat specific rpm configuration files.
 
 %package -n kernel-rpm-macros
-Summary: Macros and scripts for building kernel module packages.
+Summary: Macros and scripts for building kernel module packages
 Requires: redhat-rpm-config >= 13
 
 %description -n kernel-rpm-macros

@@ -220,6 +220,9 @@
 
 %__global_compiler_flags	-O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches %{_hardened_cflags} %{_annotated_cflags}
 
+# Automatically trim changelog entries after 2 years
+%_changelog_trimtime	%{lua:print(os.time() - 2 * 365 * 86400)}
+
 #==============================================================================
 # ---- Generic auto req/prov filtering macros
 #
