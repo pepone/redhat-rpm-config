@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 113
+Version: 114
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -183,6 +183,11 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Jun 26 2018 Panu Matilainen <pmatilai@redhat.com> - 114-1
+- Fix kernel ABI related strings (Peter Oros, #26)
+- Automatically trim changelog to two years (Zbigniew Jędrzejewski-Szmek, #22)
+- Cosmetics cleanups (Zbigniew Jędrzejewski-Szmek, #22)
+
 * Mon Jun 18 2018 Florian Weimer <fweimer@redhat.com> - 113-1
 - Build flags: Require SSE2 on i686 (#1592212)
 
