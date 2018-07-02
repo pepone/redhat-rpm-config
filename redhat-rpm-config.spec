@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 115
+Version: 116
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -183,6 +183,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Jul 10 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 116-1
+- Add option to add -Wl,--as-needed into LDFLAGS
+
 * Mon Jul 09 2018 Kalev Lember <klember@redhat.com> - 115-1
 - Disable non-functional ppc64 support for ldc packages
 

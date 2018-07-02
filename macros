@@ -44,7 +44,7 @@
 # the flags, while intended for ld, are still passed through the gcc
 # compiler driver.  At the beginning of %%build, the environment
 # variable RPM_LD_FLAGS to this value.
-%build_ldflags -Wl,-z,relro %{_ld_symbols_flags} %{_hardened_ldflags}
+%build_ldflags -Wl,-z,relro %{_ld_as_needed_flags} %{_ld_symbols_flags} %{_hardened_ldflags}
 
 # Expands to shell code to seot the compiler/linker environment
 # variables CFLAGS, CXXFLAGS, FFLAGS, FCFLAGS, LDFLAGS if they have
@@ -217,6 +217,11 @@
 # Use "%define _ld_strict_symbol_defs 1" to enable.
 #%_ld_strict_symbol_defs		1
 %_ld_symbols_flags		%{?_ld_strict_symbol_defs:-Wl,-z,defs}
+
+# https://fedoraproject.org/wiki/Changes/RemoveExcessiveLinking
+# use "%define _ld_as_needed 1" to enable.
+#%_ld_as_needed		1
+%_ld_as_needed_flags	%{?_as_needed_build:-Wl,--as-needed}
 
 %__global_compiler_flags	-O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches %{_hardened_cflags} %{_annotated_cflags}
 
