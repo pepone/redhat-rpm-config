@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 114
+Version: 115
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -183,6 +183,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Jul 09 2018 Kalev Lember <klember@redhat.com> - 115-1
+- Disable non-functional ppc64 support for ldc packages
+
 * Tue Jun 26 2018 Panu Matilainen <pmatilai@redhat.com> - 114-1
 - Fix kernel ABI related strings (Peter Oros, #26)
 - Automatically trim changelog to two years (Zbigniew Jędrzejewski-Szmek, #22)
