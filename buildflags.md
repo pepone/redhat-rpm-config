@@ -70,7 +70,7 @@ For other considerations involving shared objects, see:
 
 It is possible to set RPM macros to change some aspects of the
 compiler flags.  Changing these flags should be used as a last
-recourse if other workarunds are not available.
+recourse if other workarounds are not available.
 
 ### Lazy binding
 
