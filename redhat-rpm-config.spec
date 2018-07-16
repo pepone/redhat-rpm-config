@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 116
+Version: 117
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -183,6 +183,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Jul 16 2018 Miro Hrončok <mhroncok@redhat.com> - 117-1
+- Mangle /bin shebnags to /usr/bin ones (#1581757)
+
 * Tue Jul 10 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 116-1
 - Add option to add -Wl,--as-needed into LDFLAGS
 
