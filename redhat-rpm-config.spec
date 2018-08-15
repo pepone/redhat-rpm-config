@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 117
+Version: 118
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -183,6 +183,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Aug 15 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 118-1
+- Enable --as-needed by default
+
 * Mon Jul 16 2018 Miro Hrončok <mhroncok@redhat.com> - 117-1
 - Mangle /bin shebnags to /usr/bin ones (#1581757)
 

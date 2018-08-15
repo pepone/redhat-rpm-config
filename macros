@@ -219,8 +219,8 @@
 %_ld_symbols_flags		%{?_ld_strict_symbol_defs:-Wl,-z,defs}
 
 # https://fedoraproject.org/wiki/Changes/RemoveExcessiveLinking
-# use "%define _ld_as_needed 1" to enable.
-#%_ld_as_needed		1
+# use "%undefine _ld_as_needed" to disable.
+%_ld_as_needed		1
 %_ld_as_needed_flags	%{?_ld_as_needed:-Wl,--as-needed}
 
 %__global_compiler_flags	-O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches %{_hardened_cflags} %{_annotated_cflags}
