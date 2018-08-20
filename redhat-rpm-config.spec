@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 118
+Version: 119
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -183,6 +183,9 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Aug 20 2018 Kalev Lember <klember@redhat.com> - 119-1
+- Add aarch64 to ldc arches
+
 * Wed Aug 15 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 118-1
 - Enable --as-needed by default
 
