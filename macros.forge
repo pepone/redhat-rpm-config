@@ -66,7 +66,7 @@ local commit      = rpm.expand("%{?commit}")
 local function explicitset(rpmvariable,value)
   rpm.define(rpmvariable .. " " .. value)
   if verbose then
-    rpm.expand("%{echo:Setting %%{" .. rpmvariable .. "} = " .. value .. "\\n}")
+    rpm.expand("%{echo:Setting %%{" .. rpmvariable .. "} = " .. value .. "}")
   end
 end
 -- Never ever stomp on a spec variable the packager already set
@@ -80,14 +80,14 @@ if (forgeurl ~= "") then
   local forge          = string.match(forgeurl, "^[^:]+://([^/]+)/")
   if (forge == nil) then
     if not silent then
-      rpm.expand("%{error:URLs must include a protocol such as https:// and a path starting with / !\\n}")
+      rpm.expand("%{error:URLs must include a protocol such as https:// and a path starting with / !}")
     end
   else
     if (string.match(forge, "^gitlab[%.-]") or string.match(forge, "[%.-]gitlab[%.]")) then
       forgeurl = string.match(forgeurl, "https://[^/]+/[^/]+/[^/#?]+")
       if (forgeurl == nil) then
         if not silent then
-          rpm.expand("%{error:Gitlab URLs must match https://(…[-.])gitlab[-.]…/owner/repo !\\n}")
+          rpm.expand("%{error:Gitlab URLs must match https://(…[-.])gitlab[-.]…/owner/repo !}")
         end
       else
         explicitset("forgeurl",   forgeurl)
@@ -110,7 +110,7 @@ if (forgeurl ~= "") then
           else                        ref = "%{?version}"
         end
         if (rpm.expand(ref) == "") then
-          rpm.expand("%{error:You need to define %{version}, %{commit} or %{tag} before the macro invocation !\\n}")
+          rpm.expand("%{error:You need to define %{version}, %{commit} or %{tag} before the macro invocation !}")
         end
         safeset("archivename", repo .. "-" .. ref)
         safeset("archiveurl",  "%{forgeurl}/-/archive/" .. ref .. "/%{archivename}.%{archiveext}")
@@ -120,7 +120,7 @@ if (forgeurl ~= "") then
       forgeurl = string.match(forgeurl, "https://[^/]+/[^/]+/[^/#?]+")
       if (forgeurl == nil) then
         if not silent then
-          rpm.expand("%{error:GitHub URLs must match https://(…[-.])github[-.]…/owner/repo !\\n}")
+          rpm.expand("%{error:GitHub URLs must match https://(…[-.])github[-.]…/owner/repo !}")
         end
       else
         explicitset("forgeurl",   forgeurl)
@@ -160,7 +160,7 @@ if (forgeurl ~= "") then
       forgeurl = string.match(forgeurl, "https://code.googlesource.com/[^#?]*[^/#?]+")
       if (forgeurl == nil) then
         if not silent then
-          rpm.expand("%{error:Googlesource URLs must match https://code.googlesource.com/…/repo !\\n}")
+          rpm.expand("%{error:Googlesource URLs must match https://code.googlesource.com/…/repo !}")
         end
       else
         explicitset("forgeurl",   forgeurl)
@@ -188,12 +188,12 @@ if (forgeurl ~= "") then
       forgeurl = string.match(forgeurl, "https://[^/]+/[^/]+/[^/#?]+")
       if (forgeurl == nil) then
         if not silent then
-          rpm.expand("%{error:BitBucket URLs must match https://bitbucket.org/owner/repo !\\n}")
+          rpm.expand("%{error:BitBucket URLs must match https://bitbucket.org/owner/repo !}")
         end
       else
         explicitset("forgeurl",   forgeurl)
         if (commit == "") then
-          rpm.expand("%{error:All BitBucket URLs require commit value knowledge: you need to define %{commit}!\\n}")
+          rpm.expand("%{error:All BitBucket URLs require commit value knowledge: you need to define %{commit}!}")
         end
         local shortcommit = string.sub(commit, 1, 12)
         safeset("archiveext", "tar.bz2")
@@ -213,13 +213,13 @@ if (forgeurl ~= "") then
     end
     if (forge == "pagure.io") then
       if not silent then
-        rpm.expand("%{error:https://pagure.io/pagure/issue/861 needs to be resolved before the “pagure.io”\\nsoftware publishing service can be supported.\\n}")
+        rpm.expand("%{error:https://pagure.io/pagure/issue/861 needs to be resolved before the “pagure.io”\\nsoftware publishing service can be supported.}")
       end
     end
     -- Final tests to check forgeurl was successfuly parsed
     if not silent then
       if (rpm.expand("%{?archivename}") == "") or (rpm.expand("%{?archiveurl}") == "") then
-        rpm.expand("%{error:Automation for the “" .. forge .. "”\\nsoftware publishing service is not implemented yet.\\nPlease extend the %%forgemeta macro!\\n}")
+        rpm.expand("%{error:Automation for the “" .. forge .. "”\\nsoftware publishing service is not implemented yet.\\nPlease extend the %%forgemeta macro!}")
       end
     end
   end
@@ -258,18 +258,18 @@ if (distprefix ~= "") then
 end
 -- Final spec variable summary if the macro was called with -i
 if informative then
-  rpm.expand("%{echo:Forge-specific packaging variables\\n}")
-  rpm.expand("%{echo:  forgeurl:        %{?forgeurl}\\n}")
-  rpm.expand("%{echo:  forgesource:     %{?forgesource}\\n}")
-  rpm.expand("%{echo:  forgesetupargs:  %{?forgesetupargs}\\n}")
-  rpm.expand("%{echo:Generic variables\\n}")
-  rpm.expand("%{echo:  archivename:     %{?archivename}\\n}")
-  rpm.expand("%{echo:  archiveext:      %{?archiveext}\\n}")
-  rpm.expand("%{echo:  archiveurl:      %{?archiveurl}\\n}")
-  rpm.expand("%{echo:  scm:             %{?scm}\\n}")
-  rpm.expand("%{echo:  tag:             %{?tag}\\n}")
-  rpm.expand("%{echo:  commit:          %{?commit}\\n}")
-  rpm.expand("%{echo:  dist:            %{?dist} (snapshot date is either manually supplied or computed once %%{_sourcedir}/%%{archivename}.%%{archiveext} is available)\\n}")
+  rpm.expand("%{echo:Forge-specific packaging variables}")
+  rpm.expand("%{echo:  forgeurl:        %{?forgeurl}}")
+  rpm.expand("%{echo:  forgesource:     %{?forgesource}}")
+  rpm.expand("%{echo:  forgesetupargs:  %{?forgesetupargs}}")
+  rpm.expand("%{echo:Generic packaging variables}")
+  rpm.expand("%{echo:  archivename:     %{?archivename}}")
+  rpm.expand("%{echo:  archiveext:      %{?archiveext}}")
+  rpm.expand("%{echo:  archiveurl:      %{?archiveurl}}")
+  rpm.expand("%{echo:  scm:             %{?scm}}")
+  rpm.expand("%{echo:  tag:             %{?tag}}")
+  rpm.expand("%{echo:  commit:          %{?commit}}")
+  rpm.expand("%{echo:  dist:            %{?dist} (snapshot date is either manually supplied or computed once %%{_sourcedir}/%%{archivename}.%%{archiveext} is available)}")
 end
 }
 
