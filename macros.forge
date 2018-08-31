@@ -91,32 +91,29 @@ if (forgeurl ~= "") then
         end
       else
         explicitset("forgeurl",   forgeurl)
-        if (commit == "") then
-          rpm.expand("%{error:All Gitlab URLs require commit value knowledge: you need to define %{commit}!\\nPlease vote on https://gitlab.com/gitlab-org/gitlab-ce/issues/38830\\n}")
-        end
         safeset("archiveext",     "tar.bz2")
         safeset("forgesetupargs", "-n %{archivename}")
-        if (commit ~= "") or (tag ~= "") then
+        -- Packaging a moving branch is quite a bad idea, but since Gitlab
+        -- uses the same convention for tags and branches in archive downloads,
+        -- better do it explicitly than have packagers use the branch name in
+        -- %{tag}
+        local branch = rpm.expand("%{?branch}")
+        if (commit ~= "") or (tag ~= "") or (branch ~= "") then
           safeset("scm", "git")
         end
-        local owner   = string.match(forgeurl, "^[^:]+://[^/]+/([^/]+)")
-        local repo    = string.match(forgeurl, "^[^:]+://[^/]+/[^/]+/([^/]+)")
-        local version = rpm.expand("%{?version}")
-        if (version ~= "") and (version ~= "0") and (tag == "") then
-          -- GitLab does not have strong versionning semantics
-          -- Some projects use "version" as release tag, others "v" + "version"
-          -- Tag value needs to be explicitly declared before calling the macro
-          -- in the second case
-          tag = version
-          safeset("tag", tag)
+        local owner  = string.match(forgeurl, "^[^:]+://[^/]+/([^/]+)")
+        local repo   = string.match(forgeurl, "^[^:]+://[^/]+/[^/]+/([^/]+)")
+        local ref    = ""
+        if       (commit  ~= "") then ref = "%{?commit}"
+          elseif (tag     ~= "") then ref = "%{?tag}"
+          elseif (branch  ~= "") then ref = "%{?branch}"
+          else                        ref = "%{?version}"
         end
-        if (tag ~= "") then
-          safeset("archivename", repo .. "-%{tag}-%{commit}")
-          safeset("archiveurl",  "%{forgeurl}/repository/%{tag}/archive.%{archiveext}")
-        else
-          safeset("archivename", repo .. "-%{commit}")
-          safeset("archiveurl",  "%{forgeurl}/repository/%{commit}/archive.%{archiveext}")
+        if (rpm.expand(ref) == "") then
+          rpm.expand("%{error:You need to define %{version}, %{commit} or %{tag} before the macro invocation !\\n}")
         end
+        safeset("archivename", repo .. "-" .. ref)
+        safeset("archiveurl",  "%{forgeurl}/-/archive/" .. ref .. "/%{archivename}.%{archiveext}")
       end
     end
     if (string.match(forge, "^github[%.-]") or string.match(forge, "[%.-]github[%.]")) then
