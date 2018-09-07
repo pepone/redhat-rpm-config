@@ -73,6 +73,10 @@ Source602: libsymlink.attr
 # BRPs
 Source700: brp-ldconfig
 
+# Convenience lua functions
+Source800: common.lua
+Source801: forge.lua
+
 # Documentation
 Source900: buildflags.md
 
@@ -150,6 +154,10 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 install -p -m 644 -t %{buildroot}%{_fileattrsdir} *.attr
 install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 
+mkdir -p %{buildroot}%{_rpmluadir}/fedora/{rpm,srpm}
+install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora common.lua
+install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
+
 %files
 %dir %{rrcdir}
 %{rrcdir}/macros
@@ -169,6 +177,12 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.forge
 %{_rpmconfigdir}/macros.d/macros.ldconfig
 %{_rpmconfigdir}/macros.d/macros.vpath
+%dir %{_rpmluadir}/fedora
+%dir %{_rpmluadir}/fedora/srpm
+%dir %{_rpmluadir}/fedora/rpm
+%{_rpmluadir}/fedora/*.lua
+%{_rpmluadir}/fedora/srpm/*lua
+
 %doc buildflags.md
 
 %files -n kernel-rpm-macros
