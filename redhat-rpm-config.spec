@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 119
+Version: 120
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -183,6 +183,10 @@ install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Sep 10 2018 Miro Hrončok <mhroncok@redhat.com> - 120-1
+- Make ambiguous python shebangs error
+  https://fedoraproject.org/wiki/Changes/Make_ambiguous_python_shebangs_error
+
 * Mon Aug 20 2018 Kalev Lember <klember@redhat.com> - 119-1
 - Add aarch64 to ldc arches
 
