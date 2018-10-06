@@ -60,8 +60,22 @@ end
 if (rpm.expand("%{?-i}") ~= "") then
   informative     = true
 end
-local tag         = rpm.expand("%{?tag}")
-local commit      = rpm.expand("%{?commit}")
+-- Packaging a moving branch is quite a bad idea, but since at least Gitlab
+-- will treat branches and tags the same way better support branches explicitly
+-- than have packagers hijack %{tag} to download branch states
+local                       tag = rpm.expand("%{?tag}")
+local                    commit = rpm.expand("%{?commit}")
+local                    branch = rpm.expand("%{?branch}")
+local                   version = rpm.expand("%{?version}")
+local                       ref = ""
+if     (tag     ~= "") then ref = "%{?tag}"
+elseif (commit  ~= "") then ref = "%{?commit}"
+elseif (branch  ~= "") then ref = "%{?branch}"
+else                        ref = "%{?version}"
+end
+if (rpm.expand(ref) == "") then
+  rpm.expand("%{error:You need to define Version:, %{commit} or %{tag} before the macro invocation !}")
+end
 -- Be explicit about the spec variables we’re setting
 local function explicitset(rpmvariable,value)
   rpm.define(rpmvariable .. " " .. value)
@@ -73,6 +87,16 @@ end
 local function safeset(rpmvariable,value)
   if (rpm.expand("%{?" .. rpmvariable .. "}") == "") then
     explicitset(rpmvariable,value)
+  end
+end
+-- Computes the suffix of a version string, removing vprefix if it matches
+-- For example with vprefix 1.2.3: 1.2.3.rc2 → .rc2 but 1.2.30 → 1.2.30 not 0
+local function getversionsuffix(vstring,vprefix)
+  if (string.sub(vstring, 1, #vprefix) == vprefix) and
+     (not string.match(string.sub(vstring, #vprefix + 1), "^%.?%d")) then
+    return string.sub(vstring, #vprefix + 1)
+  else
+    return vstring
   end
 end
 -- Set spec variable values for each known software publishing service
@@ -93,25 +117,8 @@ if (forgeurl ~= "") then
         explicitset("forgeurl",   forgeurl)
         safeset("archiveext",     "tar.bz2")
         safeset("forgesetupargs", "-n %{archivename}")
-        -- Packaging a moving branch is quite a bad idea, but since Gitlab
-        -- uses the same convention for tags and branches in archive downloads,
-        -- better do it explicitly than have packagers use the branch name in
-        -- %{tag}
-        local branch = rpm.expand("%{?branch}")
-        if (commit ~= "") or (tag ~= "") or (branch ~= "") then
-          safeset("scm", "git")
-        end
-        local owner  = string.match(forgeurl, "^[^:]+://[^/]+/([^/]+)")
-        local repo   = string.match(forgeurl, "^[^:]+://[^/]+/[^/]+/([^/]+)")
-        local ref    = ""
-        if       (commit  ~= "") then ref = "%{?commit}"
-          elseif (tag     ~= "") then ref = "%{?tag}"
-          elseif (branch  ~= "") then ref = "%{?branch}"
-          else                        ref = "%{?version}"
-        end
-        if (rpm.expand(ref) == "") then
-          rpm.expand("%{error:You need to define %{version}, %{commit} or %{tag} before the macro invocation !}")
-        end
+        if (ref ~= "%{?version}") then safeset("scm", "git") end
+        local repo  = string.match(forgeurl, "^[^:]+://[^/]+/[^/]+/([^/]+)")
         safeset("archivename", repo .. "-" .. ref)
         safeset("archiveurl",  "%{forgeurl}/-/archive/" .. ref .. "/%{archivename}.%{archiveext}")
       end
@@ -125,35 +132,22 @@ if (forgeurl ~= "") then
       else
         explicitset("forgeurl",   forgeurl)
         safeset("archiveext",     "tar.gz")
-        local forgesetupargs = "-n %{archivename}"
-        if (commit ~= "") or (tag ~= "") then
-          safeset("scm", "git")
-        end
-        local owner = string.match(forgeurl, "^[^:]+://[^/]+/([^/]+)")
-        local repo  = string.match(forgeurl, "^[^:]+://[^/]+/[^/]+/([^/]+)")
-        if (tag ~= "") then
-          -- if upstream used a version suffix such as -rc1 or -beta it will not
-          -- be a valid version string for rpm but github will accept it fine and
-          -- use the same naming as for other versions: v prefix in the tag and
-          -- archivename, no v prefix in the topdir naming inside the archive
-          local version = rpm.expand("%{?version}")
-          if version ~= "" and
-             (string.match(tag, "^v" .. version .. "[^%d]") or
-              string.match(tag, "^v" .. version .. "$"))    then
-            forgesetupargs = "-n " .. repo .. "-" .. string.gsub(tag, "^v", "")
-          end
-          safeset("archivename",   repo .. "-%{tag}")
-          safeset("archiveurl",    "%{forgeurl}/archive/%{tag}.%{archiveext}")
+        safeset("forgesetupargs", "-n %{archivename}")
+        -- Workaround the way GitHub injects "v"s before some version strings (but not all!)
+        -- To package one of the minority of sane GitHub projects that do not munge their version
+        -- strings set tag to %{version} in your spec
+        local fileref = ref
+        if (ref == "%{?version}") then
+          ref = "v" .. ref
         else
-          if (commit ~= "") then
-            safeset("archivename", repo .. "-%{commit}")
-            safeset("archiveurl",  "%{forgeurl}/archive/%{commit}/" .. repo .. "-%{commit}.%{archiveext}")
-          else
-            safeset("archivename", repo .. "-%{version}")
-            safeset("archiveurl",   "%{forgeurl}/archive/v%{version}.%{archiveext}")
+          safeset("scm", "git")
+          if (fileref ~= "%{?commit}") and string.match(rpm.expand(fileref), "^v[%d]") then
+            fileref = string.gsub(rpm.expand(fileref), "^v", "")
           end
         end
-        safeset("forgesetupargs", forgesetupargs)
+        local repo = string.match(forgeurl, "^[^:]+://[^/]+/[^/]+/([^/]+)")
+        safeset("archivename", repo .. "-" .. fileref)
+        safeset("archiveurl",  "%{forgeurl}/archive/" .. ref .. "/%{archivename}.%{archiveext}")
       end
     end
     if (forge == "code.googlesource.com") then
@@ -166,22 +160,14 @@ if (forgeurl ~= "") then
         explicitset("forgeurl",   forgeurl)
         safeset("archiveext",     "tar.gz")
         safeset("forgesetupargs", "-c")
-        if (commit ~= "") or (tag ~= "") then
+        if (ref == "%{?version}") then
+          ref = "v" .. ref
+        else
           safeset("scm", "git")
         end
         local repo = string.match(forgeurl, "^[^:]+://.+/([^/?#]+)")
-        if (tag ~= "") then
-          safeset("archivename",   repo .. "-%{tag}")
-          safeset("archiveurl",    "%{forgeurl}/+archive/%{tag}.%{archiveext}")
-        else
-          if (commit ~= "") then
-            safeset("archivename", repo .. "-%{commit}")
-            safeset("archiveurl",  "%{forgeurl}/+archive/%{commit}.%{archiveext}")
-          else
-            safeset("archivename", repo .. "-v%{version}")
-            safeset("archiveurl",  "%{forgeurl}/+archive/v%{version}.%{archiveext}")
-          end
-        end
+        safeset("archivename", repo .. "-" .. ref)
+        safeset("archiveurl",  "%{forgeurl}/+archive/" .. ref .. ".%{archiveext}")
       end
     end
     if (forge == "bitbucket.org") then
@@ -243,18 +229,25 @@ if (archivename ~= "") and (archiveurl ~= "") then
     safeset("forgesource", "%{?archiveurl}#/%{?archivename}.%{archiveext}")
   end
 end
--- dist processing (computing the correct pefix for snapshots)
-local distprefix = rpm.expand("%{?tag}")
-local version    = rpm.expand("%{?version}")
-if (distprefix == version) or (distprefix == "v" .. version) then
-  distprefix = ""
-end
-if (distprefix == "") then
-  distprefix = string.sub(rpm.expand("%{?commit}"), 1, 7)
+-- dist processing (computing the correct prefix for snapshots)
+local distprefix = rpm.expand(ref)
+if     (ref == "%{?commit}") then
+  distprefix = string.sub(distprefix, 1, 7)
+elseif (ref ~= "%{?branch}") then
+  distprefix = getversionsuffix(distprefix,        version)
+  distprefix = getversionsuffix(distprefix, "v" .. version)
+  distprefix = string.gsub(distprefix, "[.-]+", ".")
+  distprefix = string.gsub(distprefix, "^%.", "")
 end
 if (distprefix ~= "") then
-  local dist = ".%{?date}%{!?date:%([ -r %{_sourcedir}/%{archivename}.%{archiveext} ] && date +%Y%m%d -u -r %{_sourcedir}/%{archivename}.%{archiveext})}%{scm}" .. string.gsub(distprefix, "-",".") .. rpm.expand("%{?dist}")
-  explicitset("dist", dist)
+  distprefix = "%{scm}" .. distprefix
+  date = rpm.expand("%{?date}")
+  if (date ~= "") then
+    distprefix = date .. distprefix
+  else
+    distprefix = "%([ -r %{_sourcedir}/%{archivename}.%{archiveext} ] && date +%Y%m%d -u -r %{_sourcedir}/%{archivename}.%{archiveext})" .. distprefix
+  end
+  safeset ("distprefix", "." .. distprefix)
 end
 -- Final spec variable summary if the macro was called with -i
 if informative then
@@ -269,7 +262,9 @@ if informative then
   rpm.expand("%{echo:  scm:             %{?scm}}")
   rpm.expand("%{echo:  tag:             %{?tag}}")
   rpm.expand("%{echo:  commit:          %{?commit}}")
-  rpm.expand("%{echo:  dist:            %{?dist} (snapshot date is either manually supplied or computed once %%{_sourcedir}/%%{archivename}.%%{archiveext} is available)}")
+  rpm.expand("%{echo:  branch:          %{?branch}}")
+  rpm.expand("%{echo:  date:            %{?date}}")
+  rpm.expand("%{echo:  distprefix:      %{?distprefix} (snapshot date is either manually supplied or computed once %%{_sourcedir}/%%{archivename}.%%{archiveext} is available)}")
 end
 }
 
