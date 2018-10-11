@@ -6,3 +6,6 @@
 # A directory for appdata metainfo.  This has changed between releases so a
 # macro is useful.
 %_metainfodir %{_datadir}/metainfo
+
+# A directory for SWID tag files describing the installation
+%_swidtagdir %{_prefix}/lib/swidtag/fedoraproject.org
