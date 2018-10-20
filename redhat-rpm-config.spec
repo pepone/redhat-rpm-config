@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 121
+Version: 122
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -197,6 +197,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Sat Oct 20 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 122-1
+- Allow multiple calls to forge macros
+
 * Thu Oct 11 2018 Jan Pazdziora <jpazdziora@redhat.com> - 121-1
 - Add %_swidtagdir for directory for SWID tag files describing the
   installation.
