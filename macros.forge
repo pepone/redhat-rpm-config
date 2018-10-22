@@ -80,7 +80,7 @@ end
 # Parameters relayed to %autosetup: -v -N -S -p
 # Optional parameters:
 #   -z <number> read %{?forgesetupargs<number>}
-%forgeautosetup(z:vNS:p:) %{lua:
+%forgeautosetup(z:vNS:p:q) %{lua:
 print(rpm.expand("%autosetup %{-v} %{-N} %{?-S} %{?-p} %{?forgesetupargs" .. rpm.expand("%{-z*}") .. "}\\n"))
 }
 
