@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 122
+Version: 123
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -197,6 +197,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Oct 22 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 123-1
+- Add -q option to %%forgesetup
+
 * Sat Oct 20 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 122-1
 - Allow multiple calls to forge macros
 
