@@ -194,12 +194,13 @@ local function forgemeta(suffix, verbose, informative, silent)
   -- dist processing       (computing the correct prefix for snapshots)
   local distprefix = ""
   if not isrelease then
-    distprefix = rpm.expand(ref)
+    distprefix = string.lower(rpm.expand(ref))
     if     (ref == "%{?commit" .. suffix .. "}") then
       distprefix = string.sub(distprefix, 1, 7)
     elseif (ref ~= "%{?branch" .. suffix .. "}") then
       distprefix = string.gsub(distprefix,      "[%p%s]+", ".")
-      local    v = string.gsub(spec["version"], "[%p%s]+", ".")
+      distprefix = string.gsub(distprefix, "^" .. string.lower(rpm.expand("%{?repo}")) .. "%.?", "")
+      local    v = string.gsub(rpm.expand("%{version}"), "[%p%s]+", ".")
       for _, p in ipairs({'','v','v.','version','version.'}) do
         distprefix = getversionsuffix(distprefix, p .. v)
       end
