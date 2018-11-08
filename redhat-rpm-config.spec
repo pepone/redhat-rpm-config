@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 123
+Version: 124
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -197,6 +197,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Nov 08 2018 Jason L Tibbitts III <tibbs@math.uh.edu> - 124-1
+- forge: add more distprefix cleaning (bz1646724)
+
 * Mon Oct 22 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 123-1
 - Add -q option to %%forgesetup
 
