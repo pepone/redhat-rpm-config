@@ -224,7 +224,7 @@ local function forgemeta(suffix, verbose, informative, silent)
   end
   if (rpm.expand(distprefix) ~= "") then
     if not ismain then
-      distprefix = string.gsub(distprefix, "^%.", ".S")
+      distprefix = string.gsub(distprefix, "^%.", ".s")
     end
     fedora.safeset ("distprefix"    .. suffix, distprefix, verbose)
   end
