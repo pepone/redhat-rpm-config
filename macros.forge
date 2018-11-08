@@ -53,10 +53,10 @@ local      silent =  rpm.expand("%{-s}") ~= ""
 local  processall = (rpm.expand("%{-a}") ~= "") and (rpm.expand("%{-z}") == "")
 if processall then
   for _,s in pairs(fedora.getsuffixes("forgeurl")) do
-    forge.forgemeta(s,verbose,informative,silent)
+    forge.meta(s,verbose,informative,silent)
   end
 else
-  forge.forgemeta(rpm.expand("%{-z*}"),verbose,informative,silent)
+  forge.meta(rpm.expand("%{-z*}"),verbose,informative,silent)
 end
 }
 

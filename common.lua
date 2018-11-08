@@ -2,7 +2,7 @@
 
 -- Set a spec variable
 -- Echo the result if verbose
-local function explicitset(rpmvar,value,verbose)
+local function explicitset(rpmvar, value, verbose)
   local value = value
   if (value == nil) or (value == "") then
     value = "%{nil}"
@@ -15,7 +15,7 @@ end
 
 -- Unset a spec variable if it is defined
 -- Echo the result if verbose
-local function explicitunset(rpmvar,verbose)
+local function explicitunset(rpmvar, verbose)
   if (rpm.expand("%{" .. rpmvar .. "}") ~= "%{" .. rpmvar .. "}") then
     rpm.define(rpmvar .. " %{nil}")
     if verbose then
@@ -26,7 +26,7 @@ end
 
 -- Set a spec variable, if not already set
 -- Echo the result if verbose
-local function safeset(rpmvar,value,verbose)
+local function safeset(rpmvar, value, verbose)
   if (rpm.expand("%{" .. rpmvar .. "}") == "%{" .. rpmvar .. "}") then
     explicitset(rpmvar,value,verbose)
   end
@@ -34,13 +34,25 @@ end
 
 -- Alias a list of rpm variables to the same variables suffixed with 0 (and vice versa)
 -- Echo the result if verbose
-local function zalias(rpmvars,verbose)
+local function zalias(rpmvars, verbose)
   for _, sfx in ipairs({{"","0"},{"0",""}}) do
     for _, rpmvar in ipairs(rpmvars) do
       local toalias = "%{?" .. rpmvar .. sfx[1] .. "}"
       if (rpm.expand(toalias) ~= "") then
         safeset(rpmvar .. sfx[2], toalias, verbose)
       end
+    end
+  end
+end
+
+-- Takes a list of rpm variable roots and a suffix and alias current<root> to
+-- <root><suffix> if it resolves to something not empty
+local function setcurrent(rpmvars, suffix, verbose)
+  for _, rpmvar in ipairs(rpmvars) do
+    if (rpm.expand("%{?" .. rpmvar .. suffix .. "}") ~= "") then
+      explicitset(  "current" .. rpmvar, "%{" .. rpmvar .. suffix .. "}", verbose)
+    else
+      explicitunset("current" .. rpmvar,                                  verbose)
     end
   end
 end
@@ -106,6 +118,7 @@ return {
   explicitunset = explicitunset,
   safeset       = safeset,
   zalias        = zalias,
+  setcurrent    = setcurrent,
   echovars      = echovars,
   getsuffixed   = getsuffixed,
   getsuffixes   = getsuffixes,

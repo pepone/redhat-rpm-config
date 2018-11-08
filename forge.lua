@@ -66,7 +66,7 @@ end
 -- The forgemeta macro main processing function
 -- See the documentation in the macros.forge file for argument description
 -- Also called directly by gometa
-local function forgemeta(suffix, verbose, informative, silent)
+local function meta(suffix, verbose, informative, silent)
   local fedora = require "fedora.common"
   local ismain = (suffix == "") or (suffix == "0")
   if ismain then
@@ -250,6 +250,6 @@ local function forgemeta(suffix, verbose, informative, silent)
 end
 
 return {
-  forgemeta     = forgemeta,
+  meta = meta,
 }
 
