@@ -113,6 +113,21 @@ local function getbestsuffix(rpmvar, value)
   return best
 end
 
+-- https://github.com/rpm-software-management/rpm/issues/581
+-- Writes the content of a list of rpm variables to a macro spec file.
+-- The target file must contain the corresponding anchors.
+-- For example writevars("myfile", {"foo","bar"}) will replace:
+--   @@FOO@@ with the rpm evaluation of %{foo} and
+--   @@BAR@@ with the rpm evaluation of %{bar}
+-- in myfile
+local function writevars(macrofile,rpmvars)
+  for _, rpmvar in ipairs(rpmvars) do
+    print("sed -i 's\029" .. string.upper("@@" .. rpmvar .. "@@") ..
+                   "\029" .. rpm.expand(  "%{" .. rpmvar .. "}" ) ..
+                   "\029g' " .. macrofile .. "\n")
+  end
+end
+
 return {
   explicitset   = explicitset,
   explicitunset = explicitunset,
@@ -123,4 +138,5 @@ return {
   getsuffixed   = getsuffixed,
   getsuffixes   = getsuffixes,
   getbestsuffix = getbestsuffix,
+  writevars     = writevars,
 }

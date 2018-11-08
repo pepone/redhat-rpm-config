@@ -1,0 +1,30 @@
+# Some miscellaneous Fedora-related macros
+
+# List files matching inclusion globs, excluding files matching exclusion blogs
+# Parameters:
+#  -i "<globs>" include shell globs (also takes all other macro arguments)
+#  -x "<globs>" exclude shell globs
+%listfiles(i:x:) %{expand:
+while IFS= read -r -d $'\\n' finc ; do
+  printf "%s\\n" %{?-x*} \\
+    | xargs -i realpath --relative-base=. '{}' \\
+    | grep "${finc}" >/dev/null || echo "${finc}"
+done <<< $(printf "%s\\n" %{?-i*} %* | xargs -i realpath --relative-base=. '{}' | sort -u)
+}
+
+# https://github.com/rpm-software-management/rpm/issues/581
+# Write the contents of a list of rpm variables to a macro file.
+# The target file must contain the corresponding anchors.
+# For example %writevars -f myfile foo bar will replace:
+#  @@FOO@@ with the rpm evaluation of %{foo} and
+#  @@BAR@@ with the rpm evaluation of %{bar}
+# in myfile
+%writevars(f:) %{lua:
+local    fedora = require "fedora.common"
+local macrofile = rpm.expand("%{-f*}")
+local   rpmvars = {}
+for i = 1, rpm.expand("%#") do
+  table.insert(rpmvars, rpm.expand("%" .. i))
+end
+fedora.writevars(macrofile,rpmvars)
+}

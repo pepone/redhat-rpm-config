@@ -40,6 +40,7 @@ Source151: macros.kmp
 Source152: macros.vpath
 Source153: macros.forge
 Source154: macros.ldconfig
+Source155: macros.fedora-misc
 
 # Build policy scripts
 # this comes from https://github.com/rpm-software-management/rpm/pull/344
@@ -177,6 +178,7 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.forge
 %{_rpmconfigdir}/macros.d/macros.ldconfig
 %{_rpmconfigdir}/macros.d/macros.vpath
+%{_rpmconfigdir}/macros.d/macros.fedora-misc
 %dir %{_rpmluadir}/fedora
 %dir %{_rpmluadir}/fedora/srpm
 %dir %{_rpmluadir}/fedora/rpm
