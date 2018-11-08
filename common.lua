@@ -120,7 +120,7 @@ end
 --   @@FOO@@ with the rpm evaluation of %{foo} and
 --   @@BAR@@ with the rpm evaluation of %{bar}
 -- in myfile
-local function writevars(macrofile,rpmvars)
+local function writevars(macrofile, rpmvars)
   for _, rpmvar in ipairs(rpmvars) do
     print("sed -i 's\029" .. string.upper("@@" .. rpmvar .. "@@") ..
                    "\029" .. rpm.expand(  "%{" .. rpmvar .. "}" ) ..
