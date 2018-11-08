@@ -128,6 +128,54 @@ local function writevars(macrofile, rpmvars)
   end
 end
 
+-- https://github.com/rpm-software-management/rpm/issues/566
+-- Reformat a text intended to be used used in a package description, removing
+-- rpm macro generation artefacts.
+-- – remove leading and ending empty lines
+-- – trim intermediary empty lines to a single line
+-- – fold on spaces
+-- Should really be a %%{wordwrap:…} verb
+local function wordwrap(text)
+  text = rpm.expand(text .. "\n")
+  text = string.gsub(text, "\t",              "  ")
+  text = string.gsub(text, " +\n",            "\n")
+  text = string.gsub(text, "\n+\n",           "\n\n")
+  text = string.gsub(text, "^\n",             "")
+  text = string.gsub(text, "\n( *)[-*—][  ]+", "\n%1– ")
+  output = ""
+  for line in string.gmatch(text, "[^\n]*\n") do
+    local pos = 0
+    local advance = ""
+    for word in string.gmatch(line, "%s*[^%s]*\n?") do
+      local wl, bad = utf8.len(word)
+      if not wl then
+        print("%{warn: Invalid UTF-8 sequence detected in:\n" ..
+               word .. "\nIt may produce unexpected results.\n}")
+        wl = bad
+      end
+      if (pos == 0) then
+        advance = string.gsub(word, "^(%s*).*", "%1")
+        pos = pos + wl
+      elseif  (pos + wl < 81) then
+        pos = pos + wl
+      else
+        word = advance .. string.gsub(word, "^%s*", "")
+        output = output .. "\n"
+        pos = utf8.len(word)
+      end
+      output = output .. word
+      if pos > 80 then
+        pos = 0
+        if not string.match(word, "\n$") then
+          output = output .. "\n"
+        end
+      end
+    end
+  end
+  output = string.gsub(output, "\n*$", "\n")
+  return output
+end
+
 return {
   explicitset   = explicitset,
   explicitunset = explicitunset,
@@ -139,4 +187,5 @@ return {
   getsuffixes   = getsuffixes,
   getbestsuffix = getbestsuffix,
   writevars     = writevars,
+  wordwrap      = wordwrap,
 }
