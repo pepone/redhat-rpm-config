@@ -143,6 +143,8 @@ local function forgemeta(suffix, verbose, informative, silent)
       elseif (fileref ~= "%{?commit" .. suffix .. "}") and
              string.match(rpm.expand(fileref), "^v[%d]") then
         fileref = string.gsub(rpm.expand(fileref), "^v", "")
+      elseif (string.match(rpm.expand(fileref), "/")) then
+        fileref = string.gsub(rpm.expand(fileref), "/", "-")
       end
       fedora.safeset("fileref" .. suffix, fileref, verbose)
     elseif (forge == "code.googlesource.com") then
@@ -201,7 +203,7 @@ local function forgemeta(suffix, verbose, informative, silent)
       distprefix = string.gsub(distprefix,      "[%p%s]+", ".")
       distprefix = string.gsub(distprefix, "^" .. string.lower(rpm.expand("%{?repo}")) .. "%.?", "")
       local    v = string.gsub(rpm.expand("%{version}"), "[%p%s]+", ".")
-      for _, p in ipairs({'','v','v.','version','version.'}) do
+      for _, p in ipairs({'','v','v.','version','version.','tags.v', 'tags.v.'}) do
         distprefix = getversionsuffix(distprefix, p .. v)
       end
       distprefix = string.gsub(distprefix, "^%.", "")
