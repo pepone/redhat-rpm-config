@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 124
+Version: 125
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -197,6 +197,10 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Nov 15 2018 Miro Hrončok <mhroncok@redhat.com> - 125-1
+- Make automagic Python bytecompilation optional
+  https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_2
+
 * Thu Nov 08 2018 Jason L Tibbitts III <tibbs@math.uh.edu> - 124-1
 - forge: add more distprefix cleaning (bz1646724)
 

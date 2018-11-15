@@ -184,7 +184,7 @@
 ## Should python bytecompilation errors terminate a build?
 %_python_bytecompile_errors_terminate_build 1
 ## Should python bytecompilation compile outisde python specific directories?
-%_python_bytecompile_extra 1
+%_python_bytecompile_extra 0
 
 # Use SHA-256 for FILEDIGESTS instead of default MD5
 %_source_filedigest_algorithm 8
