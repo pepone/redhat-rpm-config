@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 128
+Version: 129
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -61,6 +61,7 @@ Source400: dist.sh
 Source401: rpmsort
 Source402: symset-table
 Source403: kmodtool
+Source404: gpgverify
 
 # 2016-10-02 snapshots from http://git.savannah.gnu.org/gitweb/?p=config.git
 Source500: config.guess
@@ -140,6 +141,7 @@ install -p -m 444 -t %{buildroot}%{rrcdir} redhat-hardened-*
 install -p -m 444 -t %{buildroot}%{rrcdir} redhat-annobin-*
 install -p -m 755 -t %{buildroot}%{rrcdir} config.*
 install -p -m 755 -t %{buildroot}%{rrcdir} dist.sh rpmsort symset-table kmodtool
+install -p -m 755 -t %{buildroot}%{rrcdir} gpgverify
 install -p -m 755 -t %{buildroot}%{rrcdir} brp-*
 
 install -p -m 755 -t %{buildroot}%{rrcdir} find-*
@@ -165,6 +167,7 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{rrcdir}/rpmrc
 %{rrcdir}/brp-*
 %{rrcdir}/dist.sh
+%{rrcdir}/gpgverify
 %{rrcdir}/redhat-hardened-*
 %{rrcdir}/redhat-annobin-*
 %{rrcdir}/config.*
@@ -199,6 +202,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu May 30 2019 Björn Persson <Bjorn@Rombobjörn.se> - 129-1
+- Added gpgverify.
+
 * Tue Jan 15 2019 Panu Matilainen <pmatilai@redhat.com> - 128-1
 - Drop redundant _smp_mflag re-definition, use the one from rpm instead
 

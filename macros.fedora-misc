@@ -34,3 +34,6 @@ for i = 1, rpm.expand("%#") do
 end
 fedora.writevars(macrofile,rpmvars)
 }
+
+# gpgverify verifies signed sources. There is documentation in the script.
+%gpgverify %{_rpmconfigdir}/redhat/gpgverify
