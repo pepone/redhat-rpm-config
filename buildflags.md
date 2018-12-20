@@ -332,3 +332,44 @@ linker flags:
   security exploits, redirecting execution).  Therefore, it is
   preferable to turn of lazy binding, although it increases startup
   time.
+
+# Support for extension builders
+
+Some packages include extension builders that allow users to build
+extension modules (which are usually written in C and C++) under the
+control of a special-purpose build system.  This is a common
+functionality provided by scripting languages such as Python and Perl.
+Traditionally, such extension builders captured the Fedora build flags
+when these extension were built.  However, these compiler flags are
+adjusted for a specific Fedora release and toolchain version and
+therefore do not work with a custom toolchain (e.g., different C/C++
+compilers), and users might want to build their own extension modules
+with such toolchains.
+
+The macros `%{extension_cflags}`, `%{extension_cxxflags}`,
+`%{extension_fflags}`, `%{extension_ldflags}` contain a subset of
+flags that have been adjusted for compatibility with alternative
+toolchains, while still preserving some of the compile-time security
+hardening that the standard Fedora build flags provide.
+
+The current set of differences are:
+
+* No GCC plugins (such as annobin) are activated.
+* No GCC spec files (`-specs=` arguments) are used.
+
+Additional flags may be removed in the future if they prove to be
+incompatible with alternative toolchains.
+
+Extension builders should detect whether they are performing a regular
+RPM build (e.g., by looking for an `RPM_OPT_FLAGS` variable).  In this
+case, they should use the *current* set of Fedora build flags (that
+is, the output from `rpm --eval '%{build_cflags}'` and related
+commands).  Otherwise, when not performing an RPM build, they can
+either use hard-coded extension builder flags (thus avoiding a
+run-time dependency on `redhat-rpm-config`), or use the current
+extension builder flags (with a run-time dependency on
+`redhat-rpm-config`).
+
+As a result, extension modules built for Fedora will use the official
+Fedora build flags, while users will still be able to build their own
+extension modules with custom toolchains.

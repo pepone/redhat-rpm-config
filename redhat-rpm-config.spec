@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 126
+Version: 127
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -199,6 +199,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Dec 20 2018 Florian Weimer <fweimer@redhat.com> - 127-1
+- Build flags: Add support for extension builders (#1543394)
+
 * Mon Dec 17 2018 Panu Matilainen <pmatilai@redhat.com> - 126-1
 - Silence the annoying warning from ldconfig brp-script (#1540971)
 

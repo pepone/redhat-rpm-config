@@ -57,6 +57,22 @@
   FCFLAGS="${FCFLAGS:-%{build_fflags}}" ; export FCFLAGS ; \
   LDFLAGS="${LDFLAGS:-%{build_ldflags}}" ; export LDFLAGS
 
+# Internal-only.  Do not use.  Expand a variable and strip the flags
+# not suitable to extension builders.
+%__extension_strip_flags() %{lua:
+local name = rpm.expand("%{1}")
+local value = " " .. rpm.expand("%{build_" .. name .. "}")
+local result = string.gsub(value, "%s+-specs=[^%s]+", " ")
+print(result)
+}
+
+# Variants of CFLAGS, CXXFLAGS, FFLAGS, LDFLAGS for use within
+# extension builders.
+%extension_cflags %{__extension_strip_flags cflags}
+%extension_cxxflags %{__extension_strip_flags cxxflags}
+%extension_fflags %{__extension_strip_flags fflags}
+%extension_ldflags %{__extension_strip_flags ldflags}
+
 # Deprecated names.  For backwards compatibility only.
 %__global_cflags %{build_cflags}
 %__global_cxxflags %{build_cxxflags}
