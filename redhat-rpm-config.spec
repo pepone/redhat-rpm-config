@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 127
+Version: 128
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -199,6 +199,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Jan 15 2019 Panu Matilainen <pmatilai@redhat.com> - 128-1
+- Drop redundant _smp_mflag re-definition, use the one from rpm instead
+
 * Thu Dec 20 2018 Florian Weimer <fweimer@redhat.com> - 127-1
 - Build flags: Add support for extension builders (#1543394)
 
