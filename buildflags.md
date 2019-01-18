@@ -64,7 +64,7 @@ For building shared objects, you must compile with `-fPIC` in
 
 For other considerations involving shared objects, see:
 
-* [Fedora Packaging Guidelines: Shared Libraries](https://fedoraproject.org/wiki/Packaging:Guidelines#Shared_Libraries)
+* [Fedora Packaging Guidelines: Shared Libraries](https://docs.fedoraproject.org/en-US/packaging-guidelines/#_shared_libraries)
 
 # Customizing compiler flags
 
