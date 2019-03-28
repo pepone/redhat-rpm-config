@@ -15,9 +15,9 @@ This will invoke the `./configure` with arguments (such as
 `--prefix=/usr`) to adjust the paths to the packaging defaults.
 
 As a side effect, this will set the environment variables `CFLAGS`,
-`CXXFLAGS`, `FFLAGS`, `FCFLAGS`, and `LDFLAGS`, so they can be used by
-makefiles and other build tools.  (However, existing values for this
-variables are not overwritten.)
+`CXXFLAGS`, `FFLAGS`, `FCFLAGS`, `LDFLAGS` and `LT_SYS_LIBRARY_PATH`,
+so they can be used by makefiles and other build tools.  (However,
+existing values for these variables are not overwritten.)
 
 If your package does not use autoconf, you can still set the same
 environment variables using
@@ -42,6 +42,9 @@ Individual build flags are also available through RPM macros:
   `-Wl`, so this variable is intended for use with the `gcc` compiler
   driver.  At the start of the `%build` section, the environment
   variable `RPM_LD_FLAGS` is set to this value.
+
+The variable `LT_SYS_LIBRARY_PATH` is defined here to prevent the `libtool`
+script (v2.4.6+) from hardcoding %_libdir into the binaries' RPATH.
 
 These RPM macros do not alter shell environment variables.
 
