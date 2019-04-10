@@ -19,6 +19,18 @@ local function checkforgeurl(url, id, silent)
     gitlab = {
       pattern     = 'https://[^/]+/[^/]+/[^/#?]+',
       description = 'https://(…[-.])gitlab[-.]…/owner/repo'},
+    pagure = {
+      pattern     = 'https://[^/]+/[^/#?]+',
+      description = 'https://pagure.io/repo'},
+    pagure_ns = {
+      pattern     = 'https://[^/]+/[^/]+/[^/#?]+',
+      description = 'https://pagure.io/namespace/repo'},
+    pagure_fork = {
+      pattern     = 'https://[^/]+/fork/[^/]+/[^/#?]+',
+      description = 'https://pagure.io/fork/owner/repo'},
+    pagure_ns_fork = {
+      pattern     = 'https://[^/]+/fork/[^/]+/[^/]+/[^/#?]+',
+      description = 'https://pagure.io/fork/owner/namespace/repo'},
     github = {
       pattern     = 'https://[^/]+/[^/]+/[^/#?]+',
       description = 'https://(…[-.])github[-.]…/owner/repo'},
@@ -52,7 +64,17 @@ local function idforge(url, silent)
         rpm.expand("%{error:URLs must include a protocol such as https:// and a path starting with / !}")
       end
     else
-      if     (string.match(forge, "^gitlab[%.-]") or string.match(forge, "[%.-]gitlab[%.]")) then
+      if (forge == "pagure.io") then
+        if     string.match(url, "[^:]+://pagure.io/fork/[^/]+/[^/]+/[^/]+") then
+          forge = "pagure_ns_fork"
+        elseif string.match(url, "[^:]+://pagure.io/fork/[^/]+/[^/]+") then
+          forge = "pagure_fork"
+        elseif  string.match(url, "[^:]+://pagure.io/[^/]+/[^/]+") then
+          forge = "pagure_ns"
+        elseif  string.match(url, "[^:]+://pagure.io/[^/]+") then
+          forge = "pagure"
+        end
+      elseif (string.match(forge, "^gitlab[%.-]") or string.match(forge, "[%.-]gitlab[%.]")) then
         forge = "gitlab"
       elseif (string.match(forge, "^github[%.-]") or string.match(forge, "[%.-]github[%.]")) then
         forge = "github"
@@ -72,7 +94,7 @@ local function meta(suffix, verbose, informative, silent)
   if ismain then
     fedora.zalias({"forgeurl", "forgesource", "forgesetupargs",
                       "archivename", "archiveext", "archiveurl",
-                      "topdir", "extractdir", "repo", "owner",
+                      "topdir", "extractdir", "repo", "owner", "namespace",
                       "scm", "tag", "commit", "shortcommit", "branch", "version",
                       "date", "distprefix"}, verbose)
   end
@@ -80,11 +102,33 @@ local function meta(suffix, verbose, informative, silent)
     default = {
       scm         = "git",
       archiveext  = "tar.bz2",
-      repo        = '%{lua:print(string.match(rpm.expand("%{forgeurl' .. suffix .. '}"), "^[^:]+://[^/]+/[^/]+/([^/]+)"))}',
+      repo        = '%{lua:print(string.match(rpm.expand("%{forgeurl' .. suffix .. '}"), "^[^:]+://[^/]+/[^/]+/([^/?#]+)"))}',
       archivename = "%{repo"         .. suffix .. "}-%{ref"           .. suffix .. "}",
       topdir      = "%{archivename"  .. suffix .. "}" },
     gitlab = {
       archiveurl  = "%{forgeurl"     .. suffix .. "}/-/archive/%{ref" .. suffix .. "}/%{archivename" .. suffix .. "}.%{archiveext" .. suffix .. "}" },
+    pagure = {
+      archiveext  = "tar.gz",
+      repo        = '%{lua:print(string.match(rpm.expand("%{forgeurl' .. suffix .. '}"), "^[^:]+://[^/]+/([^/?#]+)"))}',
+      archiveurl  = "%{forgeurl"     .. suffix .. "}/archive/%{ref"   .. suffix .. "}/%{archivename" .. suffix .. "}.%{archiveext" .. suffix .. "}" },
+    pagure_ns = {
+      archiveext  = "tar.gz",
+      namespace   = '%{lua:print(string.match(rpm.expand("%{forgeurl' .. suffix .. '}"), "^[^:]+://[^/]+/([^/]+)/[^/?#]+"))}',
+      repo        = '%{lua:print(string.match(rpm.expand("%{forgeurl' .. suffix .. '}"), "^[^:]+://[^/]+/[^/]+/([^/?#]+)"))}',
+      archivename = "%{namespace"    .. suffix .. "}-%{repo"          .. suffix .. "}-%{ref"         .. suffix .. "}",
+      archiveurl  = "%{forgeurl"     .. suffix .. "}/archive/%{ref"   .. suffix .. "}/%{archivename" .. suffix .. "}.%{archiveext" .. suffix .. "}" },
+    pagure_fork = {
+      archiveext  = "tar.gz",
+      owner       = '%{lua:print(string.match(rpm.expand("%{forgeurl' .. suffix .. '}"), "https://[^/]+/fork/([^/]+)/[^/?#]+"))}',
+      repo        = '%{lua:print(string.match(rpm.expand("%{forgeurl' .. suffix .. '}"), "https://[^/]+/fork/[^/]+/([^/?#]+)"))}',
+      archivename = "%{owner"        .. suffix .. "}-%{repo"          .. suffix .. "}-%{ref"         .. suffix .. "}",
+      archiveurl  = "%{forgeurl"     .. suffix .. "}/archive/%{ref"   .. suffix .. "}/%{archivename" .. suffix .. "}.%{archiveext" .. suffix .. "}" },
+    pagure_ns_fork = {
+      owner       = '%{lua:print(string.match(rpm.expand("%{forgeurl' .. suffix .. '}"), "https://[^/]+/fork/([^/]+)/[^/]+/[^/?#]+"))}',
+      namespace   = '%{lua:print(string.match(rpm.expand("%{forgeurl' .. suffix .. '}"), "https://[^/]+/fork/[^/]+/([^/]+)/[^/?#]+")}',
+      repo        = '%{lua:print(string.match(rpm.expand("%{forgeurl' .. suffix .. '}"), "https://[^/]+/fork/[^/]+/[^/]+/([^/?#]+)")}',
+      archivename = "%{owner"        .. suffix .. "}-%{namespace"     .. suffix .. "}-%{repo"        .. suffix .. "}-%{ref"        .. suffix .. "}",
+      archiveurl  = "%{forgeurl"     .. suffix .. "}/archive/%{ref"   .. suffix .. "}/%{archivename" .. suffix .. "}.%{archiveext" .. suffix .. "}" },
     github = {
       archiveext  = "tar.gz",
       archivename = "%{repo"         .. suffix .. "}-%{fileref"       .. suffix .. "}",
@@ -96,7 +140,7 @@ local function meta(suffix, verbose, informative, silent)
       topdir      = "" },
     ["bitbucket.org"] = {
       shortcommit = '%{lua:print(string.sub(rpm.expand("%{commit'     .. suffix .. '}"), 1, 12))}',
-      owner       = '%{lua:print(string.match(rpm.expand("%{forgeurl' .. suffix .. '}"), "^[^:]+://[^/]+/([^/]+)"))}',
+      owner       = '%{lua:print(string.match(rpm.expand("%{forgeurl' .. suffix .. '}"), "^[^:]+://[^/]+/([^/?#]+)"))}',
       archivename = "%{owner"        .. suffix .. "}-%{repo"          .. suffix .. "}-%{shortcommit" .. suffix .. "}",
       archiveurl  = "%{forgeurl"     .. suffix .. "}/get/%{ref"       .. suffix .. "}.%{archiveext"  .. suffix .. "}" } }
   -- Packaging a moving branch is quite a bad idea, but since at least Gitlab
@@ -233,7 +277,7 @@ local function meta(suffix, verbose, informative, silent)
   if ismain then
     fedora.zalias({"forgeurl", "forgesource", "forgesetupargs",
                       "archivename", "archiveext", "archiveurl",
-                      "topdir", "extractdir", "repo", "owner",
+                      "topdir", "extractdir", "repo", "owner", "namespace",
                       "scm", "shortcommit", "distprefix"}, verbose)
   end
   -- Final spec variable summary if the macro was called with -i
@@ -241,7 +285,7 @@ local function meta(suffix, verbose, informative, silent)
     rpm.expand("%{echo:Packaging variables read or set by %%forgemeta}")
     fedora.echovars({"forgeurl", "forgesource", "forgesetupargs",
                         "archivename", "archiveext", "archiveurl",
-                        "topdir", "extractdir", "repo", "owner",
+                        "topdir", "extractdir", "repo", "owner", "namespace",
                         "scm", "tag", "commit", "shortcommit", "branch", "version",
                         "date", "distprefix"}, suffix)
     fedora.echovars({"dist"},"")
