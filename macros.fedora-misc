@@ -12,10 +12,17 @@
 # Arguments passed to the macro without flags will be interpreted as inclusion
 # globs.
 %listfiles(i:x:) %{expand:
-while IFS= read -r finc ; do
-  realpath -qe --relative-base=. "" %{?-x*} %{?listfiles_exclude} \\
-    | sort -u | grep -q "${finc}" || echo "${finc}"
-done <<< $(realpath -e --relative-base=. %{?-i*} %{?listfiles_include} %* | sort -u)
+%if "%{?-i*}%{?listfiles_include}%*" != ""
+  listfiles_include=$(realpath -e --relative-base=. %{?-i*} %{?listfiles_include} %* | sort -u)
+  %if "%{?-x*}%{?listfiles_exclude}" != ""
+    while IFS= read -r finc ; do
+      realpath -qe --relative-base=. %{?-x*} %{?listfiles_exclude} \\
+        | sort -u | grep -q "${finc}" || echo "${finc}"
+    done <<< "${listfiles_include}"
+  %else
+    echo "${listfiles_include}"
+  %endif
+%endif
 }
 
 # https://github.com/rpm-software-management/rpm/issues/581
