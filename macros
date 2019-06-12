@@ -265,12 +265,4 @@ print(result)
 }
 
 # Temporary shelter for rpm 4.15 refugees
-%__perl %{_bindir}/perl
 %requires_eq()  %(LC_ALL="C" echo '%*' | xargs -r rpm -q --qf 'Requires: %%{name} = %%{epoch}:%%{version}\\n' | sed -e 's/ (none):/ /' -e 's/ 0:/ /' | grep -v "is not")
-%perl_sitearch  %(eval "`%{__perl} -V:installsitearch`"; echo $installsitearch)
-%perl_sitelib   %(eval "`%{__perl} -V:installsitelib`"; echo $installsitelib)
-%perl_vendorarch %(eval "`%{__perl} -V:installvendorarch`"; echo $installvendorarch)
-%perl_vendorlib  %(eval "`%{__perl} -V:installvendorlib`"; echo $installvendorlib)
-%perl_archlib   %(eval "`%{__perl} -V:installarchlib`"; echo $installarchlib)
-%perl_privlib   %(eval "`%{__perl} -V:installprivlib`"; echo $installprivlib)
-
