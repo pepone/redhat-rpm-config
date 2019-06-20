@@ -7,7 +7,7 @@
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
 Version: 133
-Release: 1%{?dist}
+Release: 2%{?dist}
 # No version specified.
 License: GPL+
 URL: https://src.fedoraproject.org/rpms/redhat-rpm-config
@@ -202,6 +202,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Jun 27 2019 Vít Ondruch <vondruch@redhat.com> - 133-2
+- Enable RPM to set SOURCE_DATE_EPOCH environment variable.
+
 * Tue Jun 25 08:13:50 CEST 2019 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 133-1
 - Expand listfiles_exclude/listfiles/include
 
