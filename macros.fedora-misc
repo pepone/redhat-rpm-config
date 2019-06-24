@@ -12,9 +12,9 @@
 # Arguments passed to the macro without flags will be interpreted as inclusion
 # globs.
 %listfiles(i:x:) %{expand:
-%if "%{?-i*}%{?listfiles_include}%*" != ""
+%if "%{?-i*}%{expand:?listfiles_include}%*" != ""
   listfiles_include=$(realpath -e --relative-base=. %{?-i*} %{?listfiles_include} %* | sort -u)
-  %if "%{?-x*}%{?listfiles_exclude}" != ""
+  %if "%{?-x*}%{expand:?listfiles_exclude}" != ""
     while IFS= read -r finc ; do
       realpath -qe --relative-base=. %{?-x*} %{?listfiles_exclude} \\
         | sort -u | grep -q "${finc}" || echo "${finc}"
