@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 132
+Version: 133
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -202,6 +202,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Jun 25 08:13:50 CEST 2019 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 133-1
+- Expand listfiles_exclude/listfiles/include
+
 * Tue Jun 11 2019 Jitka Plesnikova <jplesnik@redhat.com> - 132-1
 - Remove perl macro refugees
 
