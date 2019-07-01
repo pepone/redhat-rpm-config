@@ -202,6 +202,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Jul 01 2019 Florian Festi <ffesti@redhat.com> - 134-1
+- Switch binary payload compression to Zstandard level 19
+
 * Thu Jun 27 2019 Vít Ondruch <vondruch@redhat.com> - 133-2
 - Enable RPM to set SOURCE_DATE_EPOCH environment variable.
 
