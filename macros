@@ -195,8 +195,8 @@ print(result)
 %_source_filedigest_algorithm 8
 %_binary_filedigest_algorithm 8
 
-# Use XZ compression for binary payloads
-%_binary_payload w2.xzdio
+# Use Zstandard compression for binary payloads
+%_binary_payload w19.zstdio
 
 %_hardening_cflags	-specs=/usr/lib/rpm/redhat/redhat-hardened-cc1
 # we don't escape symbols '~', '"', etc. so be careful when changing this
