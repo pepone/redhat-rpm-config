@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 137
+Version: 138
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -47,6 +47,10 @@ Source155: macros.fedora-misc
 # added a python -> python2 conversion for fedora with warning
 # and an echo when the mangling happens
 Source201: brp-mangle-shebangs
+
+# this comes from rpm itself
+# however, now we can do Fedora changes within
+Source202: brp-python-bytecompile
 
 # Dependency generator scripts (deprecated)
 Source300: find-provides
@@ -95,7 +99,8 @@ Requires: nim-srpm-macros
 Requires: ocaml-srpm-macros
 Requires: openblas-srpm-macros
 Requires: perl-srpm-macros
-Requires: python-srpm-macros
+# ↓ Provides compileall2 Python module
+Requires: python-srpm-macros >= 46
 Requires: rust-srpm-macros
 Requires: qt5-srpm-macros
 
@@ -202,6 +207,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Jul 09 2019 Miro Hrončok <mhroncok@redhat.com> - 138-1
+- Move brp-python-bytecompile from rpm, so we can easily adapt it
+
 * Mon Jul 08 2019 Nicolas Mailhot <nim@fedoraproject.org> - 137-1
 - listfiles: make it robust against all kinds of “interesting” inputs
 - wordwrap: make list indenting smarter, to produce something with enough

@@ -146,7 +146,7 @@ print(result)
 %__brp_strip /usr/lib/rpm/brp-strip %{__strip}
 %__brp_strip_comment_note /usr/lib/rpm/brp-strip-comment-note %{__strip} %{__objdump}
 %__brp_strip_static_archive /usr/lib/rpm/brp-strip-static-archive %{__strip}
-%__brp_python_bytecompile /usr/lib/rpm/brp-python-bytecompile "%{__python}" "%{?_python_bytecompile_errors_terminate_build}" "%{?_python_bytecompile_extra}"
+%__brp_python_bytecompile /usr/lib/rpm/redhat/brp-python-bytecompile "%{__python}" "%{?_python_bytecompile_errors_terminate_build}" "%{?_python_bytecompile_extra}"
 %__brp_python_hardlink /usr/lib/rpm/brp-python-hardlink
 # __brp_mangle_shebangs_exclude - shebangs to exclude
 # __brp_mangle_shebangs_exclude_file - file from which to get shebangs to exclude
