@@ -154,7 +154,11 @@ local function wordwrap(text)
         wl = bad
       end
       if (pos == 0) then
-        advance = string.gsub(word, "^(%s*).*", "%1")
+        advance, n = string.gsub(word, "^(%s*– ).*", "%1")
+        if (n == 0) then
+          advance = string.gsub(word, "^(%s*).*", "%1")
+        end
+        advance = string.gsub(advance, "– ", "  ")
         pos = pos + wl
       elseif  (pos + wl < 81) then
         pos = pos + wl

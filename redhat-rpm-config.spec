@@ -202,6 +202,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+- wordwrap: make list indenting smarter, to produce something with enough
+  structure that it can be converted into AppStream metadata
+
 * Mon Jul 08 2019 Robert-André Mauchin <zebob.m@gmail.com> - 136-1
 - Revert "Fix expansion in listfiles_exclude/listfiles_include"
 
