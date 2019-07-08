@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 135
+Version: 136
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -202,6 +202,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Jul 08 2019 Robert-André Mauchin <zebob.m@gmail.com> - 136-1
+- Revert "Fix expansion in listfiles_exclude/listfiles_include"
+
 * Mon Jul 08 2019 Nicolas Mailhot <nim@fedoraproject.org> - 135-1
 - Fix expansion in listfiles_exclude/listfiles_include
 
