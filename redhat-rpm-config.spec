@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 136
+Version: 137
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -202,6 +202,7 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Jul 08 2019 Nicolas Mailhot <nim@fedoraproject.org> - 137-1
 - listfiles: make it robust against all kinds of “interesting” inputs
 - wordwrap: make list indenting smarter, to produce something with enough
   structure that it can be converted into AppStream metadata
