@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 139
+Version: 140
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -100,7 +100,7 @@ Requires: ocaml-srpm-macros
 Requires: openblas-srpm-macros
 Requires: perl-srpm-macros
 # ↓ Provides compileall2 Python module
-Requires: python-srpm-macros >= 46
+Requires: python-srpm-macros >= 3-46
 Requires: rust-srpm-macros
 Requires: qt5-srpm-macros
 
@@ -207,6 +207,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Sat Jul 20 2019 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 140-1
+- Fixup python-srpm-macros version
+
 * Wed Jul 17 2019 Lumír Balhar <lbalhar@redhat.com> - 139-1
 - Use compileall2 Python module for byte-compilation in brp-python-bytecompile
 
