@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 138
+Version: 139
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -207,6 +207,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Jul 17 2019 Lumír Balhar <lbalhar@redhat.com> - 139-1
+- Use compileall2 Python module for byte-compilation in brp-python-bytecompile
+
 * Tue Jul 09 2019 Miro Hrončok <mhroncok@redhat.com> - 138-1
 - Move brp-python-bytecompile from rpm, so we can easily adapt it
 
