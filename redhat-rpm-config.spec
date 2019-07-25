@@ -7,7 +7,7 @@
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
 Version: 140
-Release: 1%{?dist}
+Release: 2%{?dist}
 # No version specified.
 License: GPL+
 URL: https://src.fedoraproject.org/rpms/redhat-rpm-config
@@ -207,6 +207,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Jul 25 2019 Richard W.M. Jones <rjones@redhat.com> - 140-2
+- Bump version and rebuild.
+
 * Sat Jul 20 2019 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 140-1
 - Fixup python-srpm-macros version
 
