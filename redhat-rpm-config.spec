@@ -6,8 +6,8 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 141
-Release: 2%{?dist}
+Version: 142
+Release: 1%{?dist}
 # No version specified.
 License: GPL+
 URL: https://src.fedoraproject.org/rpms/redhat-rpm-config
@@ -207,8 +207,11 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Nov 01 2019 Miro Hrončok <mhroncok@redhat.com> - 142-1
+- Fix the simple API of %%gpgverify.
+
 * Thu Aug 22 2019 Jason L Tibbitts III <tibbs@math.uh.edu> - 141-2
-- Simplify the API if %%gpgverify.
+- Simplify the API of %%gpgverify.
 
 * Thu Jul 25 2019 Richard W.M. Jones <rjones@redhat.com> - 140-2
 - Bump version and rebuild.
