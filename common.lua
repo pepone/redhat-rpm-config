@@ -138,6 +138,7 @@ end
 local function wordwrap(text)
   text = rpm.expand(text .. "\n")
   text = string.gsub(text, "\t",              "  ")
+  text = string.gsub(text, "\r",              "\n")
   text = string.gsub(text, " +\n",            "\n")
   text = string.gsub(text, "\n+\n",           "\n\n")
   text = string.gsub(text, "^\n",             "")
@@ -160,7 +161,8 @@ local function wordwrap(text)
         end
         advance = string.gsub(advance, "– ", "  ")
         pos = pos + wl
-      elseif  (pos + wl < 81) then
+      elseif  (pos + wl  < 81) or
+             ((pos + wl == 81) and string.match(word, "\n$")) then
         pos = pos + wl
       else
         word = advance .. string.gsub(word, "^%s*", "")
