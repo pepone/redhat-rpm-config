@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 143
+Version: 144
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -207,6 +207,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Nov 21 2019 Denys Vlasenko <dvlasenk@redhat.com> - 144-1
+- Speed up brp-mangle-shebangs.
+
 * Tue Nov 05 2019 Lumír Balhar <lbalhar@redhat.com> - 143-1
 - Fix brp-python-bytecompile with the new features from compileall2
 - Resolves: rhbz#1595265
