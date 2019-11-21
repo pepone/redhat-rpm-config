@@ -92,12 +92,12 @@ while IFS= read -r line; do
     echo "$path" | grep -q -E -f "$exclude_files_from" && continue
   fi
 
-  ts=$(stat -c %y "$f")
 
   read shebang_line < "$f"
   orig_shebang="${shebang_line#\#!}"
   if [ "$orig_shebang" = "$shebang_line" ]; then
     echo >&2 "*** WARNING: $f is executable but has no shebang, removing executable bit"
+    ts=$(stat -c %y "$f")
     chmod -x "$f"
     touch -d "$ts" "$f"
     continue
@@ -114,6 +114,7 @@ while IFS= read -r line; do
 
   if [ -z "$shebang" ]; then
     echo >&2 "*** WARNING: $f is executable but has empty shebang, removing executable bit"
+    ts=$(stat -c %y "$f")
     chmod -x "$f"
     touch -d "$ts" "$f"
     continue
@@ -145,11 +146,12 @@ while IFS= read -r line; do
     echo >&2 "*** ERROR: ambiguous python shebang in $path: #!$orig_shebang. Change it to python3 (or python2) explicitly."
     fail=1
   elif [ "#!$shebang" != "#!$orig_shebang" ]; then
-    sed -i -e "1c #!$shebang" "$f"
     echo "mangling shebang in $path from $orig_shebang to #!$shebang"
+    ts=$(stat -c %y "$f")
+    sed -i -e "1c #!$shebang" "$f"
+    touch -d "$ts" "$f"
   fi
 
-  touch -d "$ts" "$f"
 done
 
 exit $fail
