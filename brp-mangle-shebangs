@@ -70,10 +70,6 @@ done
 
 cd "$RPM_BUILD_ROOT"
 
-trim() {
-  printf '%s' "$*"
-}
-
 # Large packages such as kernel can have thousands of executable files.
 # We take care to not fork/exec thousands of "file"s and "grep"s,
 # but run just two of them.
@@ -98,22 +94,31 @@ while IFS= read -r line; do
 
   ts=$(stat -c %y "$f")
 
-  read shebang_line < "$f" || :
-  orig_shebang=$(trim $(echo "$shebang_line" | grep -Po "#!\K.*" || echo))
-  shebang="$orig_shebang"
-  if [ -n "$exclude_shebangs" ]; then
-    echo "$shebang" | grep -q -E "$exclude_shebangs" && continue
-  fi
-  if [ -n "$exclude_shebangs_from" ]; then
-    echo "$shebang" | grep -q -E -f "$exclude_shebangs_from" && continue
-  fi
-
-  if [ -z "$shebang" ]; then
-    echo >&2 "*** WARNING: $f is executable but has empty or no shebang, removing executable bit"
+  read shebang_line < "$f"
+  orig_shebang="${shebang_line#\#!}"
+  if [ "$orig_shebang" = "$shebang_line" ]; then
+    echo >&2 "*** WARNING: $f is executable but has no shebang, removing executable bit"
     chmod -x "$f"
     touch -d "$ts" "$f"
     continue
-  elif [ -n "${shebang##/*}" ]; then
+  fi
+
+  # Trim spaces
+  while shebang="${orig_shebang//  / }"; [ "$shebang" != "$orig_shebang" ]; do
+    orig_shebang="$shebang"
+  done
+  # Treat "#! /path/to " as "#!/path/to"
+  orig_shebang="${orig_shebang# }"
+
+  shebang="$orig_shebang"
+
+  if [ -z "$shebang" ]; then
+    echo >&2 "*** WARNING: $f is executable but has empty shebang, removing executable bit"
+    chmod -x "$f"
+    touch -d "$ts" "$f"
+    continue
+  fi
+  if [ -n "${shebang##/*}" ]; then
     echo >&2 "*** ERROR: $f has shebang which doesn't start with '/' ($shebang)"
     fail=1
     continue
