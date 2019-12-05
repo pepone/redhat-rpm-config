@@ -1,17 +1,28 @@
 #!/bin/sh +x
+# Kernel build can have many thousands of modules.
+# kmod.prov is run for every one of them.
+# Try to make this script run as fast as we can.
+# For example, use shell string ops instead of external programs
+# where possible.
 
 IFS=$'\n'
 
-for i in $(grep -E '(/lib/modules/.*\.ko|/lib/modules/.*/modules.builtin)');
-do
-	kmod=$(basename $i | sed -e 's/.[xg]z//');
+read -r fname || exit
 
-	if [ $kmod == "modules.builtin" ]; then
-		for j in $(cat $i); do
-			j=$(basename $j);
-			echo "kmod($j)"
-		done
-	else
-		echo "kmod($kmod)"
-	fi
-done
+# Only process files from .../lib/modules/... subtree
+[ "${fname#*/lib/modules/*}" != "$fname" ] || exit 0
+
+kmod=${fname##*/}  # like basename, but faster
+
+if [ "$kmod" = "modules.builtin" ]; then
+        for j in $(cat -- "$fname"); do
+                echo "kmod(${j##*/})"
+        done
+        exit 0
+fi
+
+kmod=${kmod%.gz}
+kmod=${kmod%.xz}
+if [ "${kmod%.ko}" != "$kmod" ]; then
+        echo "kmod($kmod)"
+fi
