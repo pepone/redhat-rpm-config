@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 149
+Version: 150
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -78,6 +78,7 @@ Source602: libsymlink.attr
 
 # BRPs
 Source700: brp-ldconfig
+Source701: brp-strip-lto
 
 # Convenience lua functions
 Source800: common.lua
@@ -207,6 +208,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Feb 14 2019 Jeff Law <law@redhat.com> - 150-1
+- Strip LTO sections/symbols from installed .o/.a files
+
 * Thu Jan 23 2020 Jeff Law <law@redhat.com> - 149-1
 - Allow conditionally adding -fcommon to CFLAGS by defining %%_legacy_common_support
 

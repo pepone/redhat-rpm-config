@@ -1,0 +1,18 @@
+#!/usr/bin/sh
+# If using normal root, avoid changing anything.
+if [ -z "$RPM_BUILD_ROOT" ] || [ "$RPM_BUILD_ROOT" = "/" ]; then
+	exit 0
+fi
+
+STRIP=${1:-strip}
+
+case `uname -a` in
+Darwin*) exit 0 ;;
+*) ;;
+esac
+
+# Strip ELF binaries
+for f in `find "$RPM_BUILD_ROOT" -type f -name \*.[ao] -print | \
+        grep -v "^${RPM_BUILD_ROOT}/\?usr/lib/debug"`; do
+	$STRIP -p -R .gnu.lto_* -R .gnu.debuglto_* -N __gnu_lto_v1 "$f" || :
+done

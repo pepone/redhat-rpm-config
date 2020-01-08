@@ -146,6 +146,7 @@ print(result)
 %__brp_ldconfig /usr/lib/rpm/redhat/brp-ldconfig
 %__brp_compress /usr/lib/rpm/brp-compress
 %__brp_strip /usr/lib/rpm/brp-strip %{__strip}
+%__brp_strip_lto /usr/lib/rpm/redhat/brp-strip-lto %{__strip}
 %__brp_strip_comment_note /usr/lib/rpm/brp-strip-comment-note %{__strip} %{__objdump}
 %__brp_strip_static_archive /usr/lib/rpm/brp-strip-static-archive %{__strip}
 %__brp_python_bytecompile /usr/lib/rpm/redhat/brp-python-bytecompile "%{__python}" "%{?_python_bytecompile_errors_terminate_build}" "%{?_python_bytecompile_extra}"
@@ -163,6 +164,7 @@ print(result)
     %{?__brp_strip} \
     %{?__brp_strip_comment_note} \
     } \
+    %{?__brp_strip_lto} \
     %{?__brp_strip_static_archive} \
     %{?py_auto_byte_compile:%{?__brp_python_bytecompile}} \
     %{?__brp_python_hardlink} \
