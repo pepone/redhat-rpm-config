@@ -148,6 +148,18 @@ to the RPM spec file to disable these strict checks.  Alternatively,
 you can pass `-z undefs` to ld (written as `-Wl,-z,undefs` on the gcc
 command line).  The latter needs binutils 2.29.1-12.fc28 or later.
 
+### Legacy -fcommon
+
+Since version 10, [gcc defaults to `-fno-common`](https://gcc.gnu.org/gcc-10/porting_to.html#common).
+Builds may fail with `multiple definition of ...` errors.
+
+As a short term workaround for such failure,
+it is possible to add `-fcommon` to the flags by defining `%_legacy_common_support`.
+
+    %define _legacy_common_support 1
+
+Properly fixing the failure is always preferred!
+
 # Individual compiler flags
 
 Compiler flags end up in the environment variables `CFLAGS`,

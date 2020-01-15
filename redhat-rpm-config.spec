@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 148
+Version: 149
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -207,6 +207,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Jan 23 2020 Jeff Law <law@redhat.com> - 149-1
+- Allow conditionally adding -fcommon to CFLAGS by defining %%_legacy_common_support
+
 * Mon Jan 20 2020 Florian Weimer <fweimer@redhat.com> - 148-1
 - Reenable annobin after GCC 10 integration (#1792892)
 
