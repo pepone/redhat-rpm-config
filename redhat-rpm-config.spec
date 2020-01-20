@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 146
+Version: 147
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -107,7 +107,6 @@ Requires: qt5-srpm-macros
 Requires: rpm >= 4.11.0
 Requires: dwz >= 0.4
 Requires: zip
-Requires: (annobin if gcc)
 
 # for brp-mangle-shebangs
 Requires: %{_bindir}/find
@@ -207,6 +206,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Jan 20 2020 Florian Weimer <fweimer@redhat.com> - 147-1
+- Temporarily disable annobin for GCC 10 (#1792892)
+
 * Thu Dec 05 2019 Denys Vlasenko <dvlasenk@redhat.com> - 146-1
 - kmod.prov: fix and speed it up
 
