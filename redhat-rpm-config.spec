@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 150
+Version: 151
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -208,6 +208,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Feb 14 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 151-1
+- Fixup parallel algorithm for brp-strip-lto
+
 * Fri Feb 14 2020 Jeff Law <law@redhat.com> - 150-1
 - Strip LTO sections/symbols from installed .o/.a files
 
