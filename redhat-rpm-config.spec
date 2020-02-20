@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 152
+Version: 153
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -93,6 +93,7 @@ Requires: coreutils
 
 Requires: efi-srpm-macros
 Requires: fpc-srpm-macros
+Requires: fonts-srpm-macros
 Requires: ghc-srpm-macros
 Requires: gnat-srpm-macros
 Requires: go-srpm-macros
@@ -208,6 +209,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Feb 20 2020 Jason L Tibbitts III <tibbs@math.uh.edu> - 153-1
+- Add dependency on fonts-srpm-macros, as those have now been approved by FPC.
+
 * Thu Feb 20 2020 Jeff Law <law@redhat.com> - 152-1
 - Use eu-elfclassify to only run strip on ELF relocatables
   and archive libraries.
