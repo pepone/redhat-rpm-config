@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 151
+Version: 152
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -208,6 +208,10 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Feb 20 2020 Jeff Law <law@redhat.com> - 152-1
+- Use eu-elfclassify to only run strip on ELF relocatables
+  and archive libraries.
+
 * Fri Feb 14 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 151-1
 - Fixup parallel algorithm for brp-strip-lto
 
