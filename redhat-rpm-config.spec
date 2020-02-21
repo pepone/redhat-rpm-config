@@ -92,8 +92,8 @@ BuildRequires: perl-generators
 Requires: coreutils
 
 Requires: efi-srpm-macros
-Requires: fpc-srpm-macros
 Requires: fonts-srpm-macros
+Requires: fpc-srpm-macros
 Requires: ghc-srpm-macros
 Requires: gnat-srpm-macros
 Requires: go-srpm-macros
