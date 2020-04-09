@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 153
+Version: 154
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -73,7 +73,6 @@ Source501: config.sub
 
 # Dependency generators & their rules
 Source600: kmod.attr
-Source601: kmod.prov
 Source602: libsymlink.attr
 
 # BRPs
@@ -162,7 +161,6 @@ install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/macros.d macros.*
 
 mkdir -p %{buildroot}%{_fileattrsdir}
 install -p -m 644 -t %{buildroot}%{_fileattrsdir} *.attr
-install -p -m 755 -t %{buildroot}%{_rpmconfigdir} kmod.prov
 
 mkdir -p %{buildroot}%{_rpmluadir}/fedora/{rpm,srpm}
 install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora common.lua
@@ -182,7 +180,6 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{rrcdir}/find-requires
 %{rrcdir}/brp-ldconfig
 %{_fileattrsdir}/*.attr
-%{_rpmconfigdir}/kmod.prov
 %{_rpmconfigdir}/macros.d/macros.*-srpm
 %{_rpmconfigdir}/macros.d/macros.dwz
 %{_rpmconfigdir}/macros.d/macros.forge
@@ -209,6 +206,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Apr 09 2020 Panu Matilainen <pmatilai@redhat.com> - 154-1
+- Optimize kernel module provides by using a parametric generator
+
 * Thu Feb 20 2020 Jason L Tibbitts III <tibbs@math.uh.edu> - 153-1
 - Add dependency on fonts-srpm-macros, as those have now been approved by FPC.
 
