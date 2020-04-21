@@ -1,4 +1,5 @@
-# Some miscellaneous Fedora-related macros
+# Some miscellaneous Fedora-related macros, intended to be used at rpmbuild -bs
+# stage
 
 # A directory for rpm macros
 %rpmmacrodir /usr/lib/rpm/macros.d
@@ -19,4 +20,38 @@
 local   fedora = require "fedora.common"
 local variable = "%{" .. rpm.expand("%{-v*}%{!-v:_description}") .. "}"
 print(fedora.wordwrap(variable))
+}
+
+# A wrapper around Name: and %package that abstracts their quirks from
+# packagers and macros. Its behavior is controled by the %{source_name}
+# global variable:
+# – when %{source_name} is not set, the first call to %new_package will
+#   create a Name: block and set %{source_name} to the %{name} of this
+#   block.
+# – when %{source_name} is set:
+#   – a call to %new_package with no arguments creates:
+#     Name: %{source_name}
+#   – otherwise, a call to %new_package creates the corresponding:
+#     %package…
+#     line, unless the resulting %{name} matches %{source_name}. In that
+#     case it creates
+#     Name: %{source_name}
+#     as before.
+# Arguments:
+# – -n and %1 like %package
+# – -v to print the variables %new_package sets directly.
+# The intended use-case it to simplify coordination between macros that
+# create subpackages, make it easy for packagers to declare which of the
+# macro-created packages owns the SRPM, and make %{source_name} available
+# within spec files and not just as a dnf synthetic variable.
+# Unlike %{name} %{source_name} matches the SRPM name regardless of its
+# location within the spec file.
+%new_package(n:v) %{lua:
+local        fedora =  require "fedora.common"
+local   source_name =  rpm.expand("%{?source_name}")
+local      pkg_name =  rpm.expand("%{-n*}")
+local   name_suffix =  rpm.expand("%{?1}")
+local previous_name =  rpm.expand("%{?name}")
+local       verbose = (rpm.expand("%{-v}") ~= "")
+fedora.new_package(source_name, pkg_name, name_suffix, previous_name, verbose)
 }

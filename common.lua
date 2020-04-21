@@ -9,7 +9,7 @@ local function explicitset(rpmvar, value, verbose)
   end
   rpm.define(rpmvar .. " " .. value)
   if verbose then
-    rpm.expand("%{echo:Setting %%{" .. rpmvar .. "} = " .. value .. "}")
+    rpm.expand("%{warn:Setting %%{" .. rpmvar .. "} = " .. value .. "}")
   end
 end
 
@@ -19,7 +19,7 @@ local function explicitunset(rpmvar, verbose)
   if (rpm.expand("%{" .. rpmvar .. "}") ~= "%{" .. rpmvar .. "}") then
     rpm.define(rpmvar .. " %{nil}")
     if verbose then
-      rpm.expand("%{echo:Unsetting %%{" .. rpmvar .. "}}")
+      rpm.expand("%{warn:Unsetting %%{" .. rpmvar .. "}}")
     end
   end
 end
@@ -150,8 +150,9 @@ local function wordwrap(text)
     for word in string.gmatch(line, "%s*[^%s]*\n?") do
       local wl, bad = utf8.len(word)
       if not wl then
-        print("%{warn: Invalid UTF-8 sequence detected in:\n" ..
-               word .. "\nIt may produce unexpected results.\n}")
+        print("%{warn:Invalid UTF-8 sequence detected in:}" ..
+              "%{warn:" .. word .. "}" ..
+              "%{warn:It may produce unexpected results.}")
         wl = bad
       end
       if (pos == 0) then
@@ -182,6 +183,45 @@ local function wordwrap(text)
   return output
 end
 
+-- The processing core of %new_package
+local function new_package(source_name, pkg_name, name_suffix, previous_name, verbose)
+  -- Safety net when the wrapper is used next to traditional syntax in a spec
+  if (source_name == "") and (previous_name ~= "") then
+    rpm.expand(
+      "%{warn:Something already set the following package name: " .. previous_name .. ".}" ..
+      "%{warn:However, %%{source_name} is empty. Please set the SRPM name in %%{source_name}!}")
+    if (name_suffix ~= "") then
+      print(rpm.expand("\n%package "    .. name_suffix))
+    else
+      print(rpm.expand("\n%package -n " .. pkg_name))
+    end
+    return
+  end
+  -- New processing
+  if (pkg_name == "") and (name_suffix ~= "") then
+    pkg_name = name_suffix
+    if (source_name ~= "") then
+      pkg_name = source_name .. "-" .. name_suffix
+    end
+  end
+  if (pkg_name == "") then
+    if (source_name == "") then
+      rpm.expand("%{error:You need to set %%{source_name} or provide explicit package naming!}")
+    else
+      pkg_name = source_name
+    end
+  end
+  if (source_name == "") then
+    source_name = pkg_name
+  end
+  if (pkg_name == source_name) then
+    safeset("source_name", source_name, verbose)
+    print(rpm.expand("\nName:    %{source_name}"))
+  else
+    print(rpm.expand("\n%package -n " .. pkg_name))
+  end
+end
+
 return {
   explicitset   = explicitset,
   explicitunset = explicitunset,
@@ -194,4 +234,5 @@ return {
   getbestsuffix = getbestsuffix,
   writevars     = writevars,
   wordwrap      = wordwrap,
+  new_package   = new_package,
 }
