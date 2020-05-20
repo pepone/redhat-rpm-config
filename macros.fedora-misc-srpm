@@ -47,11 +47,11 @@ print(fedora.wordwrap(variable))
 # Unlike %{name} %{source_name} matches the SRPM name regardless of its
 # location within the spec file.
 %new_package(n:v) %{lua:
-local        fedora =  require "fedora.common"
-local   source_name =  rpm.expand("%{?source_name}")
-local      pkg_name =  rpm.expand("%{-n*}")
-local   name_suffix =  rpm.expand("%{?1}")
-local previous_name =  rpm.expand("%{?name}")
-local       verbose = (rpm.expand("%{-v}") ~= "")
-fedora.new_package(source_name, pkg_name, name_suffix, previous_name, verbose)
+local      fedora = require "fedora.common"
+local    pkg_name = fedora.readflag("n")
+local     verbose = fedora.hasflag("v")
+local name_suffix = fedora.read("1")
+local source_name = fedora.read("source_name")
+local       first = not ( fedora.read("name") or fedora.read("currentname") )
+fedora.new_package(source_name, pkg_name, name_suffix, first, verbose)
 }

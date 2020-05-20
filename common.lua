@@ -1,5 +1,45 @@
 -- Convenience Lua functions that can be used within rpm macros
 
+-- Reads an rpm variable. Unlike a basic rpm.expand("{?foo}"), returns nil if
+-- the variable is unset, which is convenient in lua tests and enables
+-- differentiating unset variables from variables set to ""
+local function read(rpmvar)
+  if not rpmvar or
+    (rpm.expand("%{" .. rpmvar .. "}") == "%{" .. rpmvar .. "}") then
+    return nil
+  else
+    return rpm.expand("%{?" .. rpmvar .. "}")
+  end
+end
+
+-- Returns true if the macro that called this function had flag set
+-- For example, hasflag("z") would give the following results:
+--   %foo -z bar → true
+--   %foo -z     → true
+--   %foo        → false
+local function hasflag(flag)
+  return (rpm.expand("%{-" .. flag .. "}") ~= "")
+end
+
+-- Returns the argument passed to flag in the macro that called this function
+-- For example, readflag("z") would give the following results:
+--   %foo -z bar → bar
+--   %foo        → nil
+--   %foo -z ""  → empty string
+--   %foo -z ''  → empty string
+local function readflag(flag)
+  if not hasflag(flag) then
+    return nil
+  else
+    local a = rpm.expand("%{-" .. flag .. "*}")
+    -- Handle "" and '' as empty strings
+    if (a == '""') or (a == "''") then
+      a = ''
+    end
+    return a
+  end
+end
+
 -- Set a spec variable
 -- Echo the result if verbose
 local function explicitset(rpmvar, value, verbose)
@@ -183,46 +223,76 @@ local function wordwrap(text)
   return output
 end
 
+-- Because rpmbuild will fail if a subpackage is declared before the source
+-- package itself, provide a source package declaration shell as fallback.
+local function srcpkg(verbose)
+  if verbose then
+    rpm.expand([[
+%{echo:Creating a header for the SRPM from %%{source_name}, %%{source_summary} and}
+%{echo:%%{source_description}. If that is not the intended result, please declare the}
+%{echo:SRPM header and set %%{source_name} in your spec file before calling a macro}
+%{echo:that creates other package headers.}
+]])
+  end
+  print(rpm.expand([[
+Name:           %{source_name}
+Summary:        %{source_summary}
+%description
+%wordwrap -v source_description
+]]))
+  set("currentname", "%{source_name}", verbose)
+end
+
 -- The processing core of %new_package
-local function new_package(source_name, pkg_name, name_suffix, previous_name, verbose)
-  -- Safety net when the wrapper is used next to traditional syntax in a spec
-  if (source_name == "") and (previous_name ~= "") then
-    rpm.expand(
-      "%{warn:Something already set the following package name: " .. previous_name .. ".}" ..
-      "%{warn:However, %%{source_name} is empty. Please set the SRPM name in %%{source_name}!}")
-    if (name_suffix ~= "") then
-      print(rpm.expand("\n%package "    .. name_suffix))
+local function new_package(source_name, pkg_name, name_suffix, first, verbose)
+  -- Safety net when the wrapper is used in conjunction with traditional syntax
+  if (not first) and (not source_name) then
+    rpm.expand([[
+%{warn:Something already set a package name. However, %%{source_name} is not set.}
+%{warn:Please set %%{source_name} to the SRPM name to ensure reliable processing.}
+]])
+    if name_suffix then
+      print(rpm.expand("%package        " .. name_suffix))
     else
-      print(rpm.expand("\n%package -n " .. pkg_name))
+      print(rpm.expand("%package     -n " .. pkg_name))
     end
     return
   end
   -- New processing
-  if (pkg_name == "") and (name_suffix ~= "") then
+  if name_suffix and not pkg_name then
     pkg_name = name_suffix
-    if (source_name ~= "") then
+    if source_name then
       pkg_name = source_name .. "-" .. name_suffix
     end
   end
-  if (pkg_name == "") then
-    if (source_name == "") then
-      rpm.expand("%{error:You need to set %%{source_name} or provide explicit package naming!}")
+  if not pkg_name then
+    if not source_name then
+      rpm.expand([[
+%{error:You need to set %%{source_name} or provide explicit package naming!}
+]])
     else
       pkg_name = source_name
     end
   end
-  if (source_name == "") then
+  if not source_name then
     source_name = pkg_name
   end
   if (pkg_name == source_name) then
     safeset("source_name", source_name, verbose)
-    print(rpm.expand("\nName:    %{source_name}"))
+    print(rpm.expand("Name:           %{source_name}"))
   else
-    print(rpm.expand("\n%package -n " .. pkg_name))
+    if source_name and first then
+      srcpkg(verbose)
+    end
+    print(rpm.expand("%package     -n " .. pkg_name))
   end
+  set("currentname", pkg_name, verbose)
 end
 
 return {
+  read          = read,
+  hasflag       = hasflag,
+  readflag      = readflag,
   explicitset   = explicitset,
   explicitunset = explicitunset,
   safeset       = safeset,
