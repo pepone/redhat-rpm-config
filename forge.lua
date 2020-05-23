@@ -31,6 +31,9 @@ local function checkforgeurl(url, id, silent)
     pagure_ns_fork = {
       pattern     = 'https://[^/]+/fork/[^/]+/[^/]+/[^/#?]+',
       description = 'https://pagure.io/fork/owner/namespace/repo'},
+    ["gitea.com"] = {
+      pattern     = 'https://[^/]+/[^/]+/[^/#?]+',
+      description = 'https://gitea.com/owner/repo'},
     github = {
       pattern     = 'https://[^/]+/[^/]+/[^/#?]+',
       description = 'https://(…[-.])github[-.]…/owner/repo'},
@@ -129,6 +132,11 @@ local function meta(suffix, verbose, informative, silent)
       repo        = '%{lua:print(string.match(rpm.expand("%{forgeurl' .. suffix .. '}"), "https://[^/]+/fork/[^/]+/[^/]+/([^/?#]+)")}',
       archivename = "%{owner"        .. suffix .. "}-%{namespace"     .. suffix .. "}-%{repo"        .. suffix .. "}-%{ref"        .. suffix .. "}",
       archiveurl  = "%{forgeurl"     .. suffix .. "}/archive/%{ref"   .. suffix .. "}/%{archivename" .. suffix .. "}.%{archiveext" .. suffix .. "}" },
+    ["gitea.com"] = {
+      archiveext  = "tar.gz",
+      archivename = "%{fileref"      .. suffix .. "}",
+      archiveurl  = "%{forgeurl"     .. suffix .. "}/archive/%{ref"   .. suffix .. "}.%{archiveext" .. suffix .. "}",
+      topdir      = "%{repo}" },
     github = {
       archiveext  = "tar.gz",
       archivename = "%{repo"         .. suffix .. "}-%{fileref"       .. suffix .. "}",
@@ -190,6 +198,11 @@ local function meta(suffix, verbose, informative, silent)
       elseif (string.match(rpm.expand(fileref), "/")) then
         fileref = string.gsub(rpm.expand(fileref), "/", "-")
       end
+      fedora.safeset("fileref" .. suffix, fileref, verbose)
+    elseif (forge == "gitea.com") then
+      -- Workaround the way gitea mangles /s in ref names
+      local fileref = ref
+      fileref = string.gsub(rpm.expand(fileref), "/", "-")
       fedora.safeset("fileref" .. suffix, fileref, verbose)
     elseif (forge == "code.googlesource.com") then
       if (ref == "%{?version"  .. suffix .. "}") then
