@@ -259,34 +259,29 @@ local function new_package(source_name, pkg_name, name_suffix, first, verbose)
     return
   end
   -- New processing
-  if name_suffix and not pkg_name then
-    pkg_name = name_suffix
-    if source_name then
-      pkg_name = source_name .. "-" .. name_suffix
-    end
-  end
-  if not pkg_name then
-    if not source_name then
-      rpm.expand([[
+  if not (pkg_name or name_suffix or source_name) then
+    rpm.expand([[
 %{error:You need to set %%{source_name} or provide explicit package naming!}
 ]])
-    else
-      pkg_name = source_name
-    end
   end
-  if not source_name then
-    source_name = pkg_name
-  end
-  if (pkg_name == source_name) then
-    safeset("source_name", source_name, verbose)
-    print(rpm.expand("Name:           %{source_name}"))
+  if name_suffix then
+    print(rpm.expand("%package        "  .. name_suffix))
+    set("currentname", "%{source_name}-" .. name_suffix, verbose)
   else
-    if source_name and first then
-      srcpkg(verbose)
+    if not source_name then
+      source_name = pkg_name
     end
-    print(rpm.expand("%package     -n " .. pkg_name))
+    if (pkg_name == source_name) then
+      safeset("source_name", source_name, verbose)
+      print(rpm.expand("Name:           %{source_name}"))
+    else
+      if source_name and first then
+        srcpkg(verbose)
+      end
+      print(rpm.expand("%package     -n " .. pkg_name))
+    end
+    set("currentname", pkg_name, verbose)
   end
-  set("currentname", pkg_name, verbose)
 end
 
 return {
