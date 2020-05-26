@@ -94,8 +94,49 @@ print(result)
 # Eventually we'll want to turn this on by default, but this gives packagers a
 # way to turn it back off.
 # %_configure_disable_silent_rules 1
+
+# This fixes various easy resolved configure tests that are compromised by LTO.
+#
+# We use this within the standard %configure macro, but also make it available
+# for packages which don't use %configure
+#
+# The first three are common ways to test for the existence of a function, so
+# we ensure the reference to the function is preserved
+#
+# The fourth are constants used to then try to generate NaNs and other key
+# floating point numbers.  We then use those special FP numbers to try and
+# raise a SIGFPE.  By declaring x & y volatile we prevent the optimizers
+# from removing the computation
+#
+# The fifth (and worst) addresses problems with autoconf/libtool's approach
+# to extracting symbols from .o files and generating C code.  In an LTO world
+# types matter much more closely and you can't have an object in one context
+# that is a function definition and a simple scalar variable in another.
+# Thankfully HP-UX has always had that restriction and is supported by
+# autoconf/libtool.  The insane sed script replaces the "generic" code with
+# the HP-UX version.
+#
+# If we do not make changes, we put the original file back.  This avoids
+# unnecessary rebuilds of things that may have dependencies on the configure
+# files.
+#
+%_fix_broken_configure_for_lto \
+  for file in $(find . -type f -name configure -print); do \
+    %{__sed} -r --in-place=.backup 's/^char \\(\\*f\\) \\(\\) = /__attribute__ ((used)) char (*f) () = /g' $file; \
+    diff -u $file.backup $file && mv $file.backup $file \
+    %{__sed} -r --in-place=.backup 's/^char \\(\\*f\\) \\(\\);/__attribute__ ((used)) char (*f) ();/g' $file; \
+    diff -u $file.backup $file && mv $file.backup $file \
+    %{__sed} -r --in-place=.backup 's/^char \\$2 \\(\\);/__attribute__ ((used)) char \\$2 ();/g' $file; \
+    diff -u $file.backup $file && mv $file.backup $file \
+    %{__sed} --in-place=.backup '1{$!N;$!N};$!N;s/int x = 1;\\nint y = 0;\\nint z;\\nint nan;/volatile int x = 1; volatile int y = 0; volatile int z, nan;/;P;D' $file; \
+    diff -u $file.backup $file && mv $file.backup $file \
+    %{__sed} --in-place=.backup 's#^lt_cv_sys_global_symbol_to_cdecl=.*#lt_cv_sys_global_symbol_to_cdecl="sed -n -e '"'"'s/^T .* \\\\(.*\\\\)$/extern int \\\\1();/p'"'"' -e '"'"'s/^$symcode* .* \\\\(.*\\\\)$/extern char \\\\1;/p'"'"'"#' $file; \
+    diff -u $file.backup $file && mv $file.backup $file \
+  done ;
+
 %configure \
   %{set_build_flags}; \
+  [ "%{_lto_cflags}"x != x ] && %{_fix_broken_configure_for_lto}; \
   [ "%_configure_gnuconfig_hack" = 1 ] && for i in $(find $(dirname %{_configure}) -name config.guess -o -name config.sub) ; do \
       [ -f /usr/lib/rpm/redhat/$(basename $i) ] && %{__rm} -f $i && %{__cp} -fv /usr/lib/rpm/redhat/$(basename $i) $i ; \
   done ; \
