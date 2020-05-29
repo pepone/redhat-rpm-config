@@ -13,20 +13,20 @@ local function read(rpmvar)
 end
 
 -- Returns true if the macro that called this function had flag set
--- For example, hasflag("z") would give the following results:
---   %foo -z bar → true
---   %foo -z     → true
---   %foo        → false
+--   – for example, hasflag("z") would give the following results:
+--     %foo -z bar → true
+--     %foo -z     → true
+--     %foo        → false
 local function hasflag(flag)
   return (rpm.expand("%{-" .. flag .. "}") ~= "")
 end
 
 -- Returns the argument passed to flag in the macro that called this function
--- For example, readflag("z") would give the following results:
---   %foo -z bar → bar
---   %foo        → nil
---   %foo -z ""  → empty string
---   %foo -z ''  → empty string
+--  – for example, readflag("z") would give the following results:
+--      %foo -z bar → bar
+--      %foo        → nil
+--      %foo -z ""  → empty string
+--      %foo -z ''  → empty string
 local function readflag(flag)
   if not hasflag(flag) then
     return nil
@@ -40,8 +40,7 @@ local function readflag(flag)
   end
 end
 
--- Set a spec variable
--- Echo the result if verbose
+-- Sets a spec variable; echoes the result if verbose
 local function explicitset(rpmvar, value, verbose)
   local value = value
   if (value == nil) or (value == "") then
@@ -53,8 +52,7 @@ local function explicitset(rpmvar, value, verbose)
   end
 end
 
--- Unset a spec variable if it is defined
--- Echo the result if verbose
+-- Unsets a spec variable if it is defined; echoes the result if verbose
 local function explicitunset(rpmvar, verbose)
   if (rpm.expand("%{" .. rpmvar .. "}") ~= "%{" .. rpmvar .. "}") then
     rpm.define(rpmvar .. " %{nil}")
@@ -64,16 +62,15 @@ local function explicitunset(rpmvar, verbose)
   end
 end
 
--- Set a spec variable, if not already set
--- Echo the result if verbose
+-- Sets a spec variable, if not already set; echoes the result if verbose
 local function safeset(rpmvar, value, verbose)
   if (rpm.expand("%{" .. rpmvar .. "}") == "%{" .. rpmvar .. "}") then
     explicitset(rpmvar,value,verbose)
   end
 end
 
--- Alias a list of rpm variables to the same variables suffixed with 0 (and vice versa)
--- Echo the result if verbose
+-- Aliases a list of rpm variables to the same variables suffixed with 0 (and
+-- vice versa); echoes the result if verbose
 local function zalias(rpmvars, verbose)
   for _, sfx in ipairs({{"","0"},{"0",""}}) do
     for _, rpmvar in ipairs(rpmvars) do
@@ -153,13 +150,7 @@ local function getbestsuffix(rpmvar, value)
   return best
 end
 
--- https://github.com/rpm-software-management/rpm/issues/581
--- Writes the content of a list of rpm variables to a macro spec file.
--- The target file must contain the corresponding anchors.
--- For example writevars("myfile", {"foo","bar"}) will replace:
---   @@FOO@@ with the rpm evaluation of %{foo} and
---   @@BAR@@ with the rpm evaluation of %{bar}
--- in myfile
+-- %writevars core
 local function writevars(macrofile, rpmvars)
   for _, rpmvar in ipairs(rpmvars) do
     print("sed -i 's\029" .. string.upper("@@" .. rpmvar .. "@@") ..
@@ -243,7 +234,7 @@ Summary:        %{source_summary}
   set("currentname", "%{source_name}", verbose)
 end
 
--- The processing core of %new_package
+-- %new_package core
 local function new_package(source_name, pkg_name, name_suffix, first, verbose)
   -- Safety net when the wrapper is used in conjunction with traditional syntax
   if (not first) and (not source_name) then

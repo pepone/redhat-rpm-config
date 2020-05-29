@@ -1,50 +1,28 @@
-# Map forge information to rpm metadata. This macro will compute default spec
-# variable values.
-#
-# The following spec variables SHOULD be set before calling the macro:
-#
-#   forgeurl  the project url on the forge, strongly recommended;
-#   Version   if applicable, set it with Version: <version>
-#   tag       if applicable
-#   commit    if applicable
-#   date      if applicable (to override the mtime of the Source archive)
-#
-#  Use -z for multiple calls to the macro
-#
-# The macro will attempt to compute and set the following variables if they are
-# not already set by the packager:
-#
-#   forgesource    an URL that can be used as SourceX: value
-#   forgesetupargs the correct arguments to pass to %setup for this source
-#                  used by %forgesetup and %forgeautosetup
-#   archivename    the source archive filename, without extentions
-#   archiveext     the source archive filename extensions, without leading dot
-#   archiveurl     the url that can be used to download the source archive,
-#                  without renaming
-#   topdir         the source archive top directory (can be empty)
-#   extractdir     the source directory created inside %{_builddir} after using
-#                  %%forgesetup, %forgeautosetup or %{forgesetupargs}
-#   repo           the repository name
-#   owner          the repository owner (if used by another computed variable)
-#   shortcommit    the commit hash clamping used by the forge, if any
-#   scm            the scm type, when packaging code snapshots: commits or tags
-#   distprefix     the prefix that needs adding to dist to trace non-release packaging
-#
-# Most of the computed variables are both overridable and optional.
-#
-# Optional parameters:
-#   -a          process all sources in one go, instead of using separate -z calls
-#   -z <number> suffix all the read and written variable names with <number>
-#               for example read     forgeurl<number>, version<number>…
-#                       and generate forgesetupargs<number>, archiveurl<number>…
-#               The macro assumes that null or nil suffix is used for the primary
-#               package source.
-#   -s  Silently ignore problems in forgeurl, use it if it can be parsed,
-#       ignore it otherwise.
-#   -v  Be verbose and print every spec variable the macro sets.
-#   -i  Print some info about the state of spec variables the macro may use or
-#       set at the end of the processing.
-%forgemeta(az:sviu:) %{lua:
+# Computes forge-related variables for use in the rest of the spec file
+# Control variables, flags and arguments:
+#   %{forgeurl<number>}  the project url on the target forge
+#   %{tag<number>}       the packaged tag, OR
+#   %{commit<number>}    the packaged commit, OR
+#   %{version<number>}   the packaged version
+#                          – %{version}/%{version0} are set via:
+#                              Version:
+#                          – because git is lacking a built-in version
+#                            reference, %{version<number>} will be translated
+#                            into %{tag<number>} using unreliable heuristics;
+#                            set %{tag<number>} directly if those fail
+#   %{date<number>}      the packaged timestamp
+#   …                    %forgemeta will compute a huge number of variables:
+#                          — the packager can override it by setting some of
+#                            those before the %forgemeta call
+#                          – use the -i flag to list those variables
+#   -z <number>          only process the zth block of definitions
+#                        "" for the no-suffix block
+#   -i                   list the resulting variable values
+#   -s                   silently ignore problems in %{forgeurl<number>}
+#   -v                   be verbose
+#   -a                   process all sources in one go, instead of using
+#                        separate -z calls
+%forgemeta(z:isva) %{lua:
 local      fedora = require "fedora.common"
 local       forge = require "fedora.srpm.forge"
 local     verbose =  rpm.expand("%{-v}") ~= ""
@@ -60,12 +38,17 @@ else
 end
 }
 
-# Convenience macro to relay computed arguments to %setup
-# Optional parameters:
-#   -a          process all sources in one go, instead of using separate -z calls
-#   -z <number> read %{?forgesetupargs<number>}
-#   -v          be verbose
-%forgesetup(az:v) %{lua:
+# Unpacks sources computed by %forgemeta
+# Control variables, flags and arguments:
+#   %{forgesource<number>}       the source archive that will be processed
+#   %{forgesetupargs<number>}    %setup arguments
+
+#   -z <number>                  only process the zth block of definitions
+#                                "" for the no-suffix block
+#   -v                           be verbose
+#   -a                   process all sources in one go, instead of using
+#                        separate -z calls
+%forgesetup(z:va) %{lua:
 local fedora = require "fedora.common"
 if (rpm.expand("%{-z}") == "") and (rpm.expand("%{-a}") ~= "") then
   for _,s in pairs(fedora.getsuffixes("forgesetupargs")) do
@@ -76,10 +59,12 @@ else
 end
 }
 
-# Convenience macro to relay computed arguments to %autosetup
-# Parameters relayed to %autosetup: -v -N -S -p
-# Optional parameters:
-#   -z <number> read %{?forgesetupargs<number>}
+# Calls %autosetup using %forgemeta results
+#   – this will probably be removed since it is unsafe in presence of multiple
+#     sources
+# Control variables, flags and arguments:
+#   -z <number>  process the zth block of definitions
+#   -v -N -S -p  relayed to %autosetup
 %forgeautosetup(z:vNS:p:q) %{lua:
 print(rpm.expand("%autosetup %{-v} %{-N} %{?-S} %{?-p} %{?forgesetupargs" .. rpm.expand("%{-z*}") .. "}\\n"))
 }
