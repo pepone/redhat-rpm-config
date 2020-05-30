@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 155
+Version: 156
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -206,6 +206,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Sat May 30 2020 Nicolas Mailhot <nim@fedoraproject.org> - 156-1
+- Add %new_package macro and associated lua framework.
+
 * Sat May 23 2020 Nicolas Mailhot <nim@fedoraproject.org> - 155-1
 - forge: add gitea support
 
