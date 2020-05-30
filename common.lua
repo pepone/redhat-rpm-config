@@ -231,7 +231,7 @@ Summary:        %{source_summary}
 %description
 %wordwrap -v source_description
 ]]))
-  set("currentname", "%{source_name}", verbose)
+  explicitset("currentname", "%{source_name}", verbose)
 end
 
 -- %new_package core
@@ -257,7 +257,7 @@ local function new_package(source_name, pkg_name, name_suffix, first, verbose)
   end
   if name_suffix then
     print(rpm.expand("%package        "  .. name_suffix))
-    set("currentname", "%{source_name}-" .. name_suffix, verbose)
+    explicitset("currentname", "%{source_name}-" .. name_suffix, verbose)
   else
     if not source_name then
       source_name = pkg_name
@@ -271,7 +271,7 @@ local function new_package(source_name, pkg_name, name_suffix, first, verbose)
       end
       print(rpm.expand("%package     -n " .. pkg_name))
     end
-    set("currentname", pkg_name, verbose)
+    explicitset("currentname", pkg_name, verbose)
   end
 end
 
