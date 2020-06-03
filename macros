@@ -26,6 +26,46 @@
 %_debugsource_packages  1
 %_debuginfo_subpackages 1
 
+# GCC toolchain
+%__cc_gcc gcc
+%__cxx_gcc g++
+%__cpp_gcc gcc -E
+
+# Clang toolchain
+%__cc_clang clang
+%__cxx_clang clang++
+%__cpp_clang clang-cpp
+
+# Default to the GCC toolchain
+#
+# It is enough to override `toolchain` macro and all relevant macro for C/C++
+# compilers will be switched. Either in the spec or in the command-line.
+#
+#     %global toolchain clang
+#
+# or:
+#
+#     rpmbuild -D "toolchain clang" …
+#
+# Inside a spec file it is also possible to determine which toolchain is in use
+# by testing the same macro. For example:
+#
+#     %if "%{toolchain}" == "gcc"
+#     BuildRequires: gcc
+#     %endif
+#
+# or:
+#
+#     %if "%{toolchain}" == "clang"
+#     BuildRequires: clang compiler-rt
+#     %endif
+#
+%toolchain gcc
+
+%__cc %{expand:%%{__cc_%{toolchain}}}
+%__cxx %{expand:%%{__cxx_%{toolchain}}}
+%__cpp %{expand:%%{__cpp_%{toolchain}}}
+
 #==============================================================================
 # ---- compiler flags.
 
@@ -48,18 +88,40 @@
 # variable RPM_LD_FLAGS to this value.
 %build_ldflags -Wl,-z,relro %{_ld_as_needed_flags} %{_ld_symbols_flags} %{_hardened_ldflags}
 
-# Expands to shell code to seot the compiler/linker environment
+# Expands to shell code to set the compiler/linker environment
 # variables CFLAGS, CXXFLAGS, FFLAGS, FCFLAGS, LDFLAGS if they have
 # not been set already.  RPM_OPT_FLAGS and RPM_LD_FLAGS have already
 # been set implicitly at the start of the %%build section.
 # LT_SYS_LIBRARY_PATH is used by libtool script.
+# CCC_OVERRIDE_OPTIONS is used by clang.
 %set_build_flags \
   CFLAGS="${CFLAGS:-%{build_cflags}}" ; export CFLAGS ; \
   CXXFLAGS="${CXXFLAGS:-%{build_cxxflags}}" ; export CXXFLAGS ; \
   FFLAGS="${FFLAGS:-%{build_fflags}}" ; export FFLAGS ; \
   FCFLAGS="${FCFLAGS:-%{build_fflags}}" ; export FCFLAGS ; \
   LDFLAGS="${LDFLAGS:-%{build_ldflags}}" ; export LDFLAGS ; \
-  LT_SYS_LIBRARY_PATH="${LT_SYS_LIBRARY_PATH:-%_libdir:}" ; export LT_SYS_LIBRARY_PATH
+  LT_SYS_LIBRARY_PATH="${LT_SYS_LIBRARY_PATH:-%_libdir:}" ; export LT_SYS_LIBRARY_PATH ; \
+  CC=%{__cc}; export CC ; \
+  CXX=%{__cxx}; export CXX ; \
+  %{nil}
+
+# These commands are used by clang to alter its command line before
+# processing.  The # character is there to turn off clang's verbose output
+# from processing the instructions.  Remove it if you need to debug them.
+# Note however that doing so puts extra text into stderr which will show up
+# as errors for configure tests.
+# The -fstack-clash-protection option is removed because it is not supported
+# by clang prior to version 10.  The spec files are removed because they are
+# ignored by clang, and just clutter the command line.  The
+# redhat-hardened-clang.cfg file is added and it contains clang specific
+# hardening options.
+%__clang_override_options  #\
+  x-fstack-clash-protection \
+  x-specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 \
+  x-specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 \
+  x-specs=/usr/lib/rpm/redhat/redhat-hardened-ld \
+  ^/usr/lib/rpm/redhat/redhat-hardened-clang.cfg \
+  ^--config
 
 # Internal-only.  Do not use.  Expand a variable and strip the flags
 # not suitable to extension builders.
@@ -243,24 +305,27 @@ print(result)
 # Use Zstandard compression for binary payloads
 %_binary_payload w19.zstdio
 
-%_hardening_cflags	-specs=/usr/lib/rpm/redhat/redhat-hardened-cc1
+%_hardening_gcc_cflags   -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1
+%_hardening_clang_cflags --config /usr/lib/rpm/redhat/redhat-hardened-clang.cfg
+%_hardening_cflags	 %{expand:%%{_hardening_%{toolchain}_cflags}} -fstack-protector-strong
 # we don't escape symbols '~', '"', etc. so be careful when changing this
-%_hardening_ldflags	-Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld
+%_hardening_ldflags	 -Wl,-z,now %[ "%{toolchain}" == "gcc" ? "-specs=/usr/lib/rpm/redhat/redhat-hardened-ld" : "" ]
 
-# Harden packages by default for Fedora 23:
+# Harden packages by default for Fedora 23+:
 # https://fedorahosted.org/fesco/ticket/1384 (accepted on 2014-02-11)
 # Use "%undefine _hardened_build" to disable.
 %_hardened_build	1
 %_hardened_cflags	%{?_hardened_build:%{_hardening_cflags}}
 %_hardened_ldflags	%{?_hardened_build:%{_hardening_ldflags}}
 
-%_annobin_cflags	-specs=/usr/lib/rpm/redhat/redhat-annobin-cc1
-
-# Add extra information to binary objects created by gcc for Fedora 28:
+# Add extra information to binary objects created by the compiler:
 # https://pagure.io/fesco/issue/1780 (accepted on 2017-10-30)
 # Use "%undefine _annotated_build" to disable.
 %_annotated_build	1
-%_annotated_cflags	%{?_annotated_build:%{_annobin_cflags}}
+%_annobin_gcc_plugin	-specs=/usr/lib/rpm/redhat/redhat-annobin-cc1
+# The annobin plugin is not built for clang yet
+%_annobin_clang_plugin	%dnl-fplugin=/usr/lib64/clang/`clang -dumpversion`/lib/annobin.so
+%_annotation_cflags     %{?_annotated_build:%{expand:%%{_annobin_%{toolchain}_plugin}}}
 
 # Fail linking if there are undefined symbols.  Required for proper
 # ELF symbol versioning support.  Disabled by default.
@@ -273,7 +338,15 @@ print(result)
 %_ld_as_needed		1
 %_ld_as_needed_flags	%{?_ld_as_needed:-Wl,--as-needed}
 
-%__global_compiler_flags	-O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches %{_hardened_cflags} %{_annotated_cflags}%{?_legacy_common_support: -fcommon}
+%_general_options       -O2 -fexceptions -g -grecord-gcc-switches -pipe
+%_warning_options       -Wall -Werror=format-security
+%_preprocessor_defines  -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS
+
+# Common variables are no longer generated by default by gcc and clang
+# If they are needed then add "%define _legacy_common_support 1" to the spec file.
+%_legacy_options	%{?_legacy_common_support: -fcommon}
+
+%__global_compiler_flags %{_general_options} %{_warning_options} %{_preprocessor_defines} %{_hardened_cflags} %{_annotation_cflags} %{_legacy_options}
 
 # Automatically trim changelog entries after 2 years
 %_changelog_trimtime	%{lua:print(os.time() - 2 * 365 * 86400)}
@@ -310,3 +383,4 @@ print(result)
 %global __find_provides /bin/sh -c "%{?__filter_prov_cmd} %{__deploop P} %{?__filter_from_prov}" \
 %global __find_requires /bin/sh -c "%{?__filter_req_cmd}  %{__deploop R} %{?__filter_from_req}" \
 }
+

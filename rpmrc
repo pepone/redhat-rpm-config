@@ -1,12 +1,12 @@
 include: /usr/lib/rpm/rpmrc
 
-optflags: i386 %{__global_compiler_flags} -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection
-optflags: i486 %{__global_compiler_flags} -m32 -march=i486 -fasynchronous-unwind-tables -fstack-clash-protection
-optflags: i586 %{__global_compiler_flags} -m32 -march=i586 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection
-optflags: i686 %{__global_compiler_flags} -m32 -march=i686 -mtune=generic -msse2 -mfpmath=sse -mstackrealign -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection
-optflags: athlon %{__global_compiler_flags} -m32 -march=athlon -fasynchronous-unwind-tables -fstack-clash-protection
+optflags: i386 %{__global_compiler_flags} -m32 -march=i386 -mtune=generic -fasynchronous-unwind-tables %[ "%{toolchain}" == "gcc" ? "-fstack-clash-protection" : "" ]
+optflags: i486 %{__global_compiler_flags} -m32 -march=i486 -fasynchronous-unwind-tables %[ "%{toolchain}" == "gcc" ? "-fstack-clash-protection" : "" ]
+optflags: i586 %{__global_compiler_flags} -m32 -march=i586 -mtune=generic -fasynchronous-unwind-tables %[ "%{toolchain}" == "gcc" ? "-fstack-clash-protection" : "" ]
+optflags: i686 %{__global_compiler_flags} -m32 -march=i686 -mtune=generic -msse2 -mfpmath=sse -mstackrealign -fasynchronous-unwind-tables %[ "%{toolchain}" == "gcc" ? "-fstack-clash-protection" : "" ] -fcf-protection
+optflags: athlon %{__global_compiler_flags} -m32 -march=athlon -fasynchronous-unwind-tables %[ "%{toolchain}" == "gcc" ? "-fstack-clash-protection" : "" ]
 optflags: ia64 %{__global_compiler_flags}
-optflags: x86_64 %{__global_compiler_flags} -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection
+optflags: x86_64 %{__global_compiler_flags} -m64 -mtune=generic -fasynchronous-unwind-tables %[ "%{toolchain}" == "gcc" ? "-fstack-clash-protection" : "" ] -fcf-protection
 
 optflags: alpha %{__global_compiler_flags} -mieee
 optflags: alphaev5 %{__global_compiler_flags} -mieee -mcpu=ev5
@@ -27,9 +27,9 @@ optflags: m68k %{__global_compiler_flags}
 optflags: ppc %{__global_compiler_flags} -m32 -fasynchronous-unwind-tables
 optflags: ppciseries %{__global_compiler_flags} -m32
 optflags: ppcpseries %{__global_compiler_flags} -m32
-optflags: ppc64 %{__global_compiler_flags} -m64 -fasynchronous-unwind-tables -fstack-clash-protection
-optflags: ppc64p7 %{__global_compiler_flags} -m64 -O3 -mcpu=power7 -mtune=power7 -fasynchronous-unwind-tables -fstack-clash-protection
-optflags: ppc64le %{__global_compiler_flags} -m64 -mcpu=power8 -mtune=power8 -fasynchronous-unwind-tables -fstack-clash-protection
+optflags: ppc64 %{__global_compiler_flags} -m64 -fasynchronous-unwind-tables %[ "%{toolchain}" == "gcc" ? "-fstack-clash-protection" : "" ]
+optflags: ppc64p7 %{__global_compiler_flags} -m64 -O3 -mcpu=power7 -mtune=power7 -fasynchronous-unwind-tables %[ "%{toolchain}" == "gcc" ? "-fstack-clash-protection" : "" ]
+optflags: ppc64le %{__global_compiler_flags} -m64 -mcpu=power8 -mtune=power8 -fasynchronous-unwind-tables %[ "%{toolchain}" == "gcc" ? "-fstack-clash-protection" : "" ]
 optflags: ppc64iseries %{__global_compiler_flags} -m64
 optflags: ppc64pseries %{__global_compiler_flags} -m64
 optflags: ppc8260 %{__global_compiler_flags} -m32
@@ -72,11 +72,11 @@ optflags: milan %{__global_compiler_flags}
 optflags: hades %{__global_compiler_flags}
 
 optflags: s390 %{__global_compiler_flags} -m31 -march=zEC12 -mtune=z13 -fasynchronous-unwind-tables
-optflags: s390x %{__global_compiler_flags} -m64 -march=zEC12 -mtune=z13 -fasynchronous-unwind-tables -fstack-clash-protection
+optflags: s390x %{__global_compiler_flags} -m64 -march=zEC12 -mtune=z13 -fasynchronous-unwind-tables %[ "%{toolchain}" == "gcc" ? "-fstack-clash-protection" : "" ]
 
-optflags: aarch64 %{__global_compiler_flags} -fasynchronous-unwind-tables -fstack-clash-protection
+optflags: aarch64 %{__global_compiler_flags} -fasynchronous-unwind-tables %[ "%{toolchain}" == "gcc" ? "-fstack-clash-protection" : "" ]
 
-optflags: riscv64 %{__global_compiler_flags} -fasynchronous-unwind-tables -fstack-clash-protection
+optflags: riscv64 %{__global_compiler_flags} -fasynchronous-unwind-tables %[ "%{toolchain}" == "gcc" ? "-fstack-clash-protection" : "" ]
 
 # set build arch to fedora buildarches on hardware capable of running it
 # saves having to do rpmbuild --target=

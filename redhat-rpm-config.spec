@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 157
+Version: 158
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -19,9 +19,10 @@ Source1: rpmrc
 # gcc specs files for hardened builds
 Source50: redhat-hardened-cc1
 Source51: redhat-hardened-ld
+Source52: redhat-hardened-clang.cfg
 
 # gcc specs files for annobin builds
-Source52: redhat-annobin-cc1
+Source60: redhat-annobin-cc1
 
 # The macros defined by these files are for things that need to be defined
 # at srpm creation time when it is not feasible to require the base packages
@@ -108,7 +109,7 @@ Requires: qt5-srpm-macros
 Requires: rpm >= 4.11.0
 Requires: dwz >= 0.4
 Requires: zip
-Requires: (annobin if gcc)
+Requires: (annobin if (gcc or clang))
 
 # for brp-mangle-shebangs
 Requires: %{_bindir}/find
@@ -206,6 +207,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Jun 03 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 158-1
+- Add option to choose C/C++ toolchain
+
 * Thu May 30 2020 Jeff Law <law@redhat.com> - 157-1
 - When LTO is enabled, fix broken configure files.
 
