@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 158
+Version: 159
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -207,6 +207,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Jun 03 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 159-1
+- Fixes for new_package macro
+
 * Wed Jun 03 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 158-1
 - Add option to choose C/C++ toolchain
 
