@@ -101,8 +101,7 @@
   LDFLAGS="${LDFLAGS:-%{build_ldflags}}" ; export LDFLAGS ; \
   LT_SYS_LIBRARY_PATH="${LT_SYS_LIBRARY_PATH:-%_libdir:}" ; export LT_SYS_LIBRARY_PATH ; \
   CC=%{__cc}; export CC ; \
-  CXX=%{__cxx}; export CXX ; \
-  %{nil}
+  CXX=%{__cxx}; export CXX
 
 # Internal-only.  Do not use.  Expand a variable and strip the flags
 # not suitable to extension builders.
@@ -175,7 +174,7 @@ print(result)
     diff -u $file.backup $file && mv $file.backup $file \
     %{__sed} --in-place=.backup 's#^lt_cv_sys_global_symbol_to_cdecl=.*#lt_cv_sys_global_symbol_to_cdecl="sed -n -e '"'"'s/^T .* \\\\(.*\\\\)$/extern int \\\\1();/p'"'"' -e '"'"'s/^$symcode* .* \\\\(.*\\\\)$/extern char \\\\1;/p'"'"'"#' $file; \
     diff -u $file.backup $file && mv $file.backup $file \
-  done ;
+  done
 
 %configure \
   %{set_build_flags}; \
