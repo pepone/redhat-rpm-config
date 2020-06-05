@@ -7,7 +7,7 @@
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
 Version: 161
-Release: 1%{?dist}
+Release: 2%{?dist}
 # No version specified.
 License: GPL+
 URL: https://src.fedoraproject.org/rpms/redhat-rpm-config
@@ -207,6 +207,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Jun 16 2020 Lumír Balhar <lbalhar@redhat.com> - 161-2
+- Use stdlib compileall for Python >= 3.9
+
 * Mon Jun 15 2020 Lumír Balhar <lbalhar@redhat.com> - 161-1
 - No more automagic Python bytecompilation (phase 3)
   https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation_phase_3
