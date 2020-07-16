@@ -6,8 +6,8 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 161
-Release: 2%{?dist}
+Version: 162
+Release: 1%{?dist}
 # No version specified.
 License: GPL+
 URL: https://src.fedoraproject.org/rpms/redhat-rpm-config
@@ -52,6 +52,10 @@ Source201: brp-mangle-shebangs
 # this comes from rpm itself
 # however, now we can do Fedora changes within
 Source202: brp-python-bytecompile
+
+# for fixing pyc files reproducibility with marshalparser
+# https://github.com/fedora-python/marshalparser
+Source203: brp-fix-pyc-reproducibility
 
 # Dependency generator scripts (deprecated)
 Source300: find-provides
@@ -207,6 +211,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Jul 16 2020 Lumír Balhar <lbalhar@redhat.com> - 162-1
+- New script brp-fix-pyc-reproducibility
+
 * Tue Jun 16 2020 Lumír Balhar <lbalhar@redhat.com> - 161-2
 - Use stdlib compileall for Python >= 3.9
 
