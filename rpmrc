@@ -74,7 +74,7 @@ optflags: hades %{__global_compiler_flags}
 optflags: s390 %{__global_compiler_flags} -m31 -march=zEC12 -mtune=z13 -fasynchronous-unwind-tables
 optflags: s390x %{__global_compiler_flags} -m64 -march=zEC12 -mtune=z13 -fasynchronous-unwind-tables %[ "%{toolchain}" == "gcc" ? "-fstack-clash-protection" : "" ]
 
-optflags: aarch64 %{__global_compiler_flags} -fasynchronous-unwind-tables %[ "%{toolchain}" == "gcc" ? "-fstack-clash-protection" : "" ]
+optflags: aarch64 %{__global_compiler_flags} -mbranch-protection=standard -fasynchronous-unwind-tables %[ "%{toolchain}" == "gcc" ? "-fstack-clash-protection" : "" ]
 
 optflags: riscv64 %{__global_compiler_flags} -fasynchronous-unwind-tables %[ "%{toolchain}" == "gcc" ? "-fstack-clash-protection" : "" ]
 
