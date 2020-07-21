@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 166
+Version: 167
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -101,6 +101,7 @@ Requires: fpc-srpm-macros
 Requires: ghc-srpm-macros
 Requires: gnat-srpm-macros
 Requires: go-srpm-macros
+Requires: kernel-srpm-macros
 Requires: nim-srpm-macros
 Requires: ocaml-srpm-macros
 Requires: openblas-srpm-macros
@@ -211,6 +212,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Aug 03 2020 2020 Troy Dawson <tdawson@redhat.com> - 167-1
+- Add Requires: kernel-srpm-macros
+
 * Thu Jul 30 2020 Jeff Law <law@redhat.com> - 166-1
 - Use -flto=auto for GCC to speed up builds
 
