@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 162
+Version: 163
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -211,6 +211,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Jul 21 2020 Jeff Law <law@redhat.com> - 163-1
+- Enable LTO by default
+
 * Thu Jul 16 2020 Lumír Balhar <lbalhar@redhat.com> - 162-1
 - New script brp-fix-pyc-reproducibility
 

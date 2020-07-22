@@ -320,7 +320,17 @@ print(result)
 %_ld_as_needed		1
 %_ld_as_needed_flags	%{?_ld_as_needed:-Wl,--as-needed}
 
-%_general_options       -O2 -fexceptions -g -grecord-gcc-switches -pipe
+# LTO is the default in Fedora.
+#   "%define _lto_cflags %{nil}"  to opt out
+#
+# We currently have -ffat-lto-objects turned on out of an abundance of
+# caution.  To remove it we need to do a check of the installed .o/.a files
+# to verify they have real sections/symbols after LTO stripping.  That
+# way we can detect installing an unusable .o/.a file.  This is on the TODO
+# list for F34.
+%_lto_cflags             -flto -ffat-lto-objects
+
+%_general_options       -O2 %{?_lto_cflags} -fexceptions -g -grecord-gcc-switches -pipe
 %_warning_options       -Wall -Werror=format-security
 %_preprocessor_defines  -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS
 
