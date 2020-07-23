@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 163
+Version: 164
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -211,6 +211,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Jul 23 2020 Lumír Balhar <lbalhar@redhat.com> - 164-1
+- Disable Python hash seed randomization in brp-python-bytecompile
+
 * Tue Jul 21 2020 Jeff Law <law@redhat.com> - 163-1
 - Enable LTO by default
 
