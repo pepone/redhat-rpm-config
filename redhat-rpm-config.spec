@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 164
+Version: 165
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -211,6 +211,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Jul 28 2020 Tom Stellard <tstellar@redhat.com> - 165-1
+- Only use supported lto flags for clang toolchain
+
 * Thu Jul 23 2020 Lumír Balhar <lbalhar@redhat.com> - 164-1
 - Disable Python hash seed randomization in brp-python-bytecompile
 
