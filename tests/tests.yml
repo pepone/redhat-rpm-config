@@ -1,0 +1,19 @@
+- hosts: localhost
+  roles:
+  - role: standard-test-basic
+    tags:
+      - classic
+    required_packages:
+      - rpm
+      # clang/fedora-flags
+      - clang
+      #gcc-fedora-flags
+      - gcc
+      - gcc-c++
+      - annobin-annocheck
+    repositories:
+      - repo: https://src.fedoraproject.org/tests/clang.git
+        dest: clang
+    tests:
+      - clang/fedora-flags
+      - gcc-fedora-flags
