@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 165
+Version: 166
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -211,6 +211,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Jul 30 2020 Jeff Law <law@redhat.com> - 166-1
+- Use -flto=auto for GCC to speed up builds
+
 * Tue Jul 28 2020 Tom Stellard <tstellar@redhat.com> - 165-1
 - Only use supported lto flags for clang toolchain
 
