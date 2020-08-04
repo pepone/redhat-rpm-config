@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 168
+Version: 169
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -212,6 +212,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Aug 20 2020 Tom Stellard <tstellar@redhat.com> - 169-1
+- Add -flto to ldflags for clang toolchain
+
 * Thu Aug 20 2020 Neal Gompa <ngompa13@gmail.com> - 168-1
 - Fix CC/CXX exports so arguments are included in exported variable
 - Allow overrides of CC/CXX like CFLAGS and CXXFLAGS from shell variables
