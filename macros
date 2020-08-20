@@ -100,8 +100,8 @@
   FCFLAGS="${FCFLAGS:-%{build_fflags}}" ; export FCFLAGS ; \
   LDFLAGS="${LDFLAGS:-%{build_ldflags}}" ; export LDFLAGS ; \
   LT_SYS_LIBRARY_PATH="${LT_SYS_LIBRARY_PATH:-%_libdir:}" ; export LT_SYS_LIBRARY_PATH ; \
-  CC=%{__cc}; export CC ; \
-  CXX=%{__cxx}; export CXX
+  CC="${CC:-%{__cc}}" ; export CC ; \
+  CXX="${CXX:-%{__cxx}}" ; export CXX
 
 # Internal-only.  Do not use.  Expand a variable and strip the flags
 # not suitable to extension builders.
