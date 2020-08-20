@@ -212,7 +212,7 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
-* Mon Aug 20 2020 Tom Stellard <tstellar@redhat.com> - 169-1
+* Thu Aug 20 2020 Tom Stellard <tstellar@redhat.com> - 169-1
 - Add -flto to ldflags for clang toolchain
 
 * Thu Aug 20 2020 Neal Gompa <ngompa13@gmail.com> - 168-1
@@ -253,7 +253,7 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 * Wed Jun 03 2020 Igor Raits <ignatenkobrain@fedoraproject.org> - 158-1
 - Add option to choose C/C++ toolchain
 
-* Thu May 30 2020 Jeff Law <law@redhat.com> - 157-1
+* Sat May 30 2020 Jeff Law <law@redhat.com> - 157-1
 - When LTO is enabled, fix broken configure files.
 
 * Sat May 30 2020 Nicolas Mailhot <nim@fedoraproject.org> - 156-1
