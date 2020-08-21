@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 169
+Version: 170
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -212,6 +212,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Aug 21 2020 Tom Stellard <tstellar@redhat.com> - 170-1
+- Enable -fstack-clash-protection for clang on x86, s390x, and ppc64le
+
 * Thu Aug 20 2020 Tom Stellard <tstellar@redhat.com> - 169-1
 - Add -flto to ldflags for clang toolchain
 
