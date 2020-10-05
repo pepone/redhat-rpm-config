@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 172
+Version: 173
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -213,6 +213,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Oct  5 2020 Florian Weimer <fweimer@redhat.com> - 173-1
+- s390x: Switch Fedora ELN to z13 baseline
+
 * Fri Sep 11 2020 Miro Hrončok <mhroncok@redhat.com> - 172-1
 - Filter out LTO flags from %%extension flags macros
 - Fixes: rhbz#1877652
