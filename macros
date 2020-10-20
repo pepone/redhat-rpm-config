@@ -134,7 +134,7 @@ print(result)
 # Architecture-specific support.  Internal.  Do not use directly.
 
 # Also used for s390.
-%__cflags_arch_s390x %[0%{?rhel} >= 8 ? "-march=z13 -mtune=z13" : "-march=zEC12 -mtune=z13"]
+%__cflags_arch_s390x %[0%{?rhel} >= 8 ? "-march=z13 -mtune=z14" : "-march=zEC12 -mtune=z13"]
 
 #==============================================================================
 # ---- configure and makeinstall.

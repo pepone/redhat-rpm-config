@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 175
+Version: 176
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -213,6 +213,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Oct 20 2020 Florian Weimer <fweimer@redhat.com> - 176-1
+- s390x: Tune for z14 (as in Red Hat Enterprise Linux 8)
+
 * Mon Oct  5 2020 Florian Weimer <fweimer@redhat.com> - 175-1
 - s390x: Switch Fedora ELN to z13 baseline
 
