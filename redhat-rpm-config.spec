@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 176
+Version: 177
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -213,6 +213,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Oct 27 2020 Tom Stellard <tstellar@redhat.com> - 177-1
+- Add back -fcf-protection flag for x86_64
+
 * Tue Oct 20 2020 Florian Weimer <fweimer@redhat.com> - 176-1
 - s390x: Tune for z14 (as in Red Hat Enterprise Linux 8)
 
