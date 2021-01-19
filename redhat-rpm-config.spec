@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 178
+Version: 179
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -213,6 +213,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Jan 19 2021 Florian Weimer <fweimer@redhat.com> - 179-1
+- x86_64: Enable -march=x86-64-v2 for ELN, following GCC.
+
 * Sun Nov 29 2020 Miro Hrončok <mhroncok@redhat.com> - 178-1
 - BRP Python Bytecompile: Also detect Python files in /app/lib/pythonX.Y
 
