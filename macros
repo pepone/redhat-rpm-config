@@ -253,7 +253,10 @@ print(result)
 # __brp_mangle_shebangs_exclude_from_file - file from which to get files to ignore
 %__brp_mangle_shebangs /usr/lib/rpm/redhat/brp-mangle-shebangs %{?__brp_mangle_shebangs_exclude:--shebangs "%{?__brp_mangle_shebangs_exclude}"} %{?__brp_mangle_shebangs_exclude_file:--shebangs-from "%{__brp_mangle_shebangs_exclude_file}"} %{?__brp_mangle_shebangs_exclude_from:--files "%{?__brp_mangle_shebangs_exclude_from}"} %{?__brp_mangle_shebangs_exclude_from_file:--files-from "%{__brp_mangle_shebangs_exclude_from_file}"}
 
+%__brp_llvm_compile_lto_elf /usr/lib/rpm/redhat/brp-llvm-compile-lto-elf %{build_cflags} %{build_ldflags}
+
 %__os_install_post    \
+    %[ "%{toolchain}" == "clang" ? "%{?__brp_llvm_compile_lto_elf}" : "%{nil}" ] \
     %{?__brp_ldconfig} \
     %{?__brp_compress} \
     %{!?__debug_package:\

@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 182
+Version: 183
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -56,6 +56,9 @@ Source202: brp-python-bytecompile
 # for fixing pyc files reproducibility with marshalparser
 # https://github.com/fedora-python/marshalparser
 Source203: brp-fix-pyc-reproducibility
+
+# for converting llvm LTO bitcode objects into ELF
+Source204: brp-llvm-compile-lto-elf
 
 # Dependency generator scripts (deprecated)
 Source300: find-provides
@@ -123,6 +126,9 @@ Requires: %{_bindir}/file
 Requires: %{_bindir}/grep
 Requires: %{_bindir}/sed
 Requires: %{_bindir}/xargs
+
+# for brp-llvm-compile-lto-elf
+Requires: (llvm if clang)
 
 # -fstack-clash-protection and -fcf-protection require GCC 8.
 Conflicts: gcc < 8.0.1-0.22
@@ -213,6 +219,10 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Apr  6 2021 David Benoit <dbenoit@redhat.com> - 183-1
+- BRP: LLVM Compile LTO Bitcode to ELF
+- Add Requires: (llvm if clang)
+
 * Mon Mar 22 2021 Lumír Balhar <lbalhar@redhat.com> - 182-1
 - Fix handling of files without newlines in brp-mangle-shebang
 
