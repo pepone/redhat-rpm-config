@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 202
+Version: 203
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -94,13 +94,10 @@ Requires: coreutils
 
 Requires: efi-srpm-macros
 Requires: fonts-srpm-macros
-Requires: fpc-srpm-macros
 Requires: ghc-srpm-macros
-Requires: gnat-srpm-macros
 Requires: go-srpm-macros
 Requires: kernel-srpm-macros
 Requires: lua-srpm-macros
-Requires: nim-srpm-macros
 Requires: ocaml-srpm-macros
 Requires: openblas-srpm-macros
 Requires: perl-srpm-macros
@@ -109,6 +106,12 @@ Requires: python-srpm-macros >= 3.10-6
 Requires: qt5-srpm-macros
 Requires: rust-srpm-macros
 Requires: rpmautospec-rpm-macros
+
+%if ! 0%{?rhel}
+Requires: fpc-srpm-macros
+Requires: gnat-srpm-macros
+Requires: nim-srpm-macros
+%endif
 
 Requires: rpm >= 4.11.0
 Requires: dwz >= 0.4
@@ -218,6 +221,9 @@ install -p -m 755 -t %{buildroot}%{rrcdir} llvm-lto-elf-check
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Nov 09 2021 Michal Domonkos <mdomonko@redhat.com> - 203-1
+- Drop {fpc,gnat,nim}-srpm-macros dependencies on RHEL
+
 * Wed Nov 03 2021 David Benoit <dbenoit@redhat.com> - 202-1
 - Add llvm-lto-elf-check script
 - Resolves: rhbz#2017193
