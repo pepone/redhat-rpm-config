@@ -358,7 +358,7 @@ print(result)
 %__global_compiler_flags %{_general_options} %{_warning_options} %{_preprocessor_defines} %{_hardened_cflags} %{_annotation_cflags} %{_legacy_options}
 
 # Automatically trim changelog entries after 2 years
-%_changelog_trimtime	%{lua:print(os.time() - 2 * 365 * 86400)}
+%_changelog_trimage	%{expr:2*365*24*60*60}
 
 #==============================================================================
 # ---- Generic auto req/prov filtering macros
