@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 180
+Version: 181
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -213,6 +213,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Mar 10 2021 Kalev Lember <klember@redhat.com> - 181-1
+- BRP Python Bytecompile: Avoid hardcoding /usr/bin prefix for python
+
 * Tue Jan 19 2021 Florian Weimer <fweimer@redhat.com> - 180-1
 - Use -march=x86-64-v2 only for the gcc toolchain
 
