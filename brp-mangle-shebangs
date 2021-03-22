@@ -93,7 +93,14 @@ while IFS= read -r line; do
   fi
 
 
-  read shebang_line < "$f"
+  if ! read shebang_line < "$f"; then
+    echo >&2 "*** WARNING: Cannot read the first line from $f, removing executable bit"
+    ts=$(stat -c %y "$f")
+    chmod -x "$f"
+    touch -d "$ts" "$f"
+    continue
+  fi
+
   orig_shebang="${shebang_line#\#!}"
   if [ "$orig_shebang" = "$shebang_line" ]; then
     echo >&2 "*** WARNING: $f is executable but has no shebang, removing executable bit"
