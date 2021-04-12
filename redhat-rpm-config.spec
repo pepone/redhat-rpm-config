@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 183
+Version: 184
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -118,7 +118,8 @@ Requires: rust-srpm-macros
 Requires: rpm >= 4.11.0
 Requires: dwz >= 0.4
 Requires: zip
-Requires: (annobin if (gcc or clang))
+Requires: (annobin-plugin-gcc if gcc)
+Requires: (annobin-plugin-clang if clang)
 
 # for brp-mangle-shebangs
 Requires: %{_bindir}/find
@@ -219,6 +220,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Apr 12 2021 David Benoit <dbenoit@redhat.com> - 184-1
+- Change 'Requires: annobin' to 'Requires: annobin-plugin-gcc'.
+
 * Tue Apr  6 2021 David Benoit <dbenoit@redhat.com> - 183-1
 - BRP: LLVM Compile LTO Bitcode to ELF
 - Add Requires: (llvm if clang)
