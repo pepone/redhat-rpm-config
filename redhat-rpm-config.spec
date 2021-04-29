@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 186
+Version: 187
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -114,6 +114,7 @@ Requires: perl-srpm-macros
 Requires: python-srpm-macros >= 3-46
 Requires: qt5-srpm-macros
 Requires: rust-srpm-macros
+Requires: rpmautospec-rpm-macros
 
 Requires: rpm >= 4.11.0
 Requires: dwz >= 0.4
@@ -220,6 +221,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Jun 8 2021 Stephen Coady <scoady@redhat.com> - 187-1
+- Add Requires: rpmautospec-rpm-macros
+
 * Mon May 31 2021 Charalampos Stratakis <cstratak@redhat.com> - 186-1
 - Enable RPATH check after %%install
 - Part of https://fedoraproject.org/wiki/Changes/Broken_RPATH_will_fail_rpmbuild
