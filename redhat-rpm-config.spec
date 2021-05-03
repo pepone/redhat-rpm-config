@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 185
+Version: 186
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -220,6 +220,11 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon May 31 2021 Charalampos Stratakis <cstratak@redhat.com> - 186-1
+- Enable RPATH check after %%install
+- Part of https://fedoraproject.org/wiki/Changes/Broken_RPATH_will_fail_rpmbuild
+- Resolves: rhbz#1964548
+
 * Wed May 26 2021 Arjun Shankar <arjun@redhat.com> - 185-1
 - Disable annobin on armv7hl
 

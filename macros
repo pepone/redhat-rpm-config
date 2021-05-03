@@ -246,6 +246,7 @@ print(result)
 %__brp_strip_static_archive /usr/lib/rpm/brp-strip-static-archive %{__strip}
 %__brp_python_bytecompile /usr/lib/rpm/redhat/brp-python-bytecompile "" "%{?_python_bytecompile_errors_terminate_build}" "%{?_python_bytecompile_extra}"
 %__brp_fix_pyc_reproducibility /usr/lib/rpm/redhat/brp-fix-pyc-reproducibility
+%__brp_check_rpaths /usr/lib/rpm/check-rpaths
 %__brp_python_hardlink /usr/lib/rpm/brp-python-hardlink
 # __brp_mangle_shebangs_exclude - shebangs to exclude
 # __brp_mangle_shebangs_exclude_file - file from which to get shebangs to exclude
@@ -267,6 +268,7 @@ print(result)
     %{?__brp_strip_static_archive} \
     %{?py_auto_byte_compile:%{?__brp_python_bytecompile}} \
     %{?py_reproducible_pyc_path:%{?__brp_fix_pyc_reproducibility} "%{py_reproducible_pyc_path}"} \
+    %{?__brp_check_rpaths} \
     %{?__brp_python_hardlink} \
     %{?__brp_mangle_shebangs} \
 %{nil}
