@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 184
+Version: 185
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -220,6 +220,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed May 26 2021 Arjun Shankar <arjun@redhat.com> - 185-1
+- Disable annobin on armv7hl
+
 * Mon Apr 12 2021 David Benoit <dbenoit@redhat.com> - 184-1
 - Change 'Requires: annobin' to 'Requires: annobin-plugin-gcc'.
 
