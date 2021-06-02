@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 204
+Version: 205
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -40,7 +40,6 @@ Source150: macros.build-constraints
 Source151: macros.dwz
 Source152: macros.fedora-misc
 Source153: macros.forge
-Source154: macros.kmp
 Source155: macros.ldconfig
 Source156: macros.vpath
 
@@ -55,17 +54,10 @@ Source204: brp-llvm-compile-lto-elf
 
 # Dependency generator scripts (deprecated)
 Source300: find-provides
-Source301: find-provides.ksyms
 Source304: find-requires
-Source305: find-requires.ksyms
-Source308: firmware.prov
-Source309: modalias.prov
 
 # Misc helper scripts
 Source400: dist.sh
-Source401: rpmsort
-Source402: symset-table
-Source403: kmodtool
 Source404: gpgverify
 
 # 2016-10-02 snapshots from http://git.savannah.gnu.org/gitweb/?p=config.git
@@ -137,13 +129,6 @@ Provides: system-rpm-config = %{version}-%{release}
 %description
 Red Hat specific rpm configuration files.
 
-%package -n kernel-rpm-macros
-Summary: Macros and scripts for building kernel module packages
-Requires: redhat-rpm-config >= 13
-
-%description -n kernel-rpm-macros
-Macros and scripts for building kernel module packages.
-
 %prep
 # Not strictly necessary but allows working on file names instead
 # of source numbers in install section
@@ -156,13 +141,12 @@ install -p -m 644 -t %{buildroot}%{rrcdir} macros rpmrc
 install -p -m 444 -t %{buildroot}%{rrcdir} redhat-hardened-*
 install -p -m 444 -t %{buildroot}%{rrcdir} redhat-annobin-*
 install -p -m 755 -t %{buildroot}%{rrcdir} config.*
-install -p -m 755 -t %{buildroot}%{rrcdir} dist.sh rpmsort symset-table kmodtool
+install -p -m 755 -t %{buildroot}%{rrcdir} dist.sh
 install -p -m 755 -t %{buildroot}%{rrcdir} gpgverify
 install -p -m 755 -t %{buildroot}%{rrcdir} brp-*
 
 install -p -m 755 -t %{buildroot}%{rrcdir} find-*
 mkdir -p %{buildroot}%{rrcdir}/find-provides.d
-install -p -m 644 -t %{buildroot}%{rrcdir}/find-provides.d firmware.prov modalias.prov
 
 install -p -m 755 -t %{buildroot}%{rrcdir} brp-*
 
@@ -205,18 +189,10 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 
 %doc buildflags.md
 
-%files -n kernel-rpm-macros
-%dir %{rrcdir}/find-provides.d
-%{rrcdir}/kmodtool
-%{rrcdir}/rpmsort
-%{rrcdir}/symset-table
-%{rrcdir}/find-provides.ksyms
-%{rrcdir}/find-requires.ksyms
-%{rrcdir}/find-provides.d/firmware.prov
-%{rrcdir}/find-provides.d/modalias.prov
-%{_rpmconfigdir}/macros.d/macros.kmp
-
 %changelog
+* Thu Nov 18 2021 Michal Domonkos <mdomonko@redhat.com> - 205-1
+- Drop kernel-rpm-macros subpackage (new home: kernel-srpm-macros)
+
 * Tue Nov 16 2021 Miro Hrončok <mhroncok@redhat.com> - 204-1
 - Don't pull in Python to all buildroots
 - Remove llvm-lto-elf-check script
