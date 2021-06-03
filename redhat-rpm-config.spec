@@ -65,7 +65,6 @@ Source500: config.guess
 Source501: config.sub
 
 # Dependency generators & their rules
-Source600: kmod.attr
 Source602: libsymlink.attr
 
 # BRPs
@@ -87,7 +86,8 @@ Requires: efi-srpm-macros
 Requires: fonts-srpm-macros
 Requires: ghc-srpm-macros
 Requires: go-srpm-macros
-Requires: kernel-srpm-macros
+# ↓ Provides kmod.attr originally shipped by us
+Requires: kernel-srpm-macros >= 1.0-12
 Requires: lua-srpm-macros
 Requires: ocaml-srpm-macros
 Requires: openblas-srpm-macros
@@ -191,7 +191,7 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 
 %changelog
 * Thu Nov 18 2021 Michal Domonkos <mdomonko@redhat.com> - 205-1
-- Drop kernel-rpm-macros subpackage (new home: kernel-srpm-macros)
+- Drop kernel-rpm-macros subpackage & kmod.attr (new home: kernel-srpm-macros)
 
 * Tue Nov 16 2021 Miro Hrončok <mhroncok@redhat.com> - 204-1
 - Don't pull in Python to all buildroots
