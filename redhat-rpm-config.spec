@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 187
+Version: 188
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -221,6 +221,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Jun 22 2021 Panu Matilainen <pmatilai@redhat.com> - 188-1
+- Drop reference to now extinct brp-python-hardlink script
+
 * Tue Jun 8 2021 Stephen Coady <scoady@redhat.com> - 187-1
 - Add Requires: rpmautospec-rpm-macros
 
