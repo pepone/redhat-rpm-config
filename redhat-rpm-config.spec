@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 189
+Version: 190
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -48,14 +48,6 @@ Source155: macros.fedora-misc
 # added a python -> python2 conversion for fedora with warning
 # and an echo when the mangling happens
 Source201: brp-mangle-shebangs
-
-# this comes from rpm itself
-# however, now we can do Fedora changes within
-Source202: brp-python-bytecompile
-
-# for fixing pyc files reproducibility with marshalparser
-# https://github.com/fedora-python/marshalparser
-Source203: brp-fix-pyc-reproducibility
 
 # for converting llvm LTO bitcode objects into ELF
 Source204: brp-llvm-compile-lto-elf
@@ -111,6 +103,7 @@ Requires: ocaml-srpm-macros
 Requires: openblas-srpm-macros
 Requires: perl-srpm-macros
 # ↓ Provides compileall2 Python module
+# TODO: require >= 3.10-6 in the next iteration to ensure Python BRPs are always present
 Requires: python-srpm-macros >= 3-46
 Requires: qt5-srpm-macros
 Requires: rust-srpm-macros
@@ -221,6 +214,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Jun 30 2021 Miro Hrončok <mhroncok@redhat.com> - 190-1
+- Move Python related BuildRoot Policy scripts from redhat-rpm-config to python-srpm-macros
+
 * Mon Jun 28 2021 Ben Burton <bab@debian.org> - 189-1
 - Adapt macros and BRP scripts for %%topdir with spaces
 - Fixes rhbz#1947416
