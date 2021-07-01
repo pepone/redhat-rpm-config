@@ -269,7 +269,7 @@ print(result)
     %{?__brp_strip_static_archive} \
     %{?__brp_check_rpaths} \
     %{?__brp_mangle_shebangs} \
-    %{?__os_install_post_python} \
+    %{__os_install_post_python} \
 %{nil}
 
 %__spec_install_post\

@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 190
+Version: 191
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -102,9 +102,8 @@ Requires: nim-srpm-macros
 Requires: ocaml-srpm-macros
 Requires: openblas-srpm-macros
 Requires: perl-srpm-macros
-# ↓ Provides compileall2 Python module
-# TODO: require >= 3.10-6 in the next iteration to ensure Python BRPs are always present
-Requires: python-srpm-macros >= 3-46
+# ↓ Has Python BRPs originaly present in redhat-rpm-config
+Requires: python-srpm-macros >= 3.10-6
 Requires: qt5-srpm-macros
 Requires: rust-srpm-macros
 Requires: rpmautospec-rpm-macros
@@ -214,6 +213,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Jul 01 2021 Miro Hrončok <mhroncok@redhat.com> - 191-1
+- Require python-srpm-macros with Python related BuildRoot Policy scripts
+
 * Wed Jun 30 2021 Miro Hrončok <mhroncok@redhat.com> - 190-1
 - Move Python related BuildRoot Policy scripts from redhat-rpm-config to python-srpm-macros
 
