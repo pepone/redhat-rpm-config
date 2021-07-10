@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 191
+Version: 192
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -213,6 +213,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Sat Jul 10 2021 Neal Gompa <ngompa13@gmail.com> - 192-1
+- Make vpath builddir not include arch-specific info
+
 * Thu Jul 01 2021 Miro Hrončok <mhroncok@redhat.com> - 191-1
 - Require python-srpm-macros with Python related BuildRoot Policy scripts
 

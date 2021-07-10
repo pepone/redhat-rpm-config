@@ -4,4 +4,4 @@
 %_vpath_srcdir .
 
 # directory (doesn't need to exist) where all generated build files will be placed
-%_vpath_builddir %_target_platform
+%_vpath_builddir %{_vendor}-%{_target_os}-build
