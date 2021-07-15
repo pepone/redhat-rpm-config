@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 195
+Version: 196
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -215,6 +215,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Aug 16 2021 Tom Stellard <tstellar@redhat.com> - 196-1
+- Add cc, cxx, and cpp macros
+
 * Sun Aug 15 2021 Michel Alexandre Salim <salimma@fedoraproject.org> - 195-1
 - Fix macros.build-constraints' %%limit_build
   - number of CPUs will never be set to less than 1

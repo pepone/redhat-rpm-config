@@ -66,6 +66,12 @@
 %__cxx %{expand:%%{__cxx_%{toolchain}}}
 %__cpp %{expand:%%{__cpp_%{toolchain}}}
 
+# Compiler macros to use for invoking compilers in spec files for packages that
+# want to use the default compiler and don't care which compiler that is.
+%cc %{__cc}
+%cxx %{__cxx}
+%cpp %{__cpp}
+
 #==============================================================================
 # ---- compiler flags.
 
