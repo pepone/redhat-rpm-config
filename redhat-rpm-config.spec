@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 192
+Version: 193
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -36,12 +36,13 @@ Source104: macros.ldc-srpm
 Source105: macros.valgrind-srpm
 
 # Other misc macros
-Source150: macros.dwz
-Source151: macros.kmp
-Source152: macros.vpath
+Source150: macros.build-constraints
+Source151: macros.dwz
+Source152: macros.fedora-misc
 Source153: macros.forge
-Source154: macros.ldconfig
-Source155: macros.fedora-misc
+Source154: macros.kmp
+Source155: macros.ldconfig
+Source156: macros.vpath
 
 # Build policy scripts
 # this comes from https://github.com/rpm-software-management/rpm/pull/344
@@ -188,11 +189,12 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{rrcdir}/brp-ldconfig
 %{_fileattrsdir}/*.attr
 %{_rpmconfigdir}/macros.d/macros.*-srpm
+%{_rpmconfigdir}/macros.d/macros.build-constraints
 %{_rpmconfigdir}/macros.d/macros.dwz
+%{_rpmconfigdir}/macros.d/macros.fedora-misc
 %{_rpmconfigdir}/macros.d/macros.forge
 %{_rpmconfigdir}/macros.d/macros.ldconfig
 %{_rpmconfigdir}/macros.d/macros.vpath
-%{_rpmconfigdir}/macros.d/macros.fedora-misc
 %dir %{_rpmluadir}/fedora
 %dir %{_rpmluadir}/fedora/srpm
 %dir %{_rpmluadir}/fedora/rpm
@@ -213,6 +215,10 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Sat Jul 24 2021 Michel Alexandre Salim <salimma@fedoraproject.org> - 193-1
+- Add macros.build-constraints
+- Keep the misc macros in alphabetical order
+
 * Sat Jul 10 2021 Neal Gompa <ngompa13@gmail.com> - 192-1
 - Make vpath builddir not include arch-specific info
 
