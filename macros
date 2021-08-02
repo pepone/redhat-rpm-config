@@ -89,7 +89,7 @@
 # When clang is used as a linker driver, it does not auto-detect the LTO
 # bytecode and neither does bfd, so we need to explicitly pass the -flto
 # flag when linking.
-%build_ldflags -Wl,-z,relro %{_ld_as_needed_flags} %{_ld_symbols_flags} %{_hardened_ldflags} %[ "%{toolchain}" == "clang" ? "%{?_lto_cflags}" : "" ]
+%build_ldflags -Wl,-z,relro %{_ld_as_needed_flags} %{_ld_symbols_flags} %{_hardened_ldflags} %{_annotation_ldflags} %[ "%{toolchain}" == "clang" ? "%{?_lto_cflags}" : "" ]
 
 # Expands to shell code to set the compiler/linker environment
 # variables CFLAGS, CXXFLAGS, FFLAGS, FCFLAGS, LDFLAGS if they have
@@ -317,7 +317,7 @@ print(result)
 %_annobin_clang_plugin	%dnl-fplugin=/usr/lib64/clang/`clang -dumpversion`/lib/annobin.so
 %_annotation_plugin     %{?_annotated_build:%{expand:%%{_annobin_%{toolchain}_plugin}}}
 %_annotation_cflags     %[ "%{_target_cpu}" == "armv7hl" ? "" : "%{_annotation_plugin}" ]
-
+%_annotation_ldflags	%{?_lto_cflags:%{_annotation_cflags}}
 
 # Fail linking if there are undefined symbols.  Required for proper
 # ELF symbol versioning support.  Disabled by default.

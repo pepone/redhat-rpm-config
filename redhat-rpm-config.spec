@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 193
+Version: 194
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -215,6 +215,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Aug  2 2021 Florian Weimer <fweimer@redhat.com> - 194-1
+- Active GCC plugin during LTO linking
+
 * Sat Jul 24 2021 Michel Alexandre Salim <salimma@fedoraproject.org> - 193-1
 - Add macros.build-constraints
 - Keep the misc macros in alphabetical order
