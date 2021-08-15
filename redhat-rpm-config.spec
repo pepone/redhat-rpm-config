@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 194
+Version: 195
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -215,6 +215,12 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Sun Aug 15 2021 Michel Alexandre Salim <salimma@fedoraproject.org> - 195-1
+- Fix macros.build-constraints' %%limit_build
+  - number of CPUs will never be set to less than 1
+  - this now outputs build flag overrides to be used with %%make_build etc.
+  - add documentation
+
 * Mon Aug  2 2021 Florian Weimer <fweimer@redhat.com> - 194-1
 - Active GCC plugin during LTO linking
 
