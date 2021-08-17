@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 196
+Version: 197
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -215,6 +215,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Aug 17 2021 Tom Stellard <tstellar@redhat.com> - 197-1
+- Add build_ preifix to cc, cxx, and cpp macros
+
 * Mon Aug 16 2021 Tom Stellard <tstellar@redhat.com> - 196-1
 - Add cc, cxx, and cpp macros
 

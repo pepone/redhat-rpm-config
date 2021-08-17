@@ -68,9 +68,9 @@
 
 # Compiler macros to use for invoking compilers in spec files for packages that
 # want to use the default compiler and don't care which compiler that is.
-%cc %{__cc}
-%cxx %{__cxx}
-%cpp %{__cpp}
+%build_cc %{__cc}
+%build_cxx %{__cxx}
+%build_cpp %{__cpp}
 
 #==============================================================================
 # ---- compiler flags.
