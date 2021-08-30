@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 197
+Version: 198
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -215,6 +215,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Aug 30 2021 Florian Weimer <fweimer@redhat.com> - 198-1
+- ELN: Enable -march=x86-64-v2 for Clang as well
+
 * Tue Aug 17 2021 Tom Stellard <tstellar@redhat.com> - 197-1
 - Add build_ preifix to cc, cxx, and cpp macros
 
