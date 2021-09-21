@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 198
+Version: 199
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -113,7 +113,6 @@ Requires: rpm >= 4.11.0
 Requires: dwz >= 0.4
 Requires: zip
 Requires: (annobin-plugin-gcc if gcc)
-Requires: (annobin-plugin-clang if clang)
 
 # for brp-mangle-shebangs
 Requires: %{_bindir}/find
@@ -215,6 +214,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Sep 21 2021 Tom Stellard <tstellar@redhat.com> - 199-1
+- Drop annobin-plugin-clang dependency
+
 * Mon Aug 30 2021 Florian Weimer <fweimer@redhat.com> - 198-1
 - ELN: Enable -march=x86-64-v2 for Clang as well
 
