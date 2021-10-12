@@ -333,6 +333,8 @@ These steps can be skipped by undefining the corresponding macros:
   are loadable immediately after installation, even if they are not yet
   listed in the `/etc/ld.so.cache` file (because `ldconfig` has not been
   invoked yet).
+* `__brp_remove_la_files`: This step removes libtool-generated `.la`
+  files from the installed files.
 
 # Individual compiler flags
 
