@@ -1,5 +1,47 @@
 # Macros to constrain resource use during the build process
 
+# Changes _smp_build_ncpus depending on various factors
+#
+# -c cpus  constrains the CPU count to "cpus"
+# -m mem   constrains the CPU count to the total amount of memory in the system
+#          (in megabytes) divided by "mem", rounded down
+#
+# If no options are passed, sets _smp_build_ncpus to 1.
+# _smp_build_ncpus will never be raised, only lowered.
+%constrain_build(c:m:) %{lua:
+  local mem_limit = math.tointeger(opt.m)
+  local cpu_limit = math.tointeger(opt.c)
+  local current_cpus = math.tointeger(macros._smp_build_ncpus)
+  local constrained_cpus = current_cpus
+
+  -- Parse meminfo to find the total amount of memory in the system
+  local function getmem()
+    local mem = 0
+    for l in io.lines('/proc/meminfo') do
+      if l:sub(1, 9) == "MemTotal:" then
+        mem = math.tointeger(string.match(l, "MemTotal:%s+(%d+)"))
+        break
+      end
+    end
+    return mem
+  end
+
+  if (not cpu_limit and not mem_limit) then
+    cpu_limit = 1
+  end
+
+  if cpu_limit ~= nil then
+    constrained_cpus = math.min(cpu_limit, constrained_cpus)
+  end
+  if mem_limit ~= nil then
+    local mem_total = getmem(verbose)
+    local limit = math.max(1, mem_total // (mem_limit * 1024))
+    constrained_cpus = math.min(constrained_cpus, limit)
+  end
+
+  macros._smp_build_ncpus = constrained_cpus
+}
+
 # outputs build flag overrides to be used in conjunction with
 # %%make_build, %%cmake_build etc.
 #
