@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 200
+Version: 201
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -214,6 +214,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Nov 01 2021 Jason L Tibbitts III <j@tib.bs> - 201-1
+- Better error handling for %%constrain_build.
+
 * Mon Oct 18 2021 Jason L Tibbitts III <j@tib.bs> - 200-1
 - Add %%constrain_build macro.
 
