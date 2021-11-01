@@ -9,10 +9,24 @@
 # If no options are passed, sets _smp_build_ncpus to 1.
 # _smp_build_ncpus will never be raised, only lowered.
 %constrain_build(c:m:) %{lua:
-  local mem_limit = math.tointeger(opt.m)
-  local cpu_limit = math.tointeger(opt.c)
-  local current_cpus = math.tointeger(macros._smp_build_ncpus)
-  local constrained_cpus = current_cpus
+
+  -- Check a value and clamp it to at least 1
+  local function check_and_clamp(v, string)
+    if v == nil then return nil end
+
+    i = math.tointeger(v)
+    if i == nil then
+      macros.error({"%%%0: invalid "..string.." value "..v})
+      return nil
+    end
+
+    local clamp = math.max(1, math.floor(i))
+    if i ~= clamp then
+      macros.error({"%%%0: invalid "..string.." value "..v})
+      return nil
+    end
+    return clamp
+  end
 
   -- Parse meminfo to find the total amount of memory in the system
   local function getmem()
@@ -25,6 +39,11 @@
     end
     return mem
   end
+
+  local mem_limit = check_and_clamp(opt.m, "mem limit")
+  local cpu_limit = check_and_clamp(opt.c, "cpu limit")
+  local current_cpus = math.tointeger(macros._smp_build_ncpus)
+  local constrained_cpus = current_cpus
 
   if (not cpu_limit and not mem_limit) then
     cpu_limit = 1
