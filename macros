@@ -257,7 +257,8 @@ print(result)
 # __brp_mangle_shebangs_exclude_from_file - file from which to get files to ignore
 %__brp_mangle_shebangs /usr/lib/rpm/redhat/brp-mangle-shebangs %{?__brp_mangle_shebangs_exclude:--shebangs "%{?__brp_mangle_shebangs_exclude}"} %{?__brp_mangle_shebangs_exclude_file:--shebangs-from "%{__brp_mangle_shebangs_exclude_file}"} %{?__brp_mangle_shebangs_exclude_from:--files "%{?__brp_mangle_shebangs_exclude_from}"} %{?__brp_mangle_shebangs_exclude_from_file:--files-from "%{__brp_mangle_shebangs_exclude_from_file}"}
 
-%__brp_llvm_compile_lto_elf /usr/lib/rpm/redhat/brp-llvm-compile-lto-elf %{build_cflags} %{build_ldflags}
+%__llvm_lto_elf_check /usr/lib/rpm/redhat/llvm-lto-elf-check
+%__brp_llvm_compile_lto_elf /usr/lib/rpm/redhat/brp-llvm-compile-lto-elf %{__llvm_lto_elf_check} %{build_cflags} %{build_ldflags}
 
 # note: %%__os_install_post_python is defined in python-srpm-macros and contains several policies
 # redhat-rpm-config maintainers, don't remove it from %%__os_install_post unless coordinating the change with Python maintainers

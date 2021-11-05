@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 201
+Version: 202
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -67,6 +67,7 @@ Source401: rpmsort
 Source402: symset-table
 Source403: kmodtool
 Source404: gpgverify
+Source405: llvm-lto-elf-check
 
 # 2016-10-02 snapshots from http://git.savannah.gnu.org/gitweb/?p=config.git
 Source500: config.guess
@@ -173,6 +174,8 @@ mkdir -p %{buildroot}%{_rpmluadir}/fedora/{rpm,srpm}
 install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora common.lua
 install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 
+install -p -m 755 -t %{buildroot}%{rrcdir} llvm-lto-elf-check
+
 %files
 %dir %{rrcdir}
 %{rrcdir}/macros
@@ -186,6 +189,7 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{rrcdir}/find-provides
 %{rrcdir}/find-requires
 %{rrcdir}/brp-ldconfig
+%{rrcdir}/llvm-lto-elf-check
 %{_fileattrsdir}/*.attr
 %{_rpmconfigdir}/macros.d/macros.*-srpm
 %{_rpmconfigdir}/macros.d/macros.build-constraints
@@ -214,6 +218,10 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Nov 03 2021 David Benoit <dbenoit@redhat.com> - 202-1
+- Add llvm-lto-elf-check script
+- Resolves: rhbz#2017193
+
 * Mon Nov 01 2021 Jason L Tibbitts III <j@tib.bs> - 201-1
 - Better error handling for %%constrain_build.
 
