@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 206
+Version: 207
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -190,6 +190,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %doc buildflags.md
 
 %changelog
+* Tue Dec 14 2021 Tom Stellard <tstellar@redhat.com> - 207-1
+- Add -Wl,--build-id=sha1 to the default LDFLAGS
+
 * Tue Dec 07 2021 Miro Hrončok <mhroncok@redhat.com> - 206-1
 - brp-mangle-shebangs: also mangle shebangs of JavaScript executables
 - Fixes: rhbz#1998924

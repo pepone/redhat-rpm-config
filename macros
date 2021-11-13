@@ -72,7 +72,7 @@
 # When clang is used as a linker driver, it does not auto-detect the LTO
 # bytecode and neither does bfd, so we need to explicitly pass the -flto
 # flag when linking.
-%build_ldflags -Wl,-z,relro %{_ld_as_needed_flags} %{_ld_symbols_flags} %{_hardened_ldflags} %{_annotation_ldflags} %[ "%{toolchain}" == "clang" ? "%{?_lto_cflags}" : "" ]
+%build_ldflags -Wl,-z,relro %{_ld_as_needed_flags} %{_ld_symbols_flags} %{_hardened_ldflags} %{_annotation_ldflags} %[ "%{toolchain}" == "clang" ? "%{?_lto_cflags}" : "" ] %{_build_id_flags}
 
 # Expands to shell code to set the compiler/linker environment
 # variables CFLAGS, CXXFLAGS, FFLAGS, FCFLAGS, LDFLAGS if they have
@@ -324,6 +324,10 @@ print(result)
 %_gcc_lto_cflags	-flto=auto -ffat-lto-objects
 %_clang_lto_cflags	-flto
 %_lto_cflags		%{expand:%%{_%{toolchain}_lto_cflags}}
+
+# Some linkers default to a build-id algoritim that is not supported by rpmbuild,
+# so we need to specify the right algorithm to use.
+%_build_id_flags	-Wl,--build-id=sha1
 
 %_general_options       -O2 %{?_lto_cflags} -fexceptions -g -grecord-gcc-switches -pipe
 %_warning_options       -Wall -Werror=format-security

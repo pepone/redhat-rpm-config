@@ -195,6 +195,13 @@ For example, this can be required if shared objects are used for their
 side effects in ELF constructors, or for making them available to
 dynamically loaded plugins.
 
+### Specifying the build-id algorithm
+
+If you want to specify a different build-id algorithm for your builds, you
+can use the %_build_id_flags macro:
+
+    %_build_id_flags -Wl,--build-id=sha1
+
 ### Strict symbol checks in the link editor (ld)
 
 Optionally, the link editor will refuse to link shared objects which
