@@ -273,6 +273,13 @@ The general (architecture-independent) build flags are:
   variables.  (If the address of a variable is never taken, it is not
   possible that a buffer overflow is caused by incorrect pointer
   arithmetic involving a pointer to that variable.)
+* `-fstack-clash-protection`: Turn on instrumentation to avoid
+  skipping the guard page in large stack frames.  (Without this flag,
+  vulnerabilities can result where the stack overlaps with the heap,
+  or thread stacks spill into other regions of memory.)  This flag is
+  fully ABI-compatible and has adds very little run-time overhead.
+  This flag is currently not available on armhfp (both `gcc` and `clang`
+  toolchains aond on aarch64 with the `clang` toolchain.
 * `-flto=auto`: Enable link-time optimization (LTO), using `make` job server
   integration for parallel processing.  (`gcc` toolchain only)
 * `-ffat-lto-objects`: Generate EFL object files which contain both
@@ -318,13 +325,6 @@ added by default.  This can be switched off by undefining the
 These compiler flags are enabled for all builds (hardened/annotated or
 not), but their selection depends on the architecture:
 
-*   `-fstack-clash-protection`: Turn on instrumentation to avoid
-    skipping the guard page in large stack frames.  (Without this flag,
-    vulnerabilities can result where the stack overlaps with the heap,
-    or thread stacks spill into other regions of memory.)  This flag is
-    fully ABI-compatible and has adds very little run-time overhead, but
-    is only available on certain architectures (currently aarch64, i386,
-    ppc64le, s390x, x86_64).
 *   `-fcf-protection`: Instrument binaries to guard against
     ROP/JOP attacks.  Used on i686 and x86_64.
 *   `-mbranch-protection=standard`: Instrument binaries to guard against
