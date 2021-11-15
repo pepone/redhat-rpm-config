@@ -105,6 +105,17 @@ or:
     BuildRequires: clang compiler-rt
     %endif
 
+### Disabling Link-Time Optimization
+
+By default, builds use link-time optimization.  In this build mode,
+object code is generated at the time of the final link, by combining
+information from all available translation units, and taking into
+account which symbols are exported.
+
+To disable this optimization, include this in the spec file:
+
+   %define _lto_cflags %{nil}
+
 ### Lazy binding
 
 If your package depends on the semantics of lazy binding (e.g., it has
@@ -262,6 +273,11 @@ The general (architecture-independent) build flags are:
   variables.  (If the address of a variable is never taken, it is not
   possible that a buffer overflow is caused by incorrect pointer
   arithmetic involving a pointer to that variable.)
+* `-flto=auto`: Enable link-time optimization (LTO), using `make` job server
+  integration for parallel processing.  (`gcc` toolchain only)
+* `-ffat-lto-objects`: Generate EFL object files which contain both
+  object code and LTO intermediate representation.  (`gcc` toolchain only)
+* `-flto`: Enable link-time optimization. (`clang` toolchain only)
 * `-grecord-gcc-switches`: Include select GCC command line switches in
   the DWARF debugging information.  This is useful for detecting the
   presence of certain build flags and general hardening coverage.
