@@ -29,6 +29,9 @@ are not overwritten.)
 
 Individual build flags are also available through RPM macros:
 
+* `%{build_cc}` for the command name of the C compiler.
+* `%{build_cxx}` for the command name of the C++ compiler.
+* `%{build_cpp}` for the command name of the C-compatible preprocessor.
 * `%{build_cflags}` for the C compiler flags (also known as the
   `CFLAGS` variable).  Also historically available as `%{optflags}`.
   Furthermore, at the start of the `%build` section, the environment
