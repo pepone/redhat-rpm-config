@@ -116,6 +116,21 @@ recognized, so it has to come after the hardening flags on the command
 line (it has to be added at the end of `CFLAGS`, or specified after
 the `CFLAGS` variable contents).
 
+### Keeping dependencies on unused shared objects
+
+By default, ELF shared objects which are listed on the linker command
+line, but which have no referencing symbols in the preceding objects,
+are not added to the output file during the final link.
+
+In order to keep dependencies on shared objects even if none of
+their symbols are used, include this in the RPM spec file:
+
+    %undefine _ld_as_needed
+
+For example, this can be required if shared objects are used for their
+side effects in ELF constructors, or for making them available to
+dynamically loaded plugins.
+
 ### Strict symbol checks in the link editor (ld)
 
 Optionally, the link editor will refuse to link shared objects which
@@ -327,6 +342,10 @@ to the compiler driver `gcc`, and not directly to the link editor
   dynamic linker is instructed to revoke write permissions after
   dynamic linking.  Full protection of relocation data requires the
   `-z now` flag (see below).
+* `--as-needed`: In the final link, only generate ELF dependencies
+  for shared objects that actually provide symbols required by the link.
+  Shared objects which are not needed to fulfill symbol dependencies
+  are essentially ignored due to this flag.
 * `-z defs`: Refuse to link shared objects (DSOs) with undefined symbols
   (optional, see above).
 
