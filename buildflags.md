@@ -235,6 +235,8 @@ The general (architecture-independent) build flags are:
 * `-grecord-gcc-switches`: Include select GCC command line switches in
   the DWARF debugging information.  This is useful for detecting the
   presence of certain build flags and general hardening coverage.
+* `-fcommon`: This optional flag is used to build legacy software
+  which relies on C tentative definitions.  It is disabled by default.
 
 For hardened builds (which are enabled by default, see above for how
 to disable them), the flag
