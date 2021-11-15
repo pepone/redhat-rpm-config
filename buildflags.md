@@ -261,7 +261,7 @@ not), but their selection depends on the architecture:
     or thread stacks spill into other regions of memory.)  This flag is
     fully ABI-compatible and has adds very little run-time overhead, but
     is only available on certain architectures (currently aarch64, i386,
-    ppc64, ppc64le, s390x, x86_64).
+    ppc64le, s390x, x86_64).
 *   `-fcf-protection`: Instrument binaries to guard against
     ROP/JOP attacks.  Used on i686 and x86_64.
 *   `-m64` and `-m32`: Some GCC builds support both 32-bit and 64-bit in
@@ -274,7 +274,7 @@ not), but their selection depends on the architecture:
     handlers.  It also makes performance and debugging tools more
     useful because unwind information is available without having to
     install (and load) debugging ienformation.
-    Asynchronous unwind tables are enabled for aarch64, i686, ppc64,
+    Asynchronous unwind tables are enabled for aarch64, i686,
     ppc64le, s390x, and x86_64.  They are not needed on armhfp due to
     architectural differences in stack management.  On these
     architectures, `-fexceptions` (see above) still enables regular
@@ -309,7 +309,7 @@ tuning in the `gcc` package.  These settings are:
     (z13).
 *   **x86_64**: `-mtune=generic` selects tuning which is expected to
      beneficial for a broad range of current CPUs.
-*   **ppc64** and **aarch64** do not have any architecture-specific tuning.
+*   **aarch64** does not have any architecture-specific tuning.
 
 # Individual linker flags
 
