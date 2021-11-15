@@ -75,6 +75,33 @@ It is possible to set RPM macros to change some aspects of the
 compiler flags.  Changing these flags should be used as a last
 recourse if other workarounds are not available.
 
+### Toolchain selection
+
+The default toolchain uses GCC, and the `%toolchain` macro is defined
+as `gcc`.
+
+It is enough to override `toolchain` macro and all relevant macro for C/C++
+compilers will be switched. Either in the spec or in the command-line.
+
+    %global toolchain clang
+
+or:
+
+    rpmbuild -D "toolchain clang" …
+
+Inside a spec file it is also possible to determine which toolchain is in use
+by testing the same macro. For example:
+
+    %if "%{toolchain}" == "gcc"
+    BuildRequires: gcc
+    %endif
+
+or:
+
+    %if "%{toolchain}" == "clang"
+    BuildRequires: clang compiler-rt
+    %endif
+
 ### Lazy binding
 
 If your package depends on the semantics of lazy binding (e.g., it has

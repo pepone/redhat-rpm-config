@@ -37,29 +37,6 @@
 %__cpp_clang clang-cpp
 
 # Default to the GCC toolchain
-#
-# It is enough to override `toolchain` macro and all relevant macro for C/C++
-# compilers will be switched. Either in the spec or in the command-line.
-#
-#     %global toolchain clang
-#
-# or:
-#
-#     rpmbuild -D "toolchain clang" …
-#
-# Inside a spec file it is also possible to determine which toolchain is in use
-# by testing the same macro. For example:
-#
-#     %if "%{toolchain}" == "gcc"
-#     BuildRequires: gcc
-#     %endif
-#
-# or:
-#
-#     %if "%{toolchain}" == "clang"
-#     BuildRequires: clang compiler-rt
-#     %endif
-#
 %toolchain gcc
 
 %__cc %{expand:%%{__cc_%{toolchain}}}
