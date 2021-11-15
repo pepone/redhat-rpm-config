@@ -262,6 +262,13 @@ The general (architecture-independent) build flags are:
   it possible to unwind the stack (using C++ `throw` or Rust panics)
   from C callback functions if a C library supports non-local exits
   from them (e.g., via `longjmp`).
+* `-fasynchronous-unwind-tables`: Generate full unwind information
+  covering all program points.  This is required for support of
+  asynchronous cancellation and proper unwinding from signal
+  handlers.  It also makes performance and debugging tools more
+  useful because unwind information is available without having to
+  install (and load) debugging ienformation.  (Not enabled on armhfp
+  due to architectural differences in stack management.)
 * `-Wp,-D_GLIBCXX_ASSERTIONS`: Enable lightweight assertions in the
   C++ standard library, such as bounds checking for the subscription
   operator on vectors.  (This flag is added to both `CFLAGS` and
@@ -335,18 +342,6 @@ not), but their selection depends on the architecture:
     the same compilation.  For such architectures, the RPM build process
     explicitly selects the architecture variant by passing this compiler
     flag.
-*   `-fasynchronous-unwind-tables`: Generate full unwind information
-    covering all program points.  This is required for support of
-    asynchronous cancellation and proper unwinding from signal
-    handlers.  It also makes performance and debugging tools more
-    useful because unwind information is available without having to
-    install (and load) debugging ienformation.
-    Asynchronous unwind tables are enabled for aarch64, i686,
-    ppc64le, s390x, and x86_64.  They are not needed on armhfp due to
-    architectural differences in stack management.  On these
-    architectures, `-fexceptions` (see above) still enables regular
-    unwind tables (or they are enabled by default even without this
-    option).
 
 In addition, `redhat-rpm-config` re-selects the built-in default
 tuning in the `gcc` package.  These settings are:
