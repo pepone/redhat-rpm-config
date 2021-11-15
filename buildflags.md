@@ -264,6 +264,8 @@ not), but their selection depends on the architecture:
     ppc64le, s390x, x86_64).
 *   `-fcf-protection`: Instrument binaries to guard against
     ROP/JOP attacks.  Used on i686 and x86_64.
+*   `-mbranch-protection=standard`: Instrument binaries to guard against
+     ROP/JOP attacks.  Used on aarch64.
 *   `-m64` and `-m32`: Some GCC builds support both 32-bit and 64-bit in
     the same compilation.  For such architectures, the RPM build process
     explicitly selects the architecture variant by passing this compiler
