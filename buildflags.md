@@ -317,8 +317,10 @@ command line.  It adds the following flag to the command line:
 To support [binary watermarks for ELF
 objects](https://fedoraproject.org/wiki/Toolchain/Watermark) using
 annobin, the `-specs=/usr/lib/rpm/redhat/redhat-annobin-cc1` flag is
-added by default.  This can be switched off by undefining the
-`%_annotated_build` RPM macro (see above).
+added by default (with the `gcc` toolchain).  This can be switched off
+by undefining the `%_annotated_build` RPM macro (see above).  Binary
+watermarks are currently disabled on armhpf, and with the `clang`
+toolchain.
 
 ### Architecture-specific compiler flags
 
