@@ -72,7 +72,7 @@ For other considerations involving shared objects, see:
 
 * [Fedora Packaging Guidelines: Shared Libraries](https://docs.fedoraproject.org/en-US/packaging-guidelines/#_shared_libraries)
 
-# Customizing compiler flags
+# Customizing compiler and other build flags
 
 It is possible to set RPM macros to change some aspects of the
 compiler flags.  Changing these flags should be used as a last
@@ -215,6 +215,72 @@ it is possible to add `-fcommon` to the flags by defining `%_legacy_common_suppo
     %define _legacy_common_support 1
 
 Properly fixing the failure is always preferred!
+
+### Post-build ELF object processing
+
+By default, DWARF debugging information is separated from installed
+ELF objects and put into `-debuginfo` subpackages.  To disable most
+debuginfo processing (and thus the generation of these subpackages),
+define `_enable_debug_packages` as `0`.
+
+Processing of debugging information is controlled using the
+`find-debuginfo` tool from the `debugedit` package.  Several aspects
+of its operation can be controlled at the RPM level.
+
+* Creation of `-debuginfo` subpackages is enabled by default.
+  To disable, undefine `_debuginfo_subpackages`.
+* Likewise, `-debugsource` subpackages are automatically created.
+  To disable, undefine `_debugsource_subpackages`.
+  See [Separate Subpackage and Source Debuginfo](https://fedoraproject.org/wiki/Changes/SubpackageAndSourceDebuginfo)
+  for background information.
+* `_build_id_links`, `_unique_build_ids`, `_unique_debug_names`,
+  `_unique_debug_srcs` control how debugging information and
+  corresponding source files are represented on disk.
+  See `/usr/lib/rpm/macros` for details.  The defaults
+  enable parallel installation of `-debuginfo` packages for
+  different package versions, as described in
+  [Parallel Installable Debuginfo](https://fedoraproject.org/wiki/Changes/ParallelInstallableDebuginfo).
+* By default, a compressed symbol table is preserved in the
+  `.gnu_debugdata` section.  To disable that, undefine
+  `_include_minidebuginfo`.
+* To speed up debuggers, a `.gdb_index` section is created.  It can be
+  disabled by undefining `_include_gdb_index`.
+* Missing build IDs result in a build failure.  To ignore such
+  problems, undefine `_missing_build_ids_terminate_build`.
+* During processing, build IDs are recomputed to match the binary
+  content.  To skip this step, define `_no_recompute_build_ids` as `1`.
+* By default, the options in `_find_debuginfo_dwz_opts` turn on `dwz`
+  (DWARF compression) processing.  Undefine this macro to disable this
+  step.
+* Additional options can be passed by defining the
+  `_find_debuginfo_opts` macro.
+
+After separation of debugging information, additional transformations
+are applied, most of them also related to debugging information.
+These steps can be skipped by undefining the corresponding macros:
+
+* `__brp_strip`: Removal of leftover debugging information.  The tool
+  specified by the `__strip` macro is invoked with the `-g` option on
+  ELF object (`.o`) files.
+* `__brp_strip_static_archive`: This is similar to `__brp_strip`, but
+  processes static `.a` archives instead.
+* `__brp_strip_comment_note`: This step removes unallocated `.note`
+  sections, and `.comment` sections from ELF files.
+* `__brp_strip_lto`: This step removes GCC LTO intermediate representation
+  in ELF sections starting with `.gnu.lto_` and `.gnu.debuglto_`.  Skipping
+  this step is strongly discouraged because the tight coupling of LTO
+  data with the GCC version.  The underlying tool is again determined by the
+  `__strip` macro.
+* `__brp_llvm_compile_lto_elf`: This step replaces LLVM bitcode files
+  with object files, thereby removing LLVM bitcode from the installed
+  files.  This transformation is applied to object files in static `.a`
+  archives, too.
+* `__brp_ldconfig`: For each shared object on the library search path
+  whose soname does not match its file name, a symbolic link from the
+  soname to the file name is created.  This way, these shared objects
+  are loadable immediately after installation, even if they are not yet
+  listed in the `/etc/ld.so.cache` file (because `ldconfig` has not been
+  invoked yet).
 
 # Individual compiler flags
 
