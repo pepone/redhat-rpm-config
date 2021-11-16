@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 203
+Version: 204
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -67,7 +67,6 @@ Source401: rpmsort
 Source402: symset-table
 Source403: kmodtool
 Source404: gpgverify
-Source405: llvm-lto-elf-check
 
 # 2016-10-02 snapshots from http://git.savannah.gnu.org/gitweb/?p=config.git
 Source500: config.guess
@@ -177,8 +176,6 @@ mkdir -p %{buildroot}%{_rpmluadir}/fedora/{rpm,srpm}
 install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora common.lua
 install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 
-install -p -m 755 -t %{buildroot}%{rrcdir} llvm-lto-elf-check
-
 %files
 %dir %{rrcdir}
 %{rrcdir}/macros
@@ -192,7 +189,6 @@ install -p -m 755 -t %{buildroot}%{rrcdir} llvm-lto-elf-check
 %{rrcdir}/find-provides
 %{rrcdir}/find-requires
 %{rrcdir}/brp-ldconfig
-%{rrcdir}/llvm-lto-elf-check
 %{_fileattrsdir}/*.attr
 %{_rpmconfigdir}/macros.d/macros.*-srpm
 %{_rpmconfigdir}/macros.d/macros.build-constraints
@@ -221,6 +217,10 @@ install -p -m 755 -t %{buildroot}%{rrcdir} llvm-lto-elf-check
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Nov 16 2021 Miro Hrončok <mhroncok@redhat.com> - 204-1
+- Don't pull in Python to all buildroots
+- Remove llvm-lto-elf-check script
+
 * Tue Nov 09 2021 Michal Domonkos <mdomonko@redhat.com> - 203-1
 - Drop {fpc,gnat,nim}-srpm-macros dependencies on RHEL
 
