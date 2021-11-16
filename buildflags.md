@@ -352,7 +352,7 @@ The general (architecture-independent) build flags are:
   or thread stacks spill into other regions of memory.)  This flag is
   fully ABI-compatible and has adds very little run-time overhead.
   This flag is currently not available on armhfp (both `gcc` and `clang`
-  toolchains aond on aarch64 with the `clang` toolchain.
+  toolchains) and on aarch64 with the `clang` toolchain.
 * `-flto=auto`: Enable link-time optimization (LTO), using `make` job server
   integration for parallel processing.  (`gcc` toolchain only)
 * `-ffat-lto-objects`: Generate EFL object files which contain both
