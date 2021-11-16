@@ -333,7 +333,7 @@ The general (architecture-independent) build flags are:
   asynchronous cancellation and proper unwinding from signal
   handlers.  It also makes performance and debugging tools more
   useful because unwind information is available without having to
-  install (and load) debugging ienformation.  (Not enabled on armhfp
+  install (and load) debugging information.  (Not enabled on armhfp
   due to architectural differences in stack management.)
 * `-Wp,-D_GLIBCXX_ASSERTIONS`: Enable lightweight assertions in the
   C++ standard library, such as bounds checking for the subscription
