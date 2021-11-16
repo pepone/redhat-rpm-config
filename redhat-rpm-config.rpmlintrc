@@ -1,3 +1,0 @@
-# We are removing this package, but until we do, let's not block our CI status by rpmlint errors in it
-# https://src.fedoraproject.org/rpms/redhat-rpm-config/pull-request/134
-addFilter(r'^kernel-rpm-macros\.noarch:')
