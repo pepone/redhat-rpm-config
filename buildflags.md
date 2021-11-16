@@ -13,6 +13,8 @@ this:
 
 This will invoke the `./configure` with arguments (such as
 `--prefix=/usr`) to adjust the paths to the packaging defaults.
+Prior to that, some common problems in autotools scripts are
+automatically patched across the source tree.
 
 As a side effect, this will set the environment variables `CFLAGS`,
 `CXXFLAGS`, `FFLAGS`, `FCFLAGS`, `LDFLAGS` and `LT_SYS_LIBRARY_PATH`,
@@ -25,7 +27,8 @@ environment variables using
     %set_build_flags
 
 early in the `%build` section.  (Again, existing environment variables
-are not overwritten.)
+are not overwritten.)  `%set_build_flags` does not perform autotools
+script rewriting, unlike `%configure`.
 
 Individual build flags are also available through RPM macros:
 
@@ -105,6 +108,21 @@ or:
     BuildRequires: clang compiler-rt
     %endif
 
+### Disable autotools compatibility patching
+
+By default, the invocation of the `%configure` macro replaces
+`config.guess` files in the source tree with the system version.  To
+disable that, define this macro:
+
+    %global _configure_gnuconfig_hack 0
+
+`%configure` also patches `ltmain.sh` scripts, so that linker flags
+are set as well during libtool-.  This can be switched off using:
+
+    %global _configure_libtool_hardening_hack 0
+
+Further patching happens in LTO mode, see below.
+
 ### Disabling Link-Time Optimization
 
 By default, builds use link-time optimization.  In this build mode,
@@ -115,6 +133,11 @@ account which symbols are exported.
 To disable this optimization, include this in the spec file:
 
    %define _lto_cflags %{nil}
+
+If LTO is enabled, `%configure` applies some common required fixes to
+`configure` scripts.  To disable that, define the RPM macro
+`_fix_broken_configure_for_lto` as `true` (sic; it has to be a shell
+command).
 
 ### Lazy binding
 
