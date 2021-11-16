@@ -31,6 +31,9 @@
       - gcc
       - gcc-c++
       - annobin-annocheck
+      # no-new-dependency
+      - diffutils
+      - grep
     repositories:
       - repo: https://src.fedoraproject.org/tests/clang.git
         dest: clang
@@ -40,3 +43,4 @@
           run: "dnf -y build-dep {{ tenv_workdir }}/redhat-rpm-config.spec && rpmbuild --define '_sourcedir {{ tenv_workdir }}' -ba {{ tenv_workdir }}/redhat-rpm-config.spec"
       - clang/fedora-flags
       - gcc-fedora-flags
+      - no-new-dependency
