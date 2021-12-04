@@ -89,6 +89,13 @@
   CC="${CC:-%{__cc}}" ; export CC ; \
   CXX="${CXX:-%{__cxx}}" ; export CXX
 
+# Automatically use set_build_flags macro for build, check, and
+# install phases.
+# Use "%undefine _auto_set_build_flags" to disable"
+%_auto_set_build_flags 1
+%__spec_build_pre %{___build_pre} %{?_auto_set_build_flags:%{set_build_flags}}
+%__spec_check_pre %{___build_pre} %{?_auto_set_build_flags:%{set_build_flags}}
+
 # Internal-only.  Do not use.  Expand a variable and strip the flags
 # not suitable to extension builders.
 %__extension_strip_flags() %{lua:
@@ -211,6 +218,7 @@ print(result)
     [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf "${RPM_BUILD_ROOT}"\
     mkdir -p "`dirname "$RPM_BUILD_ROOT"`"\
     mkdir "$RPM_BUILD_ROOT"\
+    %{?_auto_set_build_flags:%{set_build_flags}}\
 %{nil}
 
 #---------------------------------------------------------------------

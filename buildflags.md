@@ -5,6 +5,20 @@ and how to use them.
 
 # Using RPM build flags
 
+The %set_build_flags macro sets the environment variables `CFLAGS`,
+`CXXFLAGS`, `FFLAGS`, `FCFLAGS`, `LDFLAGS` and `LT_SYS_LIBRARY_PATH` to
+the value of their corresponding rpm macros.   %set_build_flags is automatically
+called prior to the %build, %check, and %install phases so these flags can be
+used by makefiles and other build tools.
+
+You can opt out of this behavior by doing:
+
+    %undefine _auto_set_build_flags
+
+If you do opt out of this behavior, you can still manually use %set_build_flags
+by adding it to the %build section of your spec file or by using one of the
+build system helper macros like %configure, %cmake, and %meson
+
 For packages which use autoconf to set up the build environment, use
 the `%configure` macro to obtain the full complement of flags, like
 this:
@@ -15,20 +29,6 @@ This will invoke `./configure` with arguments (such as
 `--prefix=/usr`) to adjust the paths to the packaging defaults. Prior
 to that, some common problems in autotools scripts are automatically
 patched across the source tree.
-
-As a side effect, this will set the environment variables `CFLAGS`,
-`CXXFLAGS`, `FFLAGS`, `FCFLAGS`, `LDFLAGS` and `LT_SYS_LIBRARY_PATH`,
-so they can be used by makefiles and other build tools. (However,
-existing values for these variables are not overwritten.)
-
-If your package does not use autoconf, you can still set the same
-environment variables using
-
-    %set_build_flags
-
-early in the `%build` section. (Again, existing environment variables
-are not overwritten.)  `%set_build_flags` does not perform autotools
-script rewriting, unlike `%configure`.
 
 Individual build flags are also available through RPM macros:
 

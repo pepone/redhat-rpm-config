@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 207
+Version: 208
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -190,6 +190,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %doc buildflags.md
 
 %changelog
+* Tue Jan 04 2022 Tom Stellard <tstellar@redhat.com> - 208-1
+- Call %%set_build_flags before %%build, %%check, and %%install stages
+
 * Tue Dec 14 2021 Tom Stellard <tstellar@redhat.com> - 207-1
 - Add -Wl,--build-id=sha1 to the default LDFLAGS
 
