@@ -41,7 +41,7 @@ Individual build flags are also available through RPM macros:
   variable `RPM_OPT_FLAGS` is set to this value.
 * `%{build_cxxflags}` for the C++ compiler flags (usually assigned to
   the `CXXFLAGS` shell variable).
-* `%{build_fflags} for `FFLAGS` (the Fortran compiler flags, also
+* `%{build_fflags}` for `FFLAGS` (the Fortran compiler flags, also
   known as the `FCFLAGS` variable).
 * `%{build_ldflags}` for the link editor (ld) flags, usually known as
   `LDFLAGS`.  Note that the contents quotes linker arguments using
