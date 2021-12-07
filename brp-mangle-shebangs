@@ -76,7 +76,7 @@ cd "$RPM_BUILD_ROOT"
 # (Take care to exclude filenames which would mangle "file" output).
 find -executable -type f ! -path '*:*' ! -path $'*\n*' \
 | file -N --mime-type -f - \
-| grep -P ".+(?=: text/)" \
+| grep -P ".+(?=: (text/|application/javascript))" \
 | {
 fail=0
 while IFS= read -r line; do

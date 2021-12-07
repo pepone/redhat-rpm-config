@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 205
+Version: 206
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -190,6 +190,10 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %doc buildflags.md
 
 %changelog
+* Tue Dec 07 2021 Miro Hrončok <mhroncok@redhat.com> - 206-1
+- brp-mangle-shebangs: also mangle shebangs of JavaScript executables
+- Fixes: rhbz#1998924
+
 * Thu Nov 18 2021 Michal Domonkos <mdomonko@redhat.com> - 205-1
 - Drop kernel-rpm-macros subpackage & kmod.attr (new home: kernel-srpm-macros)
 
