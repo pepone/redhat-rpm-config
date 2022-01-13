@@ -246,6 +246,22 @@ it is possible to add `-fcommon` to the flags by defining `%_legacy_common_suppo
 
 Properly fixing the failure is always preferred!
 
+### Package note on ELF objects
+
+A note that describes the package name, version, and architecture is
+inserted via a linker script (`%_package_note_file`). The script is
+generated when `%set_build_flags` is called. The linker option that
+injects the linker script is added to `%{build_ldflags}` via the
+`%{_package_note_flags}` macro.
+
+To opt out of the use of the linker script, include this in the spec file:
+
+    %undefine _package_note_flags
+
+To opt out of generation of the linker script, include this in the spec file:
+
+    %undefine _generate_package_note_file
+
 ### Post-build ELF object processing
 
 By default, DWARF debugging information is separated from installed

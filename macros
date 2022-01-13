@@ -72,7 +72,7 @@
 # When clang is used as a linker driver, it does not auto-detect the LTO
 # bytecode and neither does bfd, so we need to explicitly pass the -flto
 # flag when linking.
-%build_ldflags -Wl,-z,relro %{_ld_as_needed_flags} %{_ld_symbols_flags} %{_hardened_ldflags} %{_annotation_ldflags} %[ "%{toolchain}" == "clang" ? "%{?_lto_cflags}" : "" ] %{_build_id_flags}
+%build_ldflags -Wl,-z,relro %{_ld_as_needed_flags} %{_ld_symbols_flags} %{_hardened_ldflags} %{_annotation_ldflags} %[ "%{toolchain}" == "clang" ? "%{?_lto_cflags}" : "" ] %{_build_id_flags} %{?_package_note_flags}
 
 # Expands to shell code to set the compiler/linker environment
 # variables CFLAGS, CXXFLAGS, FFLAGS, FCFLAGS, LDFLAGS if they have
@@ -80,6 +80,7 @@
 # been set implicitly at the start of the %%build section.
 # LT_SYS_LIBRARY_PATH is used by libtool script.
 %set_build_flags \
+  %{?_generate_package_note_file} ; \
   CFLAGS="${CFLAGS:-%{build_cflags}}" ; export CFLAGS ; \
   CXXFLAGS="${CXXFLAGS:-%{build_cxxflags}}" ; export CXXFLAGS ; \
   FFLAGS="${FFLAGS:-%{build_fflags}}" ; export FFLAGS ; \

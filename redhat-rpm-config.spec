@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 208
+Version: 209
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -102,6 +102,7 @@ Requires: rpmautospec-rpm-macros
 Requires: fpc-srpm-macros
 Requires: gnat-srpm-macros
 Requires: nim-srpm-macros
+Requires: package-notes-srpm-macros
 %endif
 
 Requires: rpm >= 4.11.0
@@ -190,6 +191,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %doc buildflags.md
 
 %changelog
+* Thu Jan 13 2022 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 209-1
+- Add package ELF note to the default LDFLAGS
+
 * Tue Jan 04 2022 Tom Stellard <tstellar@redhat.com> - 208-1
 - Call %%set_build_flags before %%build, %%check, and %%install stages
 
