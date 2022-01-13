@@ -132,7 +132,7 @@ account which symbols are exported.
 
 To disable this optimization, include this in the spec file:
 
-   %define _lto_cflags %{nil}
+    %global _lto_cflags %{nil}
 
 If LTO is enabled, `%configure` applies some common required fixes to
 `configure` scripts.  To disable that, define the RPM macro
@@ -216,7 +216,7 @@ executed before the shared object containing them is fully relocated.
 
 To switch on these checks, define this macro in the RPM spec file:
 
-    %define _strict_symbol_defs_build 1
+    %global _strict_symbol_defs_build 1
 
 If this RPM spec option is active, link failures will occur if the
 linker command line does not list all shared objects which are needed.
@@ -242,7 +242,7 @@ Builds may fail with `multiple definition of ...` errors.
 As a short term workaround for such failure,
 it is possible to add `-fcommon` to the flags by defining `%_legacy_common_support`.
 
-    %define _legacy_common_support 1
+    %global _legacy_common_support 1
 
 Properly fixing the failure is always preferred!
 
