@@ -11,14 +11,14 @@ this:
 
     %configure
 
-This will invoke the `./configure` with arguments (such as
-`--prefix=/usr`) to adjust the paths to the packaging defaults.
-Prior to that, some common problems in autotools scripts are
-automatically patched across the source tree.
+This will invoke `./configure` with arguments (such as
+`--prefix=/usr`) to adjust the paths to the packaging defaults. Prior
+to that, some common problems in autotools scripts are automatically
+patched across the source tree.
 
 As a side effect, this will set the environment variables `CFLAGS`,
 `CXXFLAGS`, `FFLAGS`, `FCFLAGS`, `LDFLAGS` and `LT_SYS_LIBRARY_PATH`,
-so they can be used by makefiles and other build tools.  (However,
+so they can be used by makefiles and other build tools. (However,
 existing values for these variables are not overwritten.)
 
 If your package does not use autoconf, you can still set the same
@@ -26,7 +26,7 @@ environment variables using
 
     %set_build_flags
 
-early in the `%build` section.  (Again, existing environment variables
+early in the `%build` section. (Again, existing environment variables
 are not overwritten.)  `%set_build_flags` does not perform autotools
 script rewriting, unlike `%configure`.
 
@@ -36,7 +36,7 @@ Individual build flags are also available through RPM macros:
 * `%{build_cxx}` for the command name of the C++ compiler.
 * `%{build_cpp}` for the command name of the C-compatible preprocessor.
 * `%{build_cflags}` for the C compiler flags (also known as the
-  `CFLAGS` variable).  Also historically available as `%{optflags}`.
+  `CFLAGS` variable). Also historically available as `%{optflags}`.
   Furthermore, at the start of the `%build` section, the environment
   variable `RPM_OPT_FLAGS` is set to this value.
 * `%{build_cxxflags}` for the C++ compiler flags (usually assigned to
@@ -44,13 +44,13 @@ Individual build flags are also available through RPM macros:
 * `%{build_fflags}` for `FFLAGS` (the Fortran compiler flags, also
   known as the `FCFLAGS` variable).
 * `%{build_ldflags}` for the link editor (ld) flags, usually known as
-  `LDFLAGS`.  Note that the contents quotes linker arguments using
+  `LDFLAGS`. Note that the contents quotes linker arguments using
   `-Wl`, so this variable is intended for use with the `gcc` compiler
-  driver.  At the start of the `%build` section, the environment
+  driver. At the start of the `%build` section, the environment
   variable `RPM_LD_FLAGS` is set to this value.
 
 The variable `LT_SYS_LIBRARY_PATH` is defined here to prevent the `libtool`
-script (v2.4.6+) from hardcoding %_libdir into the binaries' RPATH.
+script (v2.4.6+) from hardcoding `%_libdir` into the binaries' `RPATH`.
 
 These RPM macros do not alter shell environment variables.
 
@@ -198,7 +198,7 @@ dynamically loaded plugins.
 ### Specifying the build-id algorithm
 
 If you want to specify a different build-id algorithm for your builds, you
-can use the %_build_id_flags macro:
+can use the `%_build_id_flags` macro:
 
     %_build_id_flags -Wl,--build-id=sha1
 
@@ -319,10 +319,11 @@ Compiler flags end up in the environment variables `CFLAGS`,
 
 The general (architecture-independent) build flags are:
 
-* `-O2`: Turn on various GCC optimizations.  See the [GCC manual](https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#index-O2).
+* `-O2`: Turn on various GCC optimizations. See the
+  [GCC manual](https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#index-O2).
   Optimization improves performance, the accuracy of warnings, and the
   reach of toolchain-based hardening, but it makes debugging harder.
-* `-g`: Generate debugging information (DWARF).  In Fedora, this data
+* `-g`: Generate debugging information (DWARF). In Fedora, this data
   is separated into `-debuginfo` RPM packages whose installation is
   optional, so debuging information does not increase the size of
   installed binaries by default.
@@ -334,7 +335,7 @@ The general (architecture-independent) build flags are:
 * `-Werror=format-security`: Turn on format string warnings and treat
   them as errors.
   See the [GCC manual](https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wformat-security).
-  This can occasionally result in compilation errors.  In this case,
+  This can occasionally result in compilation errors. In that case,
   the best option is to rewrite the source code so that only constant
   format strings (string literals) are used.
 * `-Wp,-D_FORTIFY_SOURCE=2`: Source fortification activates various
@@ -399,23 +400,23 @@ to disable them), the flag
 `-specs=/usr/lib/rpm/redhat/redhat-hardened-cc1` is added to the
 command line.  It adds the following flag to the command line:
 
-*   `-fPIE`: Compile for a position-independent executable (PIE),
-    enabling full address space layout randomization (ASLR).  This is
-    similar to `-fPIC`, but avoids run-time indirections on certain
-    architectures, resulting in improved performance and slightly
-    smaller executables.  However, compared to position-dependent code
-    (the default generated by GCC), there is still a measurable
-    performance impact.
+* `-fPIE`: Compile for a position-independent executable (PIE),
+  enabling full address space layout randomization (ASLR).  This is
+  similar to `-fPIC`, but avoids run-time indirections on certain
+  architectures, resulting in improved performance and slightly
+  smaller executables.  However, compared to position-dependent code
+  (the default generated by GCC), there is still a measurable
+  performance impact.
 
-    If the command line also contains `-r` (producing a relocatable
-    object file), `-fpic` or `-fPIC`, this flag is automatically
-    dropped.  (`-fPIE` can only be used for code which is linked into
-    the main program.) Code which goes into static libraries should be
-    compiled with `-fPIE`, except when this code is expected to be
-    linked into DSOs, when `-fPIC` must be used.
+  If the command line also contains `-r` (producing a relocatable
+  object file), `-fpic` or `-fPIC`, this flag is automatically
+  dropped.  (`-fPIE` can only be used for code which is linked into
+  the main program.) Code which goes into static libraries should be
+  compiled with `-fPIE`, except when this code is expected to be
+  linked into DSOs, when `-fPIC` must be used.
 
-    To be effective, `-fPIE` must be used with the `-pie` linker flag
-    when producing an executable, see below.
+  To be effective, `-fPIE` must be used with the `-pie` linker flag
+  when producing an executable, see below.
 
 To support [binary watermarks for ELF
 objects](https://fedoraproject.org/wiki/Toolchain/Watermark) using
@@ -430,44 +431,43 @@ toolchain.
 These compiler flags are enabled for all builds (hardened/annotated or
 not), but their selection depends on the architecture:
 
-*   `-fcf-protection`: Instrument binaries to guard against
-    ROP/JOP attacks.  Used on i686 and x86_64.
-*   `-mbranch-protection=standard`: Instrument binaries to guard against
-     ROP/JOP attacks.  Used on aarch64.
-*   `-m64` and `-m32`: Some GCC builds support both 32-bit and 64-bit in
-    the same compilation.  For such architectures, the RPM build process
-    explicitly selects the architecture variant by passing this compiler
-    flag.
+* `-fcf-protection`: Instrument binaries to guard against
+  ROP/JOP attacks.  Used on i686 and x86_64.
+* `-mbranch-protection=standard`: Instrument binaries to guard against
+   ROP/JOP attacks.  Used on aarch64.
+* `-m64` and `-m32`: Some GCC builds support both 32-bit and 64-bit in
+  the same compilation.  For such architectures, the RPM build process
+  explicitly selects the architecture variant by passing this compiler
+  flag.
 
 In addition, `redhat-rpm-config` re-selects the built-in default
 tuning in the `gcc` package.  These settings are:
 
-*   **armhfp**: `-march=armv7-a -mfpu=vfpv3-d16  -mfloat-abi=hard`
-    selects an Arm subarchitecture based on the ARMv7-A architecture
-    with 16 64-bit floating point registers.  `-mtune=cortex-8a` selects
-    tuning for the Cortex-A8 implementation (while preserving compatibility
-    with other ARMv7-A implementations).  `-mabi=aapcs-linux` switches to
-    the AAPCS ABI for GNU/Linux.
-*   **i686**: `-march=i686` is used to select a minmum support CPU level
-    of i686 (corresponding to the Pentium Pro).  SSE2 support is
-    enabled with `-msse2` (so only CPUs with SSE2 support can run the
-    compiled code; SSE2 was introduced first with the Pentium 4).
-    `-mtune=generic` activates tuning for a current blend of CPUs
-    (under the assumption that most users of i686 packages obtain them
-    through an x86_64 installation on current hardware).
-    `-mfpmath=sse` instructs GCC to use the SSE2 unit for floating
-    point math to avoid excess precision issues.  `-mstackrealign`
-    avoids relying on the stack alignment guaranteed by the current
-    version of the i386 ABI.
-*   **ppc64le**: `-mcpu=power8 -mtune=power8` selects a minimum supported
-    CPU level of POWER8 (the first CPU with ppc64le support) and tunes
-    for POWER8.
-*   **s390x**: `-march=zEC12 -mtune=z13` specifies a minimum supported CPU
-    level of zEC12, while optimizing for a subsequent CPU generation
-    (z13).
-*   **x86_64**: `-mtune=generic` selects tuning which is expected to
-     beneficial for a broad range of current CPUs.
-*   **aarch64** does not have any architecture-specific tuning.
+* **armhfp**: `-march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=hard`
+  selects an Arm subarchitecture based on the ARMv7-A architecture
+  with 16 64-bit floating point registers.  `-mtune=cortex-8a` selects
+  tuning for the Cortex-A8 implementation (while preserving
+  compatibility with other ARMv7-A implementations).
+  `-mabi=aapcs-linux` switches to the AAPCS ABI for GNU/Linux.
+* **i686**: `-march=i686` is used to select a minmum support CPU level
+  of i686 (corresponding to the Pentium Pro).  SSE2 support is enabled
+  with `-msse2` (so only CPUs with SSE2 support can run the compiled
+  code; SSE2 was introduced first with the Pentium 4).
+  `-mtune=generic` activates tuning for a current blend of CPUs (under
+  the assumption that most users of i686 packages obtain them through
+  an x86_64 installation on current hardware).  `-mfpmath=sse`
+  instructs GCC to use the SSE2 unit for floating point math to avoid
+  excess precision issues.  `-mstackrealign` avoids relying on the
+  stack alignment guaranteed by the current version of the i386 ABI.
+* **ppc64le**: `-mcpu=power8 -mtune=power8` selects a minimum
+  supported CPU level of POWER8 (the first CPU with ppc64le support)
+  and tunes for POWER8.
+* **s390x**: `-march=zEC12 -mtune=z13` specifies a minimum supported
+  CPU level of zEC12, while optimizing for a subsequent CPU generation
+  (z13).
+* **x86_64**: `-mtune=generic` selects tuning which is expected to
+   beneficial for a broad range of current CPUs.
+* **aarch64** does not have any architecture-specific tuning.
 
 # Individual linker flags
 
