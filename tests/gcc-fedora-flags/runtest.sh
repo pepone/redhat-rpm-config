@@ -2,13 +2,13 @@
 
 set -ex
 
-default_cflags=`rpm -E %{build_cflags}`
-default_cxxflags=`rpm -E %{build_cxxflags}`
-default_ldflags=`rpm -E %{build_ldflags}`
+default_cflags=$(rpm -E '%{build_cflags}')
+default_cxxflags=$(rpm -E '%{build_cxxflags}')
+default_ldflags=$(rpm -E '%{build_ldflags}')
 
-cflags=`rpm -D '%toolchain gcc' -E %{build_cflags}`
-cxxflags=`rpm -D '%toolchain gcc' -E %{build_cxxflags}`
-ldflags=`rpm -D '%toolchain gcc' -E %{build_ldflags}`
+cflags=$(rpm -D '%toolchain gcc' -E '%{build_cflags}')
+cxxflags=$(rpm -D '%toolchain gcc' -E '%{build_cxxflags}')
+ldflags=$(rpm -D '%toolchain gcc' -E '%{build_ldflags}')
 
 test "$default_cflags" = "$cflags"
 test "$default_cxxflags" = "$cxxflags"
