@@ -254,13 +254,19 @@ generated when `%set_build_flags` is called. The linker option that
 injects the linker script is added to `%{build_ldflags}` via the
 `%{_package_note_flags}` macro.
 
-To opt out of the use of the linker script, include this in the spec file:
+To opt out of the use of this feature completely, the best way is to
+undefine the first macro. Include this in the spec file:
 
-    %undefine _package_note_flags
+    %undefine _package_note_file
 
-To opt out of generation of the linker script, include this in the spec file:
+The other macros can be undefined too to replace parts of the functionality.
+If `%_generate_package_note_file` is undefined, the linker script will not
+be generated, but the link flags may still refer to it. This may be useful
+if the default generation method is insufficient and a different mechanism
+will be used to generate `%_package_note_file`. If `%_package_note_flags`
+is undefined, the linker argument that injects the script will not be added
+to `%build_ldfags`, but the linker script would still be generated.
 
-    %undefine _generate_package_note_file
 
 ### Post-build ELF object processing
 
