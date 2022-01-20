@@ -7,17 +7,17 @@ and how to use them.
 
 The %set_build_flags macro sets the environment variables `CFLAGS`,
 `CXXFLAGS`, `FFLAGS`, `FCFLAGS`, `LDFLAGS` and `LT_SYS_LIBRARY_PATH` to
-the value of their corresponding rpm macros.   %set_build_flags is automatically
-called prior to the %build, %check, and %install phases so these flags can be
+the value of their corresponding rpm macros. `%set_build_flags` is automatically
+called prior to the `%build`, `%check`, and `%install` phases so these flags can be
 used by makefiles and other build tools.
 
 You can opt out of this behavior by doing:
 
     %undefine _auto_set_build_flags
 
-If you do opt out of this behavior, you can still manually use %set_build_flags
-by adding it to the %build section of your spec file or by using one of the
-build system helper macros like %configure, %cmake, and %meson
+If you do opt out of this behavior, you can still manually use `%set_build_flags`
+by adding it to the `%build` section of your spec file or by using one of the
+build system helper macros like `%configure`, `%cmake`, and `%meson`.
 
 For packages which use autoconf to set up the build environment, use
 the `%configure` macro to obtain the full complement of flags, like
@@ -43,8 +43,8 @@ Individual build flags are also available through RPM macros:
   the `CXXFLAGS` shell variable).
 * `%{build_fflags}` for `FFLAGS` (the Fortran compiler flags, also
   known as the `FCFLAGS` variable).
-* `%{build_ldflags}` for the link editor (ld) flags, usually known as
-  `LDFLAGS`. Note that the contents quotes linker arguments using
+* `%{build_ldflags}` for the linker (`ld`) flags, usually known as
+  `LDFLAGS`. Note that the contents quote linker arguments using
   `-Wl`, so this variable is intended for use with the `gcc` compiler
   driver. At the start of the `%build` section, the environment
   variable `RPM_LD_FLAGS` is set to this value.
