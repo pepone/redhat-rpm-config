@@ -80,7 +80,6 @@
 # been set implicitly at the start of the %%build section.
 # LT_SYS_LIBRARY_PATH is used by libtool script.
 %set_build_flags \
-  %{?_generate_package_note_file:%{_generate_package_note_file} ; } \
   CFLAGS="${CFLAGS:-%{build_cflags}}" ; export CFLAGS ; \
   CXXFLAGS="${CXXFLAGS:-%{build_cxxflags}}" ; export CXXFLAGS ; \
   FFLAGS="${FFLAGS:-%{build_fflags}}" ; export FFLAGS ; \
@@ -94,7 +93,10 @@
 # install phases.
 # Use "%undefine _auto_set_build_flags" to disable"
 %_auto_set_build_flags 1
-%__spec_build_pre %{___build_pre} %{?_auto_set_build_flags:%{set_build_flags}}
+%__spec_build_pre %{___build_pre} \
+  %{?_auto_set_build_flags:%{set_build_flags}} \
+  %{?_generate_package_note_file}
+
 %__spec_check_pre %{___build_pre} %{?_auto_set_build_flags:%{set_build_flags}}
 
 # Internal-only.  Do not use.  Expand a variable and strip the flags
