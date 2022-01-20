@@ -97,12 +97,12 @@ Requires: python-srpm-macros >= 3.10-6
 Requires: qt5-srpm-macros
 Requires: rust-srpm-macros
 Requires: rpmautospec-rpm-macros
+Requires: package-notes-srpm-macros
 
 %if ! 0%{?rhel}
 Requires: fpc-srpm-macros
 Requires: gnat-srpm-macros
 Requires: nim-srpm-macros
-Requires: package-notes-srpm-macros
 %endif
 
 Requires: rpm >= 4.11.0
