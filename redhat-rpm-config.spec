@@ -194,6 +194,8 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 * Thu Jan 20 2022 Miro Hrončok <mhroncok@redhat.com> - 210-1
 - Remove package ELF note from the extension LDFLAGS
 - Related: rhbz#2043092
+- Fix %%set_build_flags when %%_generate_package_note_file is not defined
+- Fixes: rhbz#2043166
 
 * Thu Jan 13 2022 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 209-1
 - Add package ELF note to the default LDFLAGS
