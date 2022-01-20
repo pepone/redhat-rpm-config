@@ -104,7 +104,8 @@ local name = rpm.expand("%{1}")
 local value = " " .. rpm.expand("%{build_" .. name .. "}")
 local specs_pattern = "%s+-specs=[^%s]+"
 local lto_flags_pattern = rpm.expand("%{?_lto_cflags}"):gsub("[%-%.]", "%%%1")
-local result = value:gsub(specs_pattern, " "):gsub(lto_flags_pattern, "")
+local package_note_flags_pattern = "%-Wl,%S*package_note%S*"
+local result = value:gsub(specs_pattern, " "):gsub(lto_flags_pattern, ""):gsub(package_note_flags_pattern, "")
 print(result)
 }
 
