@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 210
+Version: 211
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -191,6 +191,10 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %doc buildflags.md
 
 %changelog
+* Fri Jan 21 2022 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 211-1
+- Move package note generation to build preamble
+- Do ELF package notes also on ELN
+
 * Thu Jan 20 2022 Miro Hrončok <mhroncok@redhat.com> - 210-1
 - Remove package ELF note from the extension LDFLAGS
 - Related: rhbz#2043092
