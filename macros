@@ -97,7 +97,9 @@
   %{?_auto_set_build_flags:%{set_build_flags}} \
   %{?_generate_package_note_file}
 
-%__spec_check_pre %{___build_pre} %{?_auto_set_build_flags:%{set_build_flags}}
+%__spec_check_pre %{___build_pre} \
+  %{?_auto_set_build_flags:%{set_build_flags}} \
+  %{?_generate_package_note_file}
 
 # Internal-only.  Do not use.  Expand a variable and strip the flags
 # not suitable to extension builders.

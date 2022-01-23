@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 211
+Version: 212
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -191,6 +191,10 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %doc buildflags.md
 
 %changelog
+* Sun Jan 23 2022 Robert-André Mauchin <zebob.m@gmail.com> - 212-1
+- Add package note generation to %%check preamble
+- Fix: rhbz#2043977
+
 * Fri Jan 21 2022 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 211-1
 - Move package note generation to build preamble
 - Do ELF package notes also on ELN
