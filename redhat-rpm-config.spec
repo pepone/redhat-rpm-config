@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 213
+Version: 214
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -191,6 +191,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %doc buildflags.md
 
 %changelog
+* Thu Feb 10 2022 Florian Weimer <fweimer@redhat.com> - 214-1
+- ppc64le: Switch baseline to POWER9 on ELN (ELN issue 78)
+
 * Thu Feb 10 2022 Florian Weimer <fweimer@redhat.com> - 213-1
 - s390x: Switch baseline to z14 on ELN (ELN issue 79)
 

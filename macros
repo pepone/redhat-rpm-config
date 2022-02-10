@@ -134,6 +134,8 @@ print(result)
 # Also used for s390.
 %__cflags_arch_s390x %[0%{?rhel} >= 9 ? "-march=z14 -mtune=z15" : "-march=zEC12 -mtune=z13"]
 
+%__cflags_arch_ppc64le %[0%{?rhel} >= 9 ? "-mcpu=power9 -mtune=power9" : "-mcpu=power8 -mtune=power8"]
+
 #==============================================================================
 # ---- configure and makeinstall.
 #
