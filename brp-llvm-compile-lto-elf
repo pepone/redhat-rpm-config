@@ -6,11 +6,12 @@ if [ -z "$RPM_BUILD_ROOT" ] || [ "$RPM_BUILD_ROOT" = "/" ]; then
 	exit 0
 fi
 
+NCPUS=${RPM_BUILD_NCPUS:-1}
 TMPDIR=`mktemp -d`
 
 check_convert_bitcode () {
-  local file_name=`realpath ${1}`
-  local file_type=`file ${file_name}`
+  local file_name=$(realpath ${1})
+  local file_type=$(file ${file_name})
 
   if [[ "${file_type}" == *"LLVM IR bitcode"*  ]]; then
     # check for an indication that the bitcode was
@@ -20,18 +21,18 @@ check_convert_bitcode () {
       echo "Compiling LLVM bitcode file ${file_name}."
       # create path to file in temp dir
       # move file to temp dir with llvm .bc extension for clang
-      mkdir -p ${TMPDIR}/`dirname ${file_name}`
+      mkdir -p ${TMPDIR}/$(dirname ${file_name})
       mv $file_name ${TMPDIR}/${file_name}.bc
       clang -c ${CLANG_FLAGS} -fno-lto -Wno-unused-command-line-argument ${TMPDIR}/${file_name}.bc -o ${file_name}
     fi
   elif [[ "${file_type}" == *"current ar archive"*  ]]; then
     echo "Unpacking ar archive ${file_name} to check for LLVM bitcode components."
     # create archive stage for objects
-    local archive_stage=`mktemp -d`
+    local archive_stage=$(mktemp -d)
     local archive=${file_name}
     pushd ${archive_stage}
     ar x ${archive}
-    for archived_file in `find -not -type d`; do
+    for archived_file in $(find -not -type d); do
       check_convert_bitcode ${archived_file}
       echo "Repacking ${archived_file} into ${archive}."
       ar r ${archive} ${archived_file}
@@ -41,7 +42,7 @@ check_convert_bitcode () {
 }
 
 echo "Checking for LLVM bitcode artifacts"
-for i in `find $RPM_BUILD_ROOT -type f -name "*.[ao]"`; do
-  check_convert_bitcode ${i}
-done
 
+export -f check_convert_bitcode
+find "$RPM_BUILD_ROOT" -type f -name "*.[ao]" -print0 | \
+  xargs -0 -n1 -P$NCPUS sh -c "check_convert_bitcode \$@" ARG0
