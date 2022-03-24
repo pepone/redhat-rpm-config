@@ -354,7 +354,9 @@ print(result)
 # If they are needed then add "%define _legacy_common_support 1" to the spec file.
 %_legacy_options	%{?_legacy_common_support: -fcommon}
 
-%__global_compiler_flags %{_general_options} %{_warning_options} %{_preprocessor_defines} %{_hardened_cflags} %{_annotation_cflags} %{_legacy_options}
+%_clang_extra_flags --start-no-unused-arguments -fno-openmp-implicit-rpath --end-no-unused-arguments
+
+%__global_compiler_flags %{_general_options} %{_warning_options} %{_preprocessor_defines} %{_hardened_cflags} %{_annotation_cflags} %{_legacy_options} 	%[ "%{toolchain}" == "clang" ? "%{_clang_extra_flags}" : "%{nil}" ]
 
 # Automatically trim changelog entries after 2 years
 %_changelog_trimage	%{expr:2*365*24*60*60}

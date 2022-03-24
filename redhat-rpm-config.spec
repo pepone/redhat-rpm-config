@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 216
+Version: 217
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -215,6 +215,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %doc buildflags.md
 
 %changelog
+* Tue Apr 19 2022 Tom Stellard <tstellar@redhat.com> - 217-1
+- Add -fno-openmp-implicit-rpath when building with clang
+
 * Wed Apr 13 2022 Nick Clifton  <nickc@redhat.com> - 216-1
 - Add support for comparing gcc-built and annobin-built plugins.
 
