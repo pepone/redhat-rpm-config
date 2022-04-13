@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 215
+Version: 216
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -23,6 +23,9 @@ Source52: redhat-hardened-clang.cfg
 
 # gcc specs files for annobin builds
 Source60: redhat-annobin-cc1
+Source61: redhat-annobin-select-gcc-built-plugin
+Source62: redhat-annobin-select-annobin-built-plugin
+Source63: redhat-annobin-plugin-select.sh
 
 # The macros defined by these files are for things that need to be defined
 # at srpm creation time when it is not feasible to require the base packages
@@ -109,6 +112,7 @@ Requires: rpm >= 4.11.0
 Requires: dwz >= 0.4
 Requires: zip
 Requires: (annobin-plugin-gcc if gcc)
+Requires: (gcc-plugin-annobin if gcc)
 
 # for brp-mangle-shebangs
 Requires: %{_bindir}/find
@@ -161,6 +165,21 @@ mkdir -p %{buildroot}%{_rpmluadir}/fedora/{rpm,srpm}
 install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora common.lua
 install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 
+# This trigger is used to decide which version of the annobin plugin for gcc
+# should be used.  See comments in the script for full details.
+
+%triggerin -- annobin-plugin-gcc gcc
+%{rrcdir}/redhat-annobin-plugin-select.sh
+%end
+
+# We also trigger when annobin is uninstalled.  This allows us to switch
+# over to the gcc generated version of the plugin.  It does not matter if
+# gcc is uninstalled, since if that happens the plugin cannot be used.
+
+%triggerpostun -- annobin-plugin-gcc
+%{rrcdir}/redhat-annobin-plugin-select.sh
+%end
+
 %files
 %dir %{rrcdir}
 %{rrcdir}/macros
@@ -188,9 +207,17 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmluadir}/fedora/*.lua
 %{_rpmluadir}/fedora/srpm/*lua
 
+%attr(0755,-,-) %{rrcdir}/redhat-annobin-plugin-select.sh
+%verify(owner group mode) %{rrcdir}/redhat-annobin-cc1
+%{rrcdir}/redhat-annobin-select-gcc-built-plugin
+%{rrcdir}/redhat-annobin-select-annobin-built-plugin
+
 %doc buildflags.md
 
 %changelog
+* Wed Apr 13 2022 Nick Clifton  <nickc@redhat.com> - 216-1
+- Add support for comparing gcc-built and annobin-built plugins.
+
 * Mon Feb 21 2022 Timm Bäder <tbaeder@redhat.com> - 215-1
 - Add %%__brp_remove_la_files to %%__os_install_post
 
