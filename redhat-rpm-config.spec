@@ -6,7 +6,7 @@
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 218
+Version: 219
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -37,6 +37,7 @@ Source102: macros.mono-srpm
 Source103: macros.nodejs-srpm
 Source104: macros.ldc-srpm
 Source105: macros.valgrind-srpm
+Source106: macros.java-srpm
 
 # Other misc macros
 Source150: macros.build-constraints
@@ -215,6 +216,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %doc buildflags.md
 
 %changelog
+* Tue May 10 2022 Mikolaj Izdebski <mizdebsk@redhat.com> - 219-1
+- Add java_arches macro
+
 * Wed Apr 20 2022 Timm Bäder <tbaeder@redhat.com> - 218-1
 - Parallelize bpr-llvm-compile-lto-elf
 
