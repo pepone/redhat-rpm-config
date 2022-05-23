@@ -12,6 +12,9 @@ check_convert_bitcode () {
   local file_name=$(realpath ${1})
   local file_type=$(file ${file_name})
 
+  shift
+  CLANG_FLAGS="$@"
+
   if [[ "${file_type}" == *"LLVM IR bitcode"* ]]; then
     # check for an indication that the bitcode was
     # compiled with -flto
@@ -29,7 +32,7 @@ check_convert_bitcode () {
     pushd ${archive_stage}
     ar x ${archive}
     for archived_file in $(find -not -type d); do
-      check_convert_bitcode ${archived_file}
+      check_convert_bitcode ${archived_file} ${CLANG_FLAGS}
       echo "Repacking ${archived_file} into ${archive}."
       ar r ${archive} ${archived_file}
     done
@@ -40,4 +43,4 @@ check_convert_bitcode () {
 echo "Checking for LLVM bitcode artifacts"
 export -f check_convert_bitcode
 find "$RPM_BUILD_ROOT" -type f -name "*.[ao]" -print0 | \
-  xargs -0 -n1 -P$NCPUS sh -c "check_convert_bitcode \$@" ARG0
+  xargs -0 -n1 -P$NCPUS sh -c "check_convert_bitcode \$@ $CLANG_FLAGS" ARG0
