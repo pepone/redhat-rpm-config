@@ -4,7 +4,7 @@
 # 2) When making changes, increment the version (in baserelease) by 1.
 #    rpmdev-bumpspec and other tools update the macro below, which is used
 #    in Version: to get the desired effect.
-%global baserelease 222
+%global baserelease 223
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
@@ -219,6 +219,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %doc buildflags.md
 
 %changelog
+* Fri May 27 2022 Tom Stellard <tstellar@redhat.com> - 223-1
+- Move -fno-openmp-implicit-rpath option from CFLAGS to LDFLAGS
+
 * Fri May 27 2022 Florian Weimer <fweimer@redhat.com> - 222-1
 - Use %%baserelease to store the version number
 
