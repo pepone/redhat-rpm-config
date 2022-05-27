@@ -1,12 +1,14 @@
 #                        TO WHOM IT MAY CONCERN
 #
 # 1) Don't add patches, dist-git is the upstream repository for this package.
-# 2) When making changes, update version by +1, leave release alone.
-#
+# 2) When making changes, increment the version (in baserelease) by 1.
+#    rpmdev-bumpspec and other tools update the macro below, which is used
+#    in Version: to get the desired effect.
+%global baserelease 222
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
-Version: 221
+Version: %{baserelease}
 Release: 1%{?dist}
 # No version specified.
 License: GPL+
@@ -217,6 +219,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %doc buildflags.md
 
 %changelog
+* Fri May 27 2022 Florian Weimer <fweimer@redhat.com> - 222-1
+- Use %%baserelease to store the version number
+
 * Fri May 27 2022 Frederic Berat <fberat@redhat.com> - 221-1
 - update config.{guess,sub} to gnuconfig git HEAD
 
