@@ -320,6 +320,9 @@ print(result)
 %_annotation_plugin     %{?_annotated_build:%{expand:%%{_annobin_%{toolchain}_plugin}}}
 %_annotation_cflags     %[ "%{_target_cpu}" == "armv7hl" ? "" : "%{_annotation_plugin}" ]
 %_annotation_ldflags	%{?_lto_cflags:%{_annotation_cflags}}
+# Use the remove-section option to force the find-debuginfo script
+# to move the annobin notes into the separate debuginfo file.
+%_find_debuginfo_extra_opts %{?_annotated_build:--remove-section .gnu.build.attributes}
 
 # Fail linking if there are undefined symbols.  Required for proper
 # ELF symbol versioning support.  Disabled by default.

@@ -4,7 +4,7 @@
 # 2) When making changes, increment the version (in baserelease) by 1.
 #    rpmdev-bumpspec and other tools update the macro below, which is used
 #    in Version: to get the desired effect.
-%global baserelease 224
+%global baserelease 225
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
@@ -219,6 +219,10 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %doc buildflags.md
 
 %changelog
+* Fri Jun 17 2022 Nick Clifton  <nickc@redhat.com> - 225-1
+- Add definition of _find_debuginfo_extra_opts which will
+-  move annobin data into a separate debuginfo file.
+
 * Tue Jun 14 2022 Tom Stellard <tstellar@redhat.com> - 224-1
 - Fix passing of CFLAGS to brp-llvm-compile-lto-elf
 
