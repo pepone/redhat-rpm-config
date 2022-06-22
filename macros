@@ -259,7 +259,6 @@ print(result)
 # packagers, don't undefine the entire macro, see the individual macros in /usr/lib/rpm/macros.d/macros.python-srpm
 
 %__os_install_post    \
-    %[ "%{toolchain}" == "clang" ? "%{?__brp_llvm_compile_lto_elf}" : "%{nil}" ] \
     %{?__brp_ldconfig} \
     %{?__brp_compress} \
     %{!?__debug_package:\
@@ -275,6 +274,7 @@ print(result)
 %{nil}
 
 %__spec_install_post\
+    %[ "%{toolchain}" == "clang" ? "%{?__brp_llvm_compile_lto_elf}" : "%{nil}" ] \
     %{?__debug_package:%{__debug_install_post}}\
     %{__arch_install_post}\
     %{__os_install_post}\
