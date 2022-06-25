@@ -48,6 +48,7 @@ Source152: macros.fedora-misc
 Source153: macros.forge
 Source155: macros.ldconfig
 Source156: macros.vpath
+Source157: macros.shell-completions
 
 # Build policy scripts
 # this comes from https://github.com/rpm-software-management/rpm/pull/344
@@ -204,6 +205,7 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %{_rpmconfigdir}/macros.d/macros.fedora-misc
 %{_rpmconfigdir}/macros.d/macros.forge
 %{_rpmconfigdir}/macros.d/macros.ldconfig
+%{_rpmconfigdir}/macros.d/macros.shell-completions
 %{_rpmconfigdir}/macros.d/macros.vpath
 %dir %{_rpmluadir}/fedora
 %dir %{_rpmluadir}/fedora/srpm
@@ -219,6 +221,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %doc buildflags.md
 
 %changelog
+* Mon Aug 8 2022 Maxwell G <gotmax@e.email> - 228-1
+- Add macros.shell-completions
+
 * Fri Aug 05 2022 Nikita Popov <npopov@redhat.com> - 227-1
 - brp-llvm-compile-lto-elf: Pass -r to xargs
 
