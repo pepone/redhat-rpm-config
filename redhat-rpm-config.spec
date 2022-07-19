@@ -4,7 +4,7 @@
 # 2) When making changes, increment the version (in baserelease) by 1.
 #    rpmdev-bumpspec and other tools update the macro below, which is used
 #    in Version: to get the desired effect.
-%global baserelease 230
+%global baserelease 231
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
@@ -221,6 +221,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %doc buildflags.md
 
 %changelog
+* Thu 08 Sep 2022 Maxwell G <gotmax@e.email> - 231-1
+- forge macros: Support Sourcehut. Fixes rhbz#2035935.
+
 * Tue Aug 30 2022 Frederic Berat <fberat@redhat.com> - 230-1
 - Add support for runstatedir in %%configure
 
