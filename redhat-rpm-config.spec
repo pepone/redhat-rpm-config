@@ -4,7 +4,7 @@
 # 2) When making changes, increment the version (in baserelease) by 1.
 #    rpmdev-bumpspec and other tools update the macro below, which is used
 #    in Version: to get the desired effect.
-%global baserelease 227
+%global baserelease 228
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
