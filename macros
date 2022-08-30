@@ -12,6 +12,7 @@
 #      from the defaults.
 #
 %_localstatedir		/var
+%_runstatedir		/run
 
 %_pkgdocdir             %{_docdir}/%{name}
 %_docdir_fmt            %%{NAME}
@@ -212,6 +213,7 @@ print(result)
 	--libdir=%{_libdir} \\\
 	--libexecdir=%{_libexecdir} \\\
 	--localstatedir=%{_localstatedir} \\\
+	$(grep -q "runstatedir=DIR" %{_configure} && echo '--runstatedir=%{_runstatedir}') \\\
 	--sharedstatedir=%{_sharedstatedir} \\\
 	--mandir=%{_mandir} \\\
 	--infodir=%{_infodir}
