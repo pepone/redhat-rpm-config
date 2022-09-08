@@ -221,7 +221,7 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %doc buildflags.md
 
 %changelog
-* Thu 08 Sep 2022 Maxwell G <gotmax@e.email> - 231-1
+* Thu Sep 08 2022 Maxwell G <gotmax@e.email> - 231-1
 - forge macros: Support Sourcehut. Fixes rhbz#2035935.
 
 * Tue Aug 30 2022 Frederic Berat <fberat@redhat.com> - 230-1
