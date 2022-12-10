@@ -154,6 +154,9 @@ print(result)
 # way to turn it back off.
 # %_configure_disable_silent_rules 1
 
+# Pass --runstatedir to configure.
+%_configure_use_runstatedir 1
+
 # This fixes various easy resolved configure tests that are compromised by LTO.
 #
 # We use this within the standard %configure macro, but also make it available
@@ -217,7 +220,7 @@ print(result)
 	--libdir=%{_libdir} \\\
 	--libexecdir=%{_libexecdir} \\\
 	--localstatedir=%{_localstatedir} \\\
-	$(grep -q "runstatedir=DIR" %{_configure} && echo '--runstatedir=%{_runstatedir}') \\\
+	%{?_configure_use_runstatedir:$(grep -q "runstatedir=DIR" %{_configure} && echo '--runstatedir=%{_runstatedir}')} \\\
 	--sharedstatedir=%{_sharedstatedir} \\\
 	--mandir=%{_mandir} \\\
 	--infodir=%{_infodir}

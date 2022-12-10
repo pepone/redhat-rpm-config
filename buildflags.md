@@ -124,6 +124,16 @@ are set as well during libtool-.  This can be switched off using:
 
 Further patching happens in LTO mode, see below.
 
+### Other autotools compatibility settings
+
+During `%configure`, `--runstatedir` is automatically passed to the
+`configure` script if support for this option is detected.  This
+detection can fail if the package has multiple `configure` scripts
+that invoke each other, and only some of them support `--runstatedir`.
+To disable passing `--runstatedir`, use:
+
+    %undefine _configure_use_runstatedir
+
 ### Disabling Link-Time Optimization
 
 By default, builds use link-time optimization.  In this build mode,
