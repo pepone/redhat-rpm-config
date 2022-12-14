@@ -172,6 +172,30 @@ This turns off certain hardening features, as described in detail
 below.  The main difference is that executables will be
 position-dependent (no full ASLR) and use lazy binding.
 
+### Source Fortification
+
+By default, the build flags include `-Wp,-D_FORTIFY_SOURCE=3`: Source
+fortification activates various hardening features in glibc:
+
+* String functions such as `memcpy` attempt to detect buffer lengths
+  and terminate the process if a buffer overflow is detected.
+* `printf` format strings may only contain the `%n` format specifier
+  if the format string resides in read-only memory.
+* `open` and `openat` flags are checked for consistency with the
+  presence of a *mode* argument.
+* Plus other minor hardening changes.
+
+These changes can, on rare occasions, break valid programs. The source
+fortification level can be overridden by adding this in the RPM spec file:
+
+    %define _fortify_level 2
+
+to reduce source fortification level to 2 or:
+
+    %undefine _fortify_level
+
+to disable fortification altogether.
+
 ### Annotated builds/watermarking
 
 By default, the build flags cause a special output section to be
@@ -377,16 +401,9 @@ The general (architecture-independent) build flags are:
   This can occasionally result in compilation errors. In that case,
   the best option is to rewrite the source code so that only constant
   format strings (string literals) are used.
-* `-Wp,-D_FORTIFY_SOURCE=2`: Source fortification activates various
-  hardening features in glibc:
-    * String functions such as `memcpy` attempt to detect buffer lengths
-      and terminate the process if a buffer overflow is detected.
-    * `printf` format strings may only contain the `%n` format specifier
-      if the format string resides in read-only memory.
-    * `open` and `openat` flags are checked for consistency with the
-      presence of a *mode* argument.
-    * Plus other minor hardening changes.
-  (These changes can occasionally break valid programs.)
+* `-U_FORTIFY_SOURCE, -Wp,-U_FORTIFY_SOURCE -Wp,-D_FORTIFY_SOURCE=3`:
+  See the Source Fortification section above and the `%_fortify_level`
+  override.
 * `-fexceptions`: Provide exception unwinding support for C programs.
   See the [`-fexceptions` option in the GCC
   manual](https://gcc.gnu.org/onlinedocs/gcc/Code-Gen-Options.html#index-fexceptions)
