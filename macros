@@ -20,6 +20,7 @@
 %_fmoddir		%{_libdir}/gfortran/modules
 
 %source_date_epoch_from_changelog 1
+%clamp_mtime_to_source_date_epoch %source_date_epoch_from_changelog
 
 %_enable_debug_packages 1
 %_include_minidebuginfo 1
