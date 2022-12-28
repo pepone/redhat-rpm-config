@@ -278,6 +278,10 @@ will be used to generate `%_package_note_file`. If `%_package_note_flags`
 is undefined, the linker argument that injects the script will not be added
 to `%build_ldfags`, but the linker script would still be generated.
 
+### Frame pointers
+
+Frame pointers will be included by default if the `%_include_frame_pointers`
+macro is defined.
 
 ### Post-build ELF object processing
 
@@ -460,6 +464,10 @@ added by default (with the `gcc` toolchain).  This can be switched off
 by undefining the `%_annotated_build` RPM macro (see above).  Binary
 watermarks are currently disabled on armhpf, and with the `clang`
 toolchain.
+
+If frame pointers are enabled by default (via `%_include_frame_pointers),
+the `-fno-omit-frame-pointer` and `-mno-omit-leaf-frame-pointer` flags will
+be added.
 
 ### Architecture-specific compiler flags
 
