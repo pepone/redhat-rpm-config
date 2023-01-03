@@ -336,8 +336,8 @@ print(result)
 
 # Always include frame pointer information
 # https://fedoraproject.org/wiki/Changes/fno-omit-frame-pointer
-# Use "%define _include_frame_pointers 1" to enable.
-#%_include_frame_pointers 1
+# Use "%undefine _include_frame_pointers" to disable.
+%_include_frame_pointers 1
 %_frame_pointers_cflags %{?_include_frame_pointers:-fno-omit-frame-pointer -mno-omit-leaf-frame-pointer}
 
 # Fail linking if there are undefined symbols.  Required for proper

@@ -304,8 +304,15 @@ to `%build_ldfags`, but the linker script would still be generated.
 
 ### Frame pointers
 
-Frame pointers will be included by default if the `%_include_frame_pointers`
-macro is defined.
+Frame pointers will be included by default via the `%_include_frame_pointers`
+macro. To opt out, the best way is to undefine the macro. Include this in the
+spec file:
+
+    %undefine _include_frame_pointers
+
+Note that opting out might still result in frame pointers being included on
+architectures where they are part of the ABI (e.g. aarch64) depending on
+compiler defaults.
 
 ### Post-build ELF object processing
 
