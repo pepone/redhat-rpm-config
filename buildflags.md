@@ -489,9 +489,12 @@ by undefining the `%_annotated_build` RPM macro (see above).  Binary
 watermarks are currently disabled on armhpf, and with the `clang`
 toolchain.
 
-If frame pointers are enabled by default (via `%_include_frame_pointers),
-the `-fno-omit-frame-pointer` and `-mno-omit-leaf-frame-pointer` flags will
-be added.
+If frame pointers are enabled by default (via `%_include_frame_pointers`),
+the `-fno-omit-frame-pointer` will be added on all architectures. Additional
+flags will be added on specific architectures:
+
+* `-mno-omit-leaf-frame-pointer` on x86_64 and aarch64
+* `-mbackchain` on s390x
 
 ### Architecture-specific compiler flags
 
