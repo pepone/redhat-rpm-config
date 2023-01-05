@@ -57,14 +57,14 @@
 # C compiler flags.  This is traditionally called CFLAGS in makefiles.
 # Historically also available as %%{optflags}, and %%build sets the
 # environment variable RPM_OPT_FLAGS to this value.
-%build_cflags %{optflags}
+%build_cflags %{optflags} %{?_pkg_extra_cflags}
 
 # C++ compiler flags.  This is traditionally called CXXFLAGS in makefiles.
-%build_cxxflags %{optflags}
+%build_cxxflags %{optflags} %{?_pkg_extra_cxxflags}
 
 # Fortran compiler flags.  Makefiles use both FFLAGS and FCFLAGS as
 # the corresponding variable names.
-%build_fflags %{optflags} -I%{_fmoddir}
+%build_fflags %{optflags} -I%{_fmoddir} %{?_pkg_extra_fflags}
 
 # Vala compiler flags. This is used to set VALAFLAGS.
 %build_valaflags -g
@@ -79,7 +79,7 @@
 # the flags, while intended for ld, are still passed through the gcc
 # compiler driver.  At the beginning of %%build, the environment
 # variable RPM_LD_FLAGS to this value.
-%build_ldflags -Wl,-z,relro %{_ld_as_needed_flags} %{_ld_symbols_flags} %{_hardened_ldflags} %{_annotation_ldflags} %[ "%{toolchain}" == "clang" ? "%{?_clang_extra_ldflags}" : "" ] %{_build_id_flags} %{?_package_note_flags}
+%build_ldflags -Wl,-z,relro %{_ld_as_needed_flags} %{_ld_symbols_flags} %{_hardened_ldflags} %{_annotation_ldflags} %[ "%{toolchain}" == "clang" ? "%{?_clang_extra_ldflags}" : "" ] %{_build_id_flags} %{?_package_note_flags} %{?_pkg_extra_ldflags}
 
 # Expands to shell code to set the compiler/linker environment
 # variables CFLAGS, CXXFLAGS, FFLAGS, FCFLAGS, VALAFLAGS, LDFLAGS if they
