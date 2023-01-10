@@ -490,11 +490,10 @@ watermarks are currently disabled on armhpf, and with the `clang`
 toolchain.
 
 If frame pointers are enabled by default (via `%_include_frame_pointers`),
-the `-fno-omit-frame-pointer` will be added on all architectures. Additional
-flags will be added on specific architectures:
+the `-fno-omit-frame-pointer` will be added on all architectures except i686
+and s390x. Additional flags will be added on specific architectures:
 
 * `-mno-omit-leaf-frame-pointer` on x86_64 and aarch64
-* `-mbackchain` on s390x
 
 ### Architecture-specific compiler flags
 
