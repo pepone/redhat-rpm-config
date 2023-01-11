@@ -334,14 +334,14 @@ print(result)
 # to move the annobin notes into the separate debuginfo file.
 %_find_debuginfo_extra_opts %{?_annotated_build:--remove-section .gnu.build.attributes}
 
-# Always include frame pointer information
+# Include frame pointer information by default, except on RHEL
 # https://fedoraproject.org/wiki/Changes/fno-omit-frame-pointer
 # Use "%undefine _include_frame_pointers" to disable.
-%_include_frame_pointers 1
-%_frame_pointers_cflags %{?_include_frame_pointers:-fno-omit-frame-pointer}
-%_frame_pointers_cflags_x86_64 %{?_include_frame_pointers:-mno-omit-leaf-frame-pointer}
-%_frame_pointers_cflags_aarch64 %{?_include_frame_pointers:-mno-omit-leaf-frame-pointer}
-%_frame_pointers_cflags_s390x %{?_include_frame_pointers:-mbackchain}
+%_include_frame_pointers %{undefined rhel}
+%_frame_pointers_cflags %[ 0%{?_include_frame_pointers} ? "-fno-omit-frame-pointer" : "" ]
+%_frame_pointers_cflags_x86_64 %[ 0%{?_include_frame_pointers} ? "-mno-omit-leaf-frame-pointer" : "" ]
+%_frame_pointers_cflags_aarch64 %[ 0%{?_include_frame_pointers} ? "-mno-omit-leaf-frame-pointer" : "" ]
+%_frame_pointers_cflags_s390x %[ 0%{?_include_frame_pointers} ? "-mbackchain" : "" ]
 
 # Fail linking if there are undefined symbols.  Required for proper
 # ELF symbol versioning support.  Disabled by default.
