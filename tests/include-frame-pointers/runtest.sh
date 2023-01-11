@@ -39,8 +39,11 @@ for arch in aarch64 armv7hl x86_64 ppc64le riscv64; do
   rpmeval --target="${arch}-linux" --undefine='_include_frame_pointers' | grep -qv -- "$flags"
   validate "[${arch}] Test that the flags are _not_ included if the macro is undefined"
 
-  rpmeval --target="${arch}-linux" | grep -q -- "$flags"
-  validate "[${arch}] Test that the flags are included by default"
+  rpmeval --target="${arch}-linux" --define="%fedora 1" | grep -q -- "$flags"
+  validate "[${arch}] Test that the flags are included by default on Fedora"
+
+  rpmeval --target="${arch}-linux" --define="%rhel 1" | grep -qv -- "$flags"
+  validate "[${arch}] Test that the flags are _not_ included by default on RHEL"
 done
 
 flags='-fno-omit-frame-pointer'
