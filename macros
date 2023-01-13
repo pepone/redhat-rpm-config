@@ -338,10 +338,10 @@ print(result)
 # https://fedoraproject.org/wiki/Changes/fno-omit-frame-pointer
 # Use "%undefine _include_frame_pointers" to disable.
 %_include_frame_pointers %{undefined rhel}
-%_frame_pointers_cflags %[ 0%{?_include_frame_pointers} ? "-fno-omit-frame-pointer" : "" ]
-%_frame_pointers_cflags_x86_64 %[ 0%{?_include_frame_pointers} ? "-mno-omit-leaf-frame-pointer" : "" ]
-%_frame_pointers_cflags_aarch64 %[ 0%{?_include_frame_pointers} ? "-mno-omit-leaf-frame-pointer" : "" ]
-%_frame_pointers_cflags_s390x %[ 0%{?_include_frame_pointers} ? "-mbackchain" : "" ]
+%_frame_pointers_cflags %{expr:0%{?_include_frame_pointers} ? "-fno-omit-frame-pointer" : ""}
+%_frame_pointers_cflags_x86_64 %{expr:0%{?_include_frame_pointers} ? "-mno-omit-leaf-frame-pointer" : ""}
+%_frame_pointers_cflags_aarch64 %{expr:0%{?_include_frame_pointers} ? "-mno-omit-leaf-frame-pointer" : ""}
+%_frame_pointers_cflags_s390x %{expr:0%{?_include_frame_pointers} ? "-mbackchain" : ""}
 
 # Fail linking if there are undefined symbols.  Required for proper
 # ELF symbol versioning support.  Disabled by default.
