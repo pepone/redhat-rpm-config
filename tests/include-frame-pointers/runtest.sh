@@ -23,7 +23,7 @@ validate() {
   fi
 }
 
-for arch in aarch64 armv7hl x86_64 ppc64le riscv64; do
+for arch in aarch64 armv7hl x86_64 riscv64; do
   case "$arch" in
     x86_64|aarch64)
       flags='-fno-omit-frame-pointer -mno-omit-leaf-frame-pointer'
@@ -47,7 +47,7 @@ for arch in aarch64 armv7hl x86_64 ppc64le riscv64; do
 done
 
 flags='-fno-omit-frame-pointer'
-for arch in i386 i486 i586 i686 athlon s390x; do
+for arch in i386 i486 i586 i686 athlon ppc64le s390x; do
   rpmeval --target="${arch}-linux" --define='_include_frame_pointers 1' | grep -qv -- "$flags"
   validate "[${arch}] Test that the flags are not included if the macro is defined"
 
