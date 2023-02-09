@@ -4,7 +4,7 @@
 # 2) When making changes, increment the version (in baserelease) by 1.
 #    rpmdev-bumpspec and other tools update the macro below, which is used
 #    in Version: to get the desired effect.
-%global baserelease 248
+%global baserelease 249
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
@@ -40,6 +40,7 @@ Source103: macros.nodejs-srpm
 Source104: macros.ldc-srpm
 Source105: macros.valgrind-srpm
 Source106: macros.java-srpm
+Source107: macros.gap-srpm
 
 # Other misc macros
 Source150: macros.build-constraints
@@ -252,6 +253,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 %doc buildflags.md
 
 %changelog
+* Thu Feb 09 2023 Jerry James <loganjerry@gmail.com> - 249-1
+- Add macros.gap-srpm
+
 * Tue Feb 07 2023 Tom Stellard <tstellar@redhat.com> - 248-1
 - Add %%pkg_extra_* macros
 
