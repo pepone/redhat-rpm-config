@@ -259,7 +259,7 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora/srpm forge.lua
 - Fix triggers for the installation and removal of gcc-plugin-annobin.
   Fixes: rhbz#2124562
 
-* Tue Jan 17 2023 Miro Hrončok <mhroncok@redhat.com> - 245-1
+* Tue Jan 17 2023 Miro Hrončok <mhroncok@redhat.com> - 246-1
 - Add pyproject-srpm-macros to the default buildroot
 
 * Tue Jan 17 2023 Davide Cavalca <dcavalca@fedoraproject.org> - 245-1
