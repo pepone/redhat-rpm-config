@@ -86,12 +86,15 @@
 # have not been set already.  RPM_OPT_FLAGS and RPM_LD_FLAGS have already
 # been set implicitly at the start of the %%build section.
 # LT_SYS_LIBRARY_PATH is used by libtool script.
+# RUSTFLAGS is only set when rust-packaging which defines %%{build_rustflags} is
+# available.
 %set_build_flags \
   CFLAGS="${CFLAGS:-%{build_cflags}}" ; export CFLAGS ; \
   CXXFLAGS="${CXXFLAGS:-%{build_cxxflags}}" ; export CXXFLAGS ; \
   FFLAGS="${FFLAGS:-%{build_fflags}}" ; export FFLAGS ; \
   FCFLAGS="${FCFLAGS:-%{build_fflags}}" ; export FCFLAGS ; \
-  VALAFLAGS="${VALAFLAGS:-%{build_valaflags}}" ; export VALAFLAGS ; \
+  VALAFLAGS="${VALAFLAGS:-%{build_valaflags}}" ; export VALAFLAGS ;%{?build_rustflags:
+  RUSTFLAGS="${RUSTFLAGS:-%{build_rustflags}}" ; export RUSTFLAGS ;} \
   LDFLAGS="${LDFLAGS:-%{build_ldflags}}" ; export LDFLAGS ; \
   LT_SYS_LIBRARY_PATH="${LT_SYS_LIBRARY_PATH:-%_libdir:}" ; export LT_SYS_LIBRARY_PATH ; \
   CC="${CC:-%{__cc}}" ; export CC ; \
