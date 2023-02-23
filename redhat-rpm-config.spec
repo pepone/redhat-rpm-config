@@ -103,7 +103,8 @@ Requires: perl-srpm-macros
 # ↓ Has Python BRPs originaly present in redhat-rpm-config
 Requires: python-srpm-macros >= 3.11-7
 Requires: qt5-srpm-macros
-Requires: rust-srpm-macros
+# rust-srpm-macros v24 contains %%build_rustflags defintion
+Requires: rust-srpm-macros >= 24
 Requires: rpmautospec-rpm-macros
 Requires: package-notes-srpm-macros
 Requires: pyproject-srpm-macros
