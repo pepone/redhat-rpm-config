@@ -138,7 +138,9 @@ print(result)
 
 # Architecture-specific support.  Internal.  Do not use directly.
 
-%__cflags_arch_x86_64 %[0%{?rhel} >= 9 ? "-march=x86-64-v2" : ""]
+%__cflags_arch_x86_64_v2 %[0%{?rhel} == 9 ? "-march=x86-64-v2" : ""]
+%__cflags_arch_x86_64_v3 %[0%{?rhel} > 9 ? "-march=x86-64-v3" : ""]
+%__cflags_arch_x86_64 %{__cflags_arch_x86_64_v2} %{__cflags_arch_x86_64_v3}
 
 # Also used for s390.
 %__cflags_arch_s390x %[0%{?rhel} >= 9 ? "-march=z14 -mtune=z15" : "-march=z13 -mtune=z14"]
