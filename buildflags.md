@@ -660,16 +660,11 @@ with such toolchains.
 The macros `%{extension_cflags}`, `%{extension_cxxflags}`,
 `%{extension_fflags}`, `%{extension_ldflags}` contain a subset of
 flags that have been adjusted for compatibility with alternative
-toolchains, while still preserving some of the compile-time security
-hardening that the standard Fedora build flags provide.
+toolchains.
 
-The current set of differences are:
-
-* No GCC plugins (such as annobin) are activated.
-* No GCC spec files (`-specs=` arguments) are used.
-
-Additional flags may be removed in the future if they prove to be
-incompatible with alternative toolchains.
+Currently the -fexceptions and -fcf-protection flags are preserved
+for binary compatibility with the languages the extensions are
+built against.
 
 Extension builders should detect whether they are performing a regular
 RPM build (e.g., by looking for an `RPM_OPT_FLAGS` variable).  In this

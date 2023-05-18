@@ -113,13 +113,19 @@
 # Internal-only.  Do not use.  Expand a variable and strip the flags
 # not suitable to extension builders.
 %__extension_strip_flags() %{lua:
+--the only argument to this macro is the "name" of the flags we strip (e.g. cflags, ldflags, etc.)
 local name = rpm.expand("%{1}")
-local value = " " .. rpm.expand("%{build_" .. name .. "}")
-local specs_pattern = "%s+-specs=[^%s]+"
-local lto_flags_pattern = rpm.expand("%{?_lto_cflags}"):gsub("[%-%.]", "%%%1")
-local package_note_flags_pattern = "%-Wl,%S*package_note%S*"
-local result = value:gsub(specs_pattern, " "):gsub(lto_flags_pattern, ""):gsub(package_note_flags_pattern, "")
-print(result)
+--store all the individual flags in a variable as a continuous string
+local flags = rpm.expand("%{build_" .. name .. "}")
+--create an empty table for the minimal set of flags we wanna preserve
+local stripped_flags = { }
+--iterate over the individual flags and store the ones we want in the table as unique keys
+for flag in flags:gmatch("%S+") do
+  if flag:find("^%-fexceptions") or flag:find("^%-fcf%-protection") then
+    stripped_flags[flag] = true end
+  end
+--print out the finalized set of flags for use by the extension builders
+for k,_ in pairs(stripped_flags) do print(k .. " ") end
 }
 
 # Variants of CFLAGS, CXXFLAGS, FFLAGS, LDFLAGS for use within
