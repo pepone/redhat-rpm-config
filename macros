@@ -72,7 +72,7 @@
 # When clang is used as a linker driver, it does not auto-detect the LTO
 # bytecode and neither does bfd, so we need to explicitly pass the -flto
 # flag when linking.
-%_clang_extra_ldflags %{?_lto_cflags} -fno-openmp-implicit-rpath
+%_clang_extra_ldflags %{?_lto_cflags}
 
 # Link editor flags.  This is usually called LDFLAGS in makefiles.
 # (Some makefiles use LFLAGS instead.)  The default value assumes that
