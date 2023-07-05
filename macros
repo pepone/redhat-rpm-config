@@ -378,7 +378,7 @@ print(result)
 %_fortify_level		3
 %_fortify_level_flags	%[ 0%{?_fortify_level} > 0 ? "-Wp,-U_FORTIFY_SOURCE,-D_FORTIFY_SOURCE=%{_fortify_level}" : "" ]
 
-# Some linkers default to a build-id algoritim that is not supported by rpmbuild,
+# Some linkers default to a build-id algorithm that is not supported by rpmbuild,
 # so we need to specify the right algorithm to use.
 %_build_id_flags	-Wl,--build-id=sha1
 
