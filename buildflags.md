@@ -36,9 +36,7 @@ Individual build flags are also available through RPM macros:
 * `%{build_cxx}` for the command name of the C++ compiler.
 * `%{build_cpp}` for the command name of the C-compatible preprocessor.
 * `%{build_cflags}` for the C compiler flags (also known as the
-  `CFLAGS` variable). Also historically available as `%{optflags}`.
-  Furthermore, at the start of the `%build` section, the environment
-  variable `RPM_OPT_FLAGS` is set to this value.
+  `CFLAGS` variable).
 * `%{build_cxxflags}` for the C++ compiler flags (usually assigned to
   the `CXXFLAGS` shell variable).
 * `%{build_fflags}` for `FFLAGS` (the Fortran compiler flags, also
@@ -49,6 +47,13 @@ Individual build flags are also available through RPM macros:
   `-Wl`, so this variable is intended for use with the `gcc` compiler
   driver. At the start of the `%build` section, the environment
   variable `RPM_LD_FLAGS` is set to this value.
+
+The C and C++ compiler flags are historically available as the
+`%{optflags}` macro.  These flags may not contain flags that work with
+certain languagues or compiler front ends, so the language-specific
+`%build_*` are more precise.  At the start of the `%build` section,
+the environment variable `RPM_OPT_FLAGS` is set to the `%{optflags}`
+value; similar limitations apply.
 
 The variable `LT_SYS_LIBRARY_PATH` is defined here to prevent the `libtool`
 script (v2.4.6+) from hardcoding `%_libdir` into the binaries' `RPATH`.
@@ -402,6 +407,9 @@ The general (architecture-independent) build flags are:
   compilation performance.  (This does not affect code generation.)
 * `-Wall`: Turn on various GCC warnings.
   See the [GCC manual](https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wall).
+* `-Wno-complain-wrong-lang`: Do not warn about front end mismatches
+  (e.g, using `-Werror=format-security` with Fortran).  Only included
+  in `%optflags`, and not the front-end-specific `%build_*` macros.
 * `-Werror=format-security`: Turn on format string warnings and treat
   them as errors.
   See the [GCC manual](https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wformat-security).
