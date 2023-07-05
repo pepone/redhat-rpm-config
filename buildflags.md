@@ -114,6 +114,55 @@ or:
     BuildRequires: clang compiler-rt
     %endif
 
+### Controlling Type Safety
+
+The macro `%build_type_safety_c` can be set to change the C type
+safety level.  By default (value 0), all C constructs that GCC accepts
+for backwards compatibility with obsolete language standards are
+accepted during package builds.  Packages can set
+`%build_type_safety_c` to higher values to adopt future
+distribution-wide type-safety increases early.
+
+When changing the `%build_type_safety_c` level to increase it, spec
+file should use a construct like this to avoid *lowering* a future
+default:
+
+```
+%if %build_type_safety_c < 2
+%global %build_type_safety_c 2
+%endif
+```
+
+At level 1, the following additional error categories are enabled:
+
+* `-Werror=implicit-int`: Reject declarations and definitions that
+  omit a type name where one is required.  Examples are:
+  `extern int_variable;`, `extern int_returning_function (void);`,
+  and missing separate parameter type declarations in old-style
+  function definitions.
+* `-Werror=implicit-function-declaration`: Reject calls to functions
+  to undeclared functions such as `function_not_defined_anywhere ()`.
+  Previously, such expressions where we compiled as if a declaration
+  `extern int function_not_defined_anywhere ();` (a prototype-less
+  function declaration) were in scope.
+
+At level 2, the following error category is enabled in addition:
+
+* `-Werror=int-conversion`: Reject the use of integer expressions
+  where a pointer type expected, and pointer expressions where an
+  integer type is expected.  Without this option, GCC may produce an
+  executable, but often, there are failures at run time because not
+  the full 64 bits of pointers are preserved.
+
+The additional level 3 error category is:
+
+* `-Werror=incompatible-pointer-types`: An expression of one pointer
+  type is used where different pointer type is expected.  (This does
+  not cover signed/unsigned mismatches in the pointer target type.)
+
+Clang errors out on more obsolete and invalid C constructs than C, so
+the type safety is higher by default than with the GCC toolchain.
+
 ### Disable autotools compatibility patching
 
 By default, the invocation of the `%configure` macro replaces
@@ -416,6 +465,7 @@ The general (architecture-independent) build flags are:
   This can occasionally result in compilation errors. In that case,
   the best option is to rewrite the source code so that only constant
   format strings (string literals) are used.
+* Other `-Werror=` options.  See **Controlling C Type Safety**.
 * `-U_FORTIFY_SOURCE, -Wp,-U_FORTIFY_SOURCE -Wp,-D_FORTIFY_SOURCE=3`:
   See the Source Fortification section above and the `%_fortify_level`
   override.
