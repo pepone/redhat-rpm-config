@@ -593,7 +593,11 @@ tuning in the `gcc` package.  These settings are:
   CPU level of zEC12, while optimizing for a subsequent CPU generation
   (z13).
 * **x86_64**: `-mtune=generic` selects tuning which is expected to
-   beneficial for a broad range of current CPUs.
+   beneficial for a broad range of current CPUs.  Distribution-specific
+   defaults for `-march=x86-64-v2` or `-march=x86-64-v3` may be
+   applied.  The default can be overriden (for any distribution)
+   by specifying `--target x86_64_v2`, `--target x86_64_v3`,
+   `--target x86_64_v4` in the `rpmbuild` invocation.
 * **aarch64** does not have any architecture-specific tuning.
 
 ### Vala-specific compiler flags
