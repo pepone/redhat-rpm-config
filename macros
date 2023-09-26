@@ -393,7 +393,7 @@ for k,_ in pairs(stripped_flags) do print(k .. " ") end
 
 # This can be set to a positive integer to obtain increasing type
 # safety levels for C.  See buildflags.md.
-%build_type_safety_c 0
+%build_type_safety_c 1
 
 # Some linkers default to a build-id algorithm that is not supported by rpmbuild,
 # so we need to specify the right algorithm to use.
