@@ -16,7 +16,7 @@ optflags: s390x %{__global_compiler_flags} -m64 %{__cflags_arch_s390x} -fasynchr
 
 optflags: aarch64 %{__global_compiler_flags} -mbranch-protection=standard -fasynchronous-unwind-tables %[ "%{toolchain}" == "gcc" ? "-fstack-clash-protection" : "" ] %{_frame_pointers_cflags} %{_frame_pointers_cflags_aarch64}
 
-optflags: riscv64 %{__global_compiler_flags} -fasynchronous-unwind-tables %[ "%{toolchain}" == "gcc" ? "-fstack-clash-protection" : "" ] %{_frame_pointers_cflags}
+optflags: riscv64 %{__global_compiler_flags} -fasynchronous-unwind-tables %{_frame_pointers_cflags}
 
 # set build arch to fedora buildarches on hardware capable of running it
 # saves having to do rpmbuild --target=
