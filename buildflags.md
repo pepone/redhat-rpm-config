@@ -131,7 +131,7 @@ a construct like this to avoid *lowering* a future default:
 
 ```
 %if %build_type_safety_c < 2
-%global %build_type_safety_c 2
+%global build_type_safety_c 2
 %endif
 ```
 
