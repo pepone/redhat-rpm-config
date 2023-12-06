@@ -4,7 +4,7 @@
 # 2) When making changes, increment the version (in baserelease) by 1.
 #    rpmdev-bumpspec and other tools update the macro below, which is used
 #    in Version: to get the desired effect.
-%global baserelease 287
+%global baserelease 288
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
@@ -58,9 +58,6 @@ Source158: macros.rpmautospec
 # added a python -> python2 conversion for fedora with warning
 # and an echo when the mangling happens
 Source201: brp-mangle-shebangs
-
-# for converting llvm LTO bitcode objects into ELF
-Source204: brp-llvm-compile-lto-elf
 
 # Dependency generator scripts (deprecated)
 Source300: find-provides
@@ -132,10 +129,6 @@ Requires: %{_bindir}/file
 Requires: %{_bindir}/grep
 Requires: %{_bindir}/sed
 Requires: %{_bindir}/xargs
-
-# for brp-llvm-compile-lto-elf
-Requires: (llvm if clang)
-Requires: (gawk if clang)
 
 # -fstack-clash-protection and -fcf-protection require GCC 8.
 Conflicts: gcc < 8.0.1-0.22
@@ -262,6 +255,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora common.lua
 %doc buildflags.md
 
 %changelog
+* Thu Apr 11 2024 Nikita Popov <npopov@redhat.com> - 288-1
+- Use Fat LTO with Clang
+
 * Thu Mar 14 2024 Florian Weimer <fweimer@redhat.com> - 287-1
 - Enable TLS descriptors on x86-64 (GCC only)
 
