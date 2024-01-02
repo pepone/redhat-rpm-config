@@ -79,7 +79,7 @@
 # the flags, while intended for ld, are still passed through the gcc
 # compiler driver.  At the beginning of %%build, the environment
 # variable RPM_LD_FLAGS to this value.
-%build_ldflags -Wl,-z,relro %{_ld_as_needed_flags} %{_ld_symbols_flags} %{_hardened_ldflags} %{_annotation_ldflags} %[ "%{toolchain}" == "clang" ? "%{?_clang_extra_ldflags}" : "" ] %{_build_id_flags} %{?_package_note_flags} %{?_distro_extra_ldflags}
+%build_ldflags -Wl,-z,relro %{_ld_as_needed_flags} %{_ld_symbols_flags} %{_ld_pack_relocs_flags} %{_hardened_ldflags} %{_annotation_ldflags} %[ "%{toolchain}" == "clang" ? "%{?_clang_extra_ldflags}" : "" ] %{_build_id_flags} %{?_package_note_flags} %{?_distro_extra_ldflags}
 
 # Expands to shell code to set the compiler/linker environment
 # variables CFLAGS, CXXFLAGS, FFLAGS, FCFLAGS, VALAFLAGS, LDFLAGS if they
@@ -371,6 +371,9 @@ for k,_ in pairs(stripped_flags) do print(k .. " ") end
 # use "%undefine _ld_as_needed" to disable.
 %_ld_as_needed		1
 %_ld_as_needed_flags	%{?_ld_as_needed:-Wl,--as-needed}
+
+%_ld_pack_relocs 1
+%_ld_pack_relocs_flags %{?_ld_pack_relocs:-Wl,-z,pack-relative-relocs}
 
 # LTO is the default in Fedora.
 #   "%define _lto_cflags %{nil}"  to opt out

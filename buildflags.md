@@ -290,6 +290,16 @@ For example, this can be required if shared objects are used for their
 side effects in ELF constructors, or for making them available to
 dynamically loaded plugins.
 
+### Switching to legacy relative relocations
+
+By default, ELF objects use the architecture-independent `DT_RELR`
+mechanism for relative relocations.  To switch to the older,
+architecture-specific relocation scheme, add this to the RPM spec file:
+
+    %undefine _ld_pack_relocs
+
+This adds `-Wl,-z,pack-relative-relocs` to the linker flags (`LDFLAGS`).
+
 ### Specifying the build-id algorithm
 
 If you want to specify a different build-id algorithm for your builds, you
@@ -631,6 +641,9 @@ to the compiler driver `gcc`, and not directly to the link editor
   for shared objects that actually provide symbols required by the link.
   Shared objects which are not needed to fulfill symbol dependencies
   are essentially ignored due to this flag.
+* `-z pack-relative-relocs`: Use the portable `DT_RELR` scheme for
+  relative relocations, resulting in reduced startup time compared to
+  legacy architecture-specific relocations.
 * `-z defs`: Refuse to link shared objects (DSOs) with undefined symbols
   (optional, see above).
 
