@@ -4,7 +4,7 @@
 # 2) When making changes, increment the version (in baserelease) by 1.
 #    rpmdev-bumpspec and other tools update the macro below, which is used
 #    in Version: to get the desired effect.
-%global baserelease 276
+%global baserelease 277
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
@@ -258,6 +258,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora common.lua
 %doc buildflags.md
 
 %changelog
+* Mon Jan 15 2024 Florian Weimer <fweimer@redhat.com> - 277-1
+- Switch C type safety level to 3 (GCC 14 default), and adjust for GCC 14
+
 * Thu Jan 11 2024 Jan Grulich <jgrulich@redhat.com> - 276-1
 - Drop qt5-srpm-macros from RHEL 10
 

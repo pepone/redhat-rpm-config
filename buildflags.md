@@ -117,7 +117,7 @@ or:
 ### Controlling Type Safety
 
 The macro `%build_type_safety_c` can be set to change the C type
-safety level.  The default level is 1, see below.  It can be set to 0
+safety level.  The default level is 3, see below.  It can be set to 0
 to get historic levels of type safety.  Changing the type safety level
 may depend on correct `CFLAGS` propagation during the build.  The
 `%build_type_safety_c` macro needs to be set before `CFLAGS`-related
@@ -130,14 +130,14 @@ the `%build_type_safety_c` level to increase it, spec file should use
 a construct like this to avoid *lowering* a future default:
 
 ```
-%if %build_type_safety_c < 2
-%global build_type_safety_c 2
+%if %build_type_safety_c < 4
+%global build_type_safety_c 4
 %endif
 ```
 
 At level 0, all C constructs that GCC accepts for backwards
 compatibility with obsolete language standards are accepted during
-package builds.
+package builds.  This is achieved by passing `-fpermissive` to GCC.
 
 At level 1, the following additional error categories are enabled:
 
@@ -151,6 +151,12 @@ At level 1, the following additional error categories are enabled:
   Previously, such expressions where we compiled as if a declaration
   `extern int function_not_defined_anywhere ();` (a prototype-less
   function declaration) were in scope.
+* `-Werror=return-mismatch`: Reject `return` statements with missing
+  or extra expressions, based on the declared return type of the
+  function.
+* `-Wdeclaration-missing-parameter-type`: Reject function declarations
+  that contain unknown type names (which used to be treated as ignored
+  identifier names).
 
 At level 2, the following error category is enabled in addition:
 
