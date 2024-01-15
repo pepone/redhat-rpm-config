@@ -325,8 +325,15 @@ for k,_ in pairs(stripped_flags) do print(k .. " ") end
 %_hardening_gcc_cflags   -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1
 %_hardening_clang_cflags --config /usr/lib/rpm/redhat/redhat-hardened-clang.cfg
 %_hardening_cflags	 %{expand:%%{_hardening_%{toolchain}_cflags}} -fstack-protector-strong
+
+# Have the linker generate errors instead of warnings for binaries that
+# contain memory regions with both write and execute permissions.
+# https://fedoraproject.org/wiki/Changes/Linker_Error_On_Security_Issues
+%_hardening_linker_errors  %[ "%{toolchain}" == "gcc" ? "-specs=/usr/lib/rpm/redhat/redhat-hardened-ld-errors" : "" ]
+%_hardened_linker_errors   1
+
 # we don't escape symbols '~', '"', etc. so be careful when changing this
-%_hardening_ldflags	 -Wl,-z,now %[ "%{toolchain}" == "gcc" ? "-specs=/usr/lib/rpm/redhat/redhat-hardened-ld" : "" ]
+%_hardening_ldflags	 -Wl,-z,now %{?_hardened_linker_errors:%{_hardening_linker_errors}} %[ "%{toolchain}" == "gcc" ? "-specs=/usr/lib/rpm/redhat/redhat-hardened-ld" : "" ]
 
 # Harden packages by default for Fedora 23+:
 # https://fedorahosted.org/fesco/ticket/1384 (accepted on 2014-02-11)

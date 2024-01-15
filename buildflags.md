@@ -654,11 +654,9 @@ to the compiler driver `gcc`, and not directly to the link editor
 * `-z defs`: Refuse to link shared objects (DSOs) with undefined symbols
   (optional, see above).
 
-For hardened builds, the
-`-specs=/usr/lib/rpm/redhat/redhat-hardened-ld` flag is added to the
-compiler driver command line.  (This can be disabled by undefining the
-`%_hardened_build` macro; see above) This activates the following
-linker flags:
+For hardened builds, some more linker options are added to the
+compiler driver command line.  These can be disabled by undefining the
+`%_hardened_build` macro - see above.
 
 * `-pie`: Produce a PIE binary.  This is only activated for the main
   executable, and only if it is dynamically linked.  This requires
@@ -667,6 +665,10 @@ linker flags:
   By itself, `-pie` has only a slight performance impact because it
   disables some link editor optimization, however the `-fPIE` compiler
   flag has some overhead.
+  Note: this option is added via adding a spec file to the compiler
+  driver command line (`-specs=/usr/lib/rpm/redhat/redhat-hardened-ld`)
+  rather than using the `-Wl` mechanism mentioned above.  As a result
+  this option is only enabled if the compiler driver is gcc.
 * `-z now`: Disable lazy binding and turn on the `BIND_NOW` dynamic
   linker feature.  Lazy binding involves an array of function pointers
   which is writable at run time (which could be overwritten as part of
@@ -674,6 +676,34 @@ linker flags:
   preferable to turn of lazy binding, although it increases startup
   time.
 
+In addition hardened builds default to converting a couple of linker
+warning messages into errors, because they represent potential
+missed hardening opportunities, and warnings in the linker's output are
+often ignored.  This behaviour can be turned off by undefining the
+`%_hardened_build` macro as mentioned above, or by undefining the
+`%_hardened_linker_errors` macro.  The linker options enabled by this
+feature are:
+
+* `--error-rwx-segments`: Generates an error if an output binary would
+  contain a loadable memory segment with read, write and execute
+  permissions.  It will also generate an error if a thread local
+  storage (TLS) segment is created with execute permission.  The
+  error can be disabled on an individual basis by adding the
+  `--no-warn-rwx-segments` option to the linker command line.
+* `--error-execstack`: Generates an error if an output binary would
+  contain a stack that is held in memory with execute permission.
+  If a binary is being intentionally created with an executable stack
+  then the linker command line option `-z execstack` can be used to
+  indicate this.
+
+Note: these options are added via a spec file on the compiler driver
+command line (`-specs=/usr/lib/rpm/redhat/redhat-hardened-ld-errors`)
+rather than using the `-Wl` mechanism mentioned above.  As a result
+these options are only enabled if the compiler driver is gcc.  In
+addition the spec file only adds the options if the `-fuse-ld=...`
+option has not been enabled.  This prevents the options from being
+used when the gold or lld linkers are enabled.
+  
 # Support for extension builders
 
 Some packages include extension builders that allow users to build
