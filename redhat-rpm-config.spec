@@ -4,7 +4,7 @@
 # 2) When making changes, increment the version (in baserelease) by 1.
 #    rpmdev-bumpspec and other tools update the macro below, which is used
 #    in Version: to get the desired effect.
-%global baserelease 279
+%global baserelease 280
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
@@ -262,6 +262,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora common.lua
 %doc buildflags.md
 
 %changelog
+* Tue Jan 16 2024 Florian Weimer <fweimer@redhat.com> - 280-1
+- Drop -fcf-protection for i686 because there won't be kernel support
+
 * Tue Jan 16 2024 Nils Philippsen <nils@redhat.com> - 279-1
 - Obsolete rpmautospec-rpm-macros without version
 

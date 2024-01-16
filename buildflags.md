@@ -581,9 +581,9 @@ These compiler flags are enabled for all builds (hardened/annotated or
 not), but their selection depends on the architecture:
 
 * `-fcf-protection`: Instrument binaries to guard against
-  ROP/JOP attacks.  Used on i686 and x86_64.
+  ROP/JOP exploitation techniques.  Used on x86_64.
 * `-mbranch-protection=standard`: Instrument binaries to guard against
-   ROP/JOP attacks.  Used on aarch64.
+   ROP/JOP exploitation techniques.  Used on aarch64.
 * `-m64` and `-m32`: Some GCC builds support both 32-bit and 64-bit in
   the same compilation.  For such architectures, the RPM build process
   explicitly selects the architecture variant by passing this compiler
