@@ -145,9 +145,9 @@ for k,_ in pairs(stripped_flags) do print(k .. " ") end
 
 # Architecture-specific support.  Internal.  Do not use directly.
 
-%__cflags_arch_x86_64_v2 %[0%{?rhel} == 9 ? "-march=x86-64-v2" : ""]
-%__cflags_arch_x86_64_v3 %[0%{?rhel} > 9 ? "-march=x86-64-v3" : ""]
-%__cflags_arch_x86_64 %{__cflags_arch_x86_64_v2} %{__cflags_arch_x86_64_v3}
+%__cflags_arch_x86_64_level %[0%{?rhel} == 9 ? "-v2" : ""]%[0%{?rhel} > 9 ? "-v3" : ""]
+%__cflags_arch_x86_64 -march=x86-64%{?__cflags_arch_x86_64_level:%{__cflags_arch_x86_64_level}}
+
 %__cflags_arch_x86_64_common -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection %{_frame_pointers_cflags} %{_frame_pointers_cflags_x86_64}
 
 # Also used for s390.
