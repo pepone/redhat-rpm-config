@@ -4,7 +4,7 @@
 # 2) When making changes, increment the version (in baserelease) by 1.
 #    rpmdev-bumpspec and other tools update the macro below, which is used
 #    in Version: to get the desired effect.
-%global baserelease 282
+%global baserelease 283
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
@@ -261,6 +261,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora common.lua
 %doc buildflags.md
 
 %changelog
+* Wed Feb 14 2024 Frédéric Bérat <fberat@redhat.com> - 283-1
+- Update config.{guess,sub} to gnuconfig git HEAD
+
 * Tue Feb 06 2024 Yaakov Selkowitz <yselkowi@redhat.com> - 282-1
 - Loosen rust-srpm-macros requirement
 
