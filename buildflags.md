@@ -395,7 +395,9 @@ compiler defaults.
 By default, DWARF debugging information is separated from installed
 ELF objects and put into `-debuginfo` subpackages.  To disable most
 debuginfo processing (and thus the generation of these subpackages),
-define `_enable_debug_packages` as `0`.
+undefine `_enable_debug_packages`:
+
+    %undefine _enable_debug_packages
 
 Processing of debugging information is controlled using the
 `find-debuginfo` tool from the `debugedit` package.  Several aspects
