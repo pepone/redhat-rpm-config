@@ -622,6 +622,8 @@ tuning in the `gcc` package.  These settings are:
    applied.  The default can be overriden (for any distribution)
    by specifying `--target x86_64_v2`, `--target x86_64_v3`,
    `--target x86_64_v4` in the `rpmbuild` invocation.
+   With the GCC toolchain, TLS descriptors are enabled using
+   `-mtls-dialect=gnu2`.
 * **aarch64** does not have any architecture-specific tuning.
 
 ### Vala-specific compiler flags
