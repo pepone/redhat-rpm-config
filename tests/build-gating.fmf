@@ -12,5 +12,10 @@ discover:
     url: https://src.fedoraproject.org/tests/clang.git
     ref: main
     test: fedora-flags
+  - name: clang-fedora-pie-rpm
+    how: fmf
+    url: https://src.fedoraproject.org/tests/clang.git
+    ref: main
+    test: pie-rpm
 execute:
   how: tmt

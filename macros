@@ -335,7 +335,9 @@ for k,_ in pairs(stripped_flags) do print(k .. " ") end
 %_hardened_linker_errors   1
 
 # we don't escape symbols '~', '"', etc. so be careful when changing this
-%_hardening_ldflags	 -Wl,-z,now %{?_hardened_linker_errors:%{_hardening_linker_errors}} %[ "%{toolchain}" == "gcc" ? "-specs=/usr/lib/rpm/redhat/redhat-hardened-ld" : "" ]
+%_hardening_gcc_ldflags   -specs=/usr/lib/rpm/redhat/redhat-hardened-ld
+%_hardening_clang_ldflags --config /usr/lib/rpm/redhat/redhat-hardened-clang-ld.cfg
+%_hardening_ldflags	   -Wl,-z,now %{expand:%%{_hardening_%{toolchain}_ldflags}}
 
 # Harden packages by default for Fedora 23+:
 # https://fedorahosted.org/fesco/ticket/1384 (accepted on 2014-02-11)

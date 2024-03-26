@@ -4,7 +4,7 @@
 # 2) When making changes, increment the version (in baserelease) by 1.
 #    rpmdev-bumpspec and other tools update the macro below, which is used
 #    in Version: to get the desired effect.
-%global baserelease 289
+%global baserelease 290
 
 Summary: Red Hat-family-specific rpm configuration files
 Name: redhat-rpm-config
@@ -21,8 +21,10 @@ Source1: rpmrc
 # gcc specs files for hardened builds
 Source50: redhat-hardened-cc1
 Source51: redhat-hardened-ld
-Source52: redhat-hardened-clang.cfg
-Source53: redhat-hardened-ld-errors
+Source52: redhat-hardened-ld-errors
+# clang config spec files
+Source53: redhat-hardened-clang.cfg
+Source54: redhat-hardened-clang-ld.cfg
 
 # gcc specs files for annobin builds
 Source60: redhat-annobin-cc1
@@ -254,6 +256,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora common.lua
 %doc buildflags.md
 
 %changelog
+* Mon May 13 2024 Timm Bäder <tbaeder@redhat.com> - 290-1
+- Add clang link config file
+
 * Tue May  7 2024 Zbigniew Jedrzejewski-Szmek <zbyszek@in.waw.pl> - 289-1
 - Add %%__os_install_post_build_reproducibility to %%__os_install_post.
   This hooks 'add-determinism' post-processing tool into the build process.
