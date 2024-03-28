@@ -4,13 +4,13 @@ discover:
     how: fmf
   - name: gcc-fedora-flags
     how: fmf
-    url: https://src.fedoraproject.org/rpms/gcc.git
-    ref: rawhide
+    url: https://src.fedoraproject.org/tests/gcc.git
+    ref: main
     test: fedora-flags
   - name: clang-fedora-flags
     how: fmf
-    url: https://src.fedoraproject.org/rpms/clang.git
-    ref: rawhide
+    url: https://src.fedoraproject.org/tests/clang.git
+    ref: main
     test: fedora-flags
 execute:
   how: tmt
