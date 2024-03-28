@@ -4,7 +4,7 @@
 # 2) When making changes, increment the version (in baserelease) by 1.
 #    rpmdev-bumpspec and other tools update the macro below, which is used
 #    in Version: to get the desired effect.
-%global baserelease 288
+%global baserelease 289
 
 Summary: Red Hat specific rpm configuration files
 Name: redhat-rpm-config
@@ -253,6 +253,13 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora common.lua
 %doc buildflags.md
 
 %changelog
+* Tue May  7 2024 Zbigniew Jedrzejewski-Szmek <zbyszek@in.waw.pl> - 289-1
+- Add %%__os_install_post_build_reproducibility to %%__os_install_post.
+  This hooks 'add-determinism' post-processing tool into the build process.
+  See https://fedoraproject.org/wiki/Changes/ReproduciblePackageBuilds
+  and https://docs.fedoraproject.org/en-US/reproducible-builds/ for
+  more details.
+
 * Thu Apr 11 2024 Nikita Popov <npopov@redhat.com> - 288-1
 - Use Fat LTO with Clang
 

@@ -278,6 +278,9 @@ for k,_ in pairs(stripped_flags) do print(k .. " ") end
 # redhat-rpm-config maintainers, don't remove it from %%__os_install_post unless coordinating the change with Python maintainers
 # packagers, don't undefine the entire macro, see the individual macros in /usr/lib/rpm/macros.d/macros.python-srpm
 
+# note: %%__os_install_post_build_reproducibility is defined in add-determinism.
+# See /usr/lib/rpm/macros.d/macros.build-reproducibility for details.
+
 %__os_install_post    \
     %{?__brp_ldconfig} \
     %{?__brp_compress} \
@@ -291,6 +294,7 @@ for k,_ in pairs(stripped_flags) do print(k .. " ") end
     %{?__brp_mangle_shebangs} \
     %{?__brp_remove_la_files} \
     %{__os_install_post_python} \
+    %{?__os_install_post_build_reproducibility} \
 %{nil}
 
 %__spec_install_post\
