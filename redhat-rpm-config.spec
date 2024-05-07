@@ -6,7 +6,7 @@
 #    in Version: to get the desired effect.
 %global baserelease 289
 
-Summary: Red Hat specific rpm configuration files
+Summary: Red Hat-family-specific rpm configuration files
 Name: redhat-rpm-config
 Version: %{baserelease}
 Release: 1%{?dist}
