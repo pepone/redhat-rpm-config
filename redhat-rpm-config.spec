@@ -115,6 +115,7 @@ Requires: fpc-srpm-macros
 Requires: gnat-srpm-macros
 Requires: ansible-srpm-macros
 Requires: zig-srpm-macros
+Requires: build-reproducibility-srpm-macros
 %endif
 
 Requires: rpm >= 4.11.0
@@ -259,6 +260,7 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora common.lua
   See https://fedoraproject.org/wiki/Changes/ReproduciblePackageBuilds
   and https://docs.fedoraproject.org/en-US/reproducible-builds/ for
   more details.
+- Pull in build-reproducibility-srpm-macros.
 
 * Thu Apr 11 2024 Nikita Popov <npopov@redhat.com> - 288-1
 - Use Fat LTO with Clang
