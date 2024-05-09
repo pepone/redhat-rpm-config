@@ -220,17 +220,17 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora common.lua
 
 %files
 %dir %{rrcdir}
-%{rrcdir}/macros
-%{rrcdir}/rpmrc
-%{rrcdir}/brp-*
-%{rrcdir}/dist.sh
-%{rrcdir}/gpgverify
-%{rrcdir}/redhat-hardened-*
-%{rrcdir}/redhat-annobin-*
+%{rrcdir}/brp-ldconfig
+%{rrcdir}/brp-mangle-shebangs
+%{rrcdir}/brp-strip-lto
 %{rrcdir}/config.*
+%{rrcdir}/dist.sh
 %{rrcdir}/find-provides
 %{rrcdir}/find-requires
-%{rrcdir}/brp-ldconfig
+%{rrcdir}/gpgverify
+%{rrcdir}/macros
+%{rrcdir}/redhat-hardened-*
+%{rrcdir}/rpmrc
 %{_fileattrsdir}/*.attr
 %{_rpmconfigdir}/macros.d/macros.*-srpm
 %{_rpmconfigdir}/macros.d/macros.build-constraints
