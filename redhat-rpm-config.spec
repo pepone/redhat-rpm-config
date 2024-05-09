@@ -133,10 +133,8 @@ Requires: %{_bindir}/xargs
 # -fstack-clash-protection and -fcf-protection require GCC 8.
 Conflicts: gcc < 8.0.1-0.22
 
-# Obsoletes intentionally without version: rpmautospec in Fedora <= 39 ships
-# the macro package, and its version has long passed the one previously
-# recorded here.
-Obsoletes: rpmautospec-rpm-macros
+# Replaced by macros.rpmautospec shipped by us
+Obsoletes: rpmautospec-rpm-macros < 0.6.3-2
 
 Provides: system-rpm-config = %{version}-%{release}
 
