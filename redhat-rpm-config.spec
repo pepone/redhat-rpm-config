@@ -94,7 +94,6 @@ Requires: efi-srpm-macros
 Requires: fonts-srpm-macros
 # ↓ Provides macros.forge and forge.lua originally shipped by us
 Requires: forge-srpm-macros
-Requires: ghc-srpm-macros
 Requires: go-srpm-macros
 # ↓ Provides kmod.attr originally shipped by us
 Requires: kernel-srpm-macros >= 1.0-12
@@ -104,18 +103,17 @@ Requires: openblas-srpm-macros
 Requires: perl-srpm-macros
 # ↓ Has Python BRPs originaly present in redhat-rpm-config
 Requires: python-srpm-macros >= 3.11-7
-%if ! 0%{?rhel}
-Requires: qt5-srpm-macros
-%endif
 Requires: qt6-srpm-macros
 Requires: rust-srpm-macros
 Requires: package-notes-srpm-macros
 Requires: pyproject-srpm-macros
 
 %if ! 0%{?rhel}
-Requires: fpc-srpm-macros
-Requires: gnat-srpm-macros
 Requires: ansible-srpm-macros
+Requires: fpc-srpm-macros
+Requires: ghc-srpm-macros
+Requires: gnat-srpm-macros
+Requires: qt5-srpm-macros
 Requires: zig-srpm-macros
 Requires: build-reproducibility-srpm-macros
 %endif
