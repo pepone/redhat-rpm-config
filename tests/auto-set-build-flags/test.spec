@@ -19,6 +19,8 @@ Source2: hello-c.c
 Source3: main-cpp.cpp
 Source4: hello-cpp.cpp
 
+%global debug_package %{nil}
+
 %global build_and_check \
 	make \
 	%{!?with_auto_set_build_flags:!} annocheck hello-c hello-cpp \
@@ -28,6 +30,8 @@ Source4: hello-cpp.cpp
 Test package for checking %%set_build_flag usage
 
 %prep
+%setup -c -T
+cp -a %{sources} .
 
 %build
 %build_and_check
