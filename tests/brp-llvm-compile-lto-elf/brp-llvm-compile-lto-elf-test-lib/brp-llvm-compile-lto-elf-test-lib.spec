@@ -8,6 +8,8 @@ BuildRequires: clang binutils
 Source0: %{name}.c
 Source1: %{name}.h
 
+%global debug_package %{nil}
+
 # FIXME: I'm not sure why this doesn't work
 %undefine _package_note_file
 

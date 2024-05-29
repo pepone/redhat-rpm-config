@@ -9,6 +9,8 @@ BuildRequires: brp-llvm-compile-lto-elf-test-lib
 
 Source0: %{name}.c
 
+%global debug_package %{nil}
+
 # FIXME: I'm not sure why this doesn't work
 %undefine _package_note_file
 
