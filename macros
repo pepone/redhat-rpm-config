@@ -321,7 +321,7 @@ for k,_ in pairs(stripped_flags) do print(k .. " ") end
 # from RPM spec files.
 
 %_hardening_gcc_cflags   -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1
-%_hardening_clang_cflags --config /usr/lib/rpm/redhat/redhat-hardened-clang.cfg
+%_hardening_clang_cflags --config=/usr/lib/rpm/redhat/redhat-hardened-clang.cfg
 %_hardening_cflags	 %{expand:%%{_hardening_%{toolchain}_cflags}} -fstack-protector-strong
 
 # Have the linker generate errors instead of warnings for binaries that
@@ -332,7 +332,7 @@ for k,_ in pairs(stripped_flags) do print(k .. " ") end
 
 # we don't escape symbols '~', '"', etc. so be careful when changing this
 %_hardening_gcc_ldflags   -specs=/usr/lib/rpm/redhat/redhat-hardened-ld
-%_hardening_clang_ldflags --config /usr/lib/rpm/redhat/redhat-hardened-clang-ld.cfg
+%_hardening_clang_ldflags --config=/usr/lib/rpm/redhat/redhat-hardened-clang-ld.cfg
 %_hardening_ldflags	   -Wl,-z,now %{expand:%%{_hardening_%{toolchain}_ldflags}}
 
 # Harden packages by default for Fedora 23+:
