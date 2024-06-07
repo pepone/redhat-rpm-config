@@ -4,7 +4,7 @@
 # 2) When making changes, increment the version (in baserelease) by 1.
 #    rpmdev-bumpspec and other tools update the macro below, which is used
 #    in Version: to get the desired effect.
-%global baserelease 292
+%global baserelease 293
 
 Summary: Red Hat-family-specific rpm configuration files
 Name: redhat-rpm-config
@@ -254,6 +254,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora common.lua
 %doc buildflags.md
 
 %changelog
+* Fri Jun  7 2024 Florian Weimer <fweimer@redhat.com> - 293-1
+- Enable DT_RELR for aarch64
+
 * Fri May 31 2024 Daan De Meyer <daan.j.demeyer@gmail.com> - 292-1
 - Use --config=xxx for clang configs instead of two separate arguments to work
   around a bug in meson
