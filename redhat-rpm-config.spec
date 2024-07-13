@@ -4,7 +4,7 @@
 # 2) When making changes, increment the version (in baserelease) by 1.
 #    rpmdev-bumpspec and other tools update the macro below, which is used
 #    in Version: to get the desired effect.
-%global baserelease 296
+%global baserelease 297
 
 Summary: Red Hat-family-specific rpm configuration files
 Name: redhat-rpm-config
@@ -108,6 +108,8 @@ Requires: qt6-srpm-macros
 Requires: rust-srpm-macros
 Requires: package-notes-srpm-macros
 Requires: pyproject-srpm-macros
+# ↓ Create compat Provides/Requires when things move around in filesystem
+Requires: filesystem-srpm-macros
 
 %if ! 0%{?rhel}
 Requires: ansible-srpm-macros
@@ -255,6 +257,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora common.lua
 %doc buildflags.md
 
 %changelog
+* Wed Oct  2 2024 Zbigniew Jedrzejewski-Szmek <zbyszek@in.waw.pl> - 297-1
+- Pull in filesystem-srpm-macros
+
 * Wed Sep 25 2024 Siddhesh Poyarekar <siddhesh@redhat.com> - 296-1
 - Change ppc64le tuning to Power 10 for RHEL10 and beyond.
 
