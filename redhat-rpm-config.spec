@@ -4,7 +4,7 @@
 # 2) When making changes, increment the version (in baserelease) by 1.
 #    rpmdev-bumpspec and other tools update the macro below, which is used
 #    in Version: to get the desired effect.
-%global baserelease 294
+%global baserelease 295
 
 Summary: Red Hat-family-specific rpm configuration files
 Name: redhat-rpm-config
@@ -45,6 +45,7 @@ Source105: macros.valgrind-srpm
 Source106: macros.java-srpm
 Source107: macros.gap-srpm
 Source108: macros.dotnet-srpm
+Source109: macros.hare-srpm
 
 # Other misc macros
 Source150: macros.build-constraints
@@ -254,6 +255,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora common.lua
 %doc buildflags.md
 
 %changelog
+* Fri Sep 06 2024 Dridi Boukelmoune <dridi@fedoraproject.org> - 295-1
+- Define %%hare_arches with a list of Hare host architectures
+
 * Wed Aug 14 2024 Frédéric Bérat <fberat@redhat.com> - 294-1
 - Update config.{guess,sub} to gnuconfig git HEAD
 
