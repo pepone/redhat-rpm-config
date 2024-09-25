@@ -4,7 +4,7 @@
 # 2) When making changes, increment the version (in baserelease) by 1.
 #    rpmdev-bumpspec and other tools update the macro below, which is used
 #    in Version: to get the desired effect.
-%global baserelease 295
+%global baserelease 296
 
 Summary: Red Hat-family-specific rpm configuration files
 Name: redhat-rpm-config
@@ -255,6 +255,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/fedora common.lua
 %doc buildflags.md
 
 %changelog
+* Wed Sep 25 2024 Siddhesh Poyarekar <siddhesh@redhat.com> - 296-1
+- Change ppc64le tuning to Power 10 for RHEL10 and beyond.
+
 * Fri Sep 06 2024 Dridi Boukelmoune <dridi@fedoraproject.org> - 295-1
 - Define %%hare_arches with a list of Hare host architectures
 
