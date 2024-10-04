@@ -380,7 +380,7 @@ for k,_ in pairs(stripped_flags) do print(k .. " ") end
 %_ld_as_needed		1
 %_ld_as_needed_flags	%{?_ld_as_needed:-Wl,--as-needed}
 
-# aarch64 and s390x currently do not support packed relocations.
+# s390x currently does not support packed relocations.
 %_ld_pack_relocs %[ "%{_arch}" == "x86_64" || "%{_arch}" == "i386" || "%{_arch}" == "ppc64le" || "%{_arch}" == "aarch64"]
 %_ld_pack_relocs_flags %[0%{?_ld_pack_relocs} ? "-Wl,-z,pack-relative-relocs" : ""]
 

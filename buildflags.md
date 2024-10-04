@@ -654,7 +654,7 @@ to the compiler driver `gcc`, and not directly to the link editor
 * `-z pack-relative-relocs`: Use the portable `DT_RELR` scheme for
   relative relocations, resulting in reduced startup time compared to
   legacy architecture-specific relocations.  (`-z pack-relative-relocs`
-  is currently disabled on aarch64 and s390x due to toolchain limitations.)
+  is currently disabled on s390x due to toolchain limitations.)
 * `-z defs`: Refuse to link shared objects (DSOs) with undefined symbols
   (optional, see above).
 
